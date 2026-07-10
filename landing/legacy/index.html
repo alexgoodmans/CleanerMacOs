@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Again Cleaner — Disk cleanup for macOS</title>
+  <meta name="description" content="Safe, no-nonsense disk cleanup for macOS. Scan, review, and reclaim space — again and again.">
+  <meta name="theme-color" content="#0a1628">
+  <meta property="og:title" content="Again Cleaner">
+  <meta property="og:description" content="Safe, no-nonsense disk cleanup for macOS.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="assets/icon.png">
+  <link rel="icon" href="assets/icon.png" type="image/png">
+  <link rel="apple-touch-icon" href="assets/icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="bg-glow" aria-hidden="true"></div>
+  <div class="bg-grid" aria-hidden="true"></div>
+
+  <header class="header">
+    <nav class="nav container">
+      <a href="#" class="logo">
+        <img src="assets/icon.png" alt="" width="36" height="36">
+        <span>Again Cleaner</span>
+      </a>
+      <div class="nav-actions">
+        <div class="lang-picker">
+          <label for="langSelect" class="sr-only">Language</label>
+          <select id="langSelect" class="lang-select" aria-label="Language">
+            <option value="en">English</option>
+            <option value="ru">Русский</option>
+            <option value="th">ไทย</option>
+            <option value="zh">中文</option>
+            <option value="ko">한국어</option>
+          </select>
+        </div>
+        <a href="#download" class="btn btn-sm btn-primary" data-i18n="nav.download">Download</a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Hero -->
+    <section class="hero container">
+      <div class="hero-content">
+        <div class="badge" data-i18n="hero.badge">Free · Notarized · No subscriptions</div>
+        <h1 class="hero-title">
+          <span data-i18n="hero.title1">Reclaim your disk.</span><br>
+          <span class="gradient-text" data-i18n="hero.title2">Again and again.</span>
+        </h1>
+        <p class="hero-subtitle" data-i18n="hero.subtitle">
+          Safe, no-nonsense disk cleanup for macOS. See exactly what takes space, choose what to remove, and clean with confidence.
+        </p>
+        <div class="hero-cta">
+          <a href="#download" class="btn btn-lg btn-primary">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            <span data-i18n="hero.cta">Download for macOS</span>
+          </a>
+          <span class="hero-meta" data-i18n="hero.meta">macOS 26.5+ · Apple Silicon & Intel</span>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="app-mockup">
+          <div class="mockup-window">
+            <div class="mockup-titlebar">
+              <div class="mockup-dots"><span></span><span></span><span></span></div>
+              <span class="mockup-title">Again Cleaner</span>
+            </div>
+            <div class="mockup-body">
+              <aside class="mockup-sidebar">
+                <div class="mockup-nav-item active">
+                  <span class="mockup-icon">◉</span> <span data-i18n="mock.overview">Overview</span>
+                </div>
+                <div class="mockup-nav-item">
+                  <span class="mockup-icon">✦</span> <span data-i18n="mock.junk">Junk Cleanup</span>
+                </div>
+                <div class="mockup-nav-item">
+                  <span class="mockup-icon">▣</span> <span data-i18n="mock.large">Large Files</span>
+                </div>
+                <div class="mockup-nav-item">
+                  <span class="mockup-icon">★</span> <span data-i18n="mock.favorites">Favorites</span>
+                </div>
+                <div class="mockup-disk">
+                  <div class="mockup-disk-label">Macintosh HD</div>
+                  <div class="mockup-disk-bar"><div class="mockup-disk-fill"></div></div>
+                  <div class="mockup-disk-free" data-i18n="mock.free">142 GB free</div>
+                </div>
+              </aside>
+              <div class="mockup-main">
+                <div class="mockup-ring">
+                  <svg viewBox="0 0 120 120">
+                    <circle cx="60" cy="60" r="52" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="10"/>
+                    <circle cx="60" cy="60" r="52" fill="none" stroke="url(#ringGrad)" stroke-width="10" stroke-linecap="round" stroke-dasharray="245 327" transform="rotate(-90 60 60)"/>
+                    <defs>
+                      <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#7ee8a0"/>
+                        <stop offset="100%" stop-color="#53bbb9"/>
+                      </linearGradient>
+                    </defs>
+                  </svg>
+                  <div class="mockup-ring-text">
+                    <span class="mockup-ring-pct">73%</span>
+                    <span class="mockup-ring-label" data-i18n="mock.used">used</span>
+                  </div>
+                </div>
+                <div class="mockup-cards">
+                  <div class="mockup-card">
+                    <span class="mockup-card-label" data-i18n="mock.reclaimable">Reclaimable Junk</span>
+                    <span class="mockup-card-value">12.4 GB</span>
+                  </div>
+                  <div class="mockup-card">
+                    <span class="mockup-card-label" data-i18n="mock.freespace">Free Space</span>
+                    <span class="mockup-card-value">142 GB</span>
+                  </div>
+                </div>
+                <div class="mockup-scan-btn" data-i18n="mock.scan">Scan for Junk</div>
+              </div>
+            </div>
+          </div>
+          <div class="floating-badge badge-safe" data-i18n="float.safe">Safe</div>
+          <div class="floating-badge badge-reclaimed" data-i18n="float.reclaimed">+12.4 GB reclaimed</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Stats -->
+    <section class="stats container">
+      <div class="stat">
+        <span class="stat-value">30+</span>
+        <span class="stat-label" data-i18n="stats.categories">Cleanup categories</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value">3</span>
+        <span class="stat-label" data-i18n="stats.levels">Safety levels</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value">$0</span>
+        <span class="stat-label" data-i18n="stats.price">Forever free</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value">✓</span>
+        <span class="stat-label" data-i18n="stats.notarized">Apple notarized</span>
+      </div>
+    </section>
+
+    <!-- How it works -->
+    <section class="section container">
+      <div class="section-header">
+        <h2 data-i18n="steps.title">Three steps to a cleaner Mac</h2>
+        <p data-i18n="steps.subtitle">No black box. You see every file before it's gone.</p>
+      </div>
+      <div class="steps">
+        <article class="step">
+          <div class="step-num">1</div>
+          <h3 data-i18n="steps.scan.title">Scan</h3>
+          <p data-i18n="steps.scan.desc">Discover what's eating your disk — caches, logs, trash, and dev build artifacts.</p>
+        </article>
+        <article class="step">
+          <div class="step-num">2</div>
+          <h3 data-i18n="steps.review.title">Review</h3>
+          <p data-i18n="steps.review.desc">Browse every category and file. Safe items are pre-selected; risky ones need your OK.</p>
+        </article>
+        <article class="step">
+          <div class="step-num">3</div>
+          <h3 data-i18n="steps.clean.title">Clean</h3>
+          <p data-i18n="steps.clean.desc">Move to Trash or delete permanently. Watch your free space grow instantly.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- Features -->
+    <section class="section section-alt">
+      <div class="container">
+        <div class="section-header">
+          <h2 data-i18n="features.title">Built for real Mac users</h2>
+          <p data-i18n="features.subtitle">Especially those who build software, download everything, and forget about it.</p>
+        </div>
+        <div class="features-grid">
+          <article class="feature-card">
+            <div class="feature-icon">🛡️</div>
+            <h3 data-i18n="features.safety.title">Safety-first cleanup</h3>
+            <p data-i18n="features.safety.desc">Every item is tagged Safe, Caution, or Risky. You stay in control — nothing disappears without your approval.</p>
+          </article>
+          <article class="feature-card">
+            <div class="feature-icon">⚡</div>
+            <h3 data-i18n="features.dev.title">Dev-friendly categories</h3>
+            <p data-i18n="features.dev.desc">Xcode DerivedData, npm, Homebrew, Gradle, Cursor, VS Code, pip, CocoaPods, and dozens more.</p>
+          </article>
+          <article class="feature-card">
+            <div class="feature-icon">🔍</div>
+            <h3 data-i18n="features.large.title">Large file hunter</h3>
+            <p data-i18n="features.large.desc">Scan your home folder for files over 100 MB–5 GB. Reveal in Finder or delete on the spot.</p>
+          </article>
+          <article class="feature-card">
+            <div class="feature-icon">⭐</div>
+            <h3 data-i18n="features.fav.title">Favorite folders</h3>
+            <p data-i18n="features.fav.desc">Pin your build output, downloads bucket, or scratch dirs. Empty them in one click — folders stay.</p>
+          </article>
+          <article class="feature-card">
+            <div class="feature-icon">📊</div>
+            <h3 data-i18n="features.overview.title">Live disk overview</h3>
+            <p data-i18n="features.overview.desc">Real-time disk usage ring, reclaimable junk estimate, and alerts when you're running low on space.</p>
+          </article>
+          <article class="feature-card">
+            <div class="feature-icon">🗑️</div>
+            <h3 data-i18n="features.trash.title">Trash or permanent</h3>
+            <p data-i18n="features.trash.desc">Move to Trash by default for peace of mind. Switch to permanent delete when you're sure.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Safety levels -->
+    <section class="section container">
+      <div class="section-header">
+        <h2 data-i18n="safety.title">Transparent safety levels</h2>
+        <p data-i18n="safety.subtitle">Color-coded categories so you always know what you're deleting.</p>
+      </div>
+      <div class="safety-levels">
+        <div class="safety-card safety-safe">
+          <span class="safety-tag" data-i18n="safety.safe.tag">Safe</span>
+          <h3 data-i18n="safety.safe.title">Logs & Trash</h3>
+          <p data-i18n="safety.safe.desc">System logs and emptied trash. Pre-selected and ready to go.</p>
+        </div>
+        <div class="safety-card safety-caution">
+          <span class="safety-tag" data-i18n="safety.caution.tag">Caution</span>
+          <h3 data-i18n="safety.caution.title">Caches & build data</h3>
+          <p data-i18n="safety.caution.desc">Homebrew, npm, Xcode DerivedData, browser caches. Regenerates on next use.</p>
+        </div>
+        <div class="safety-card safety-risky">
+          <span class="safety-tag" data-i18n="safety.risky.tag">Risky</span>
+          <h3 data-i18n="safety.risky.title">Archives & old files</h3>
+          <p data-i18n="safety.risky.desc">Xcode archives, node_modules, old downloads. Review carefully before cleaning.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Download -->
+    <section class="download-section" id="download">
+      <div class="container">
+        <div class="download-card">
+          <img src="assets/icon.png" alt="Again Cleaner" class="download-icon" width="80" height="80">
+          <h2 data-i18n="download.title">Get Again Cleaner</h2>
+          <p data-i18n="download.subtitle">Free download. No account. No subscription. Just a cleaner Mac.</p>
+          <a href="Again-Cleaner.dmg" class="btn btn-lg btn-primary download-btn" id="downloadBtn" download>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            <span data-i18n="download.btn">Download Again Cleaner.dmg</span>
+          </a>
+          <div class="download-meta">
+            <span data-i18n="download.version">Version 1.0.0</span>
+            <span class="dot">·</span>
+            <span data-i18n="download.requirements">macOS 26.5+</span>
+            <span class="dot">·</span>
+            <span data-i18n="download.signed">Signed & notarized by Apple</span>
+          </div>
+          <ol class="install-steps">
+            <li data-i18n="download.step1">Open the downloaded .dmg file</li>
+            <li data-i18n="download.step2">Drag Again Cleaner to Applications</li>
+            <li data-i18n="download.step3">Launch and start scanning</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <img src="assets/icon.png" alt="" width="32" height="32">
+        <div>
+          <strong>Again Cleaner</strong>
+          <span data-i18n="footer.tagline">Made with ♥ in Swift</span>
+        </div>
+      </div>
+      <div class="footer-links">
+        <a href="https://mediarise.org" target="_blank" rel="noopener">MediaRise</a>
+        <a href="https://github.com/digkill" target="_blank" rel="noopener">GitHub</a>
+        <a href="mailto:alexcatleva@gmail.com">Contact</a>
+      </div>
+      <p class="footer-copy">© 2026 Digkill · MediaRise</p>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <!-- Distribution outside the Mac App Store, signed with Developer ID. -->
+    <key>method</key>
+    <string>developer-id</string>
+
+    <!-- MediaRise Team -->
+    <key>teamID</key>
+    <string>39CP3623CD</string>
+
+    <!-- Let Xcode pick the Developer ID Application certificate automatically. -->
+    <key>signingStyle</key>
+    <string>automatic</string>
+
+    <!-- Notarization is handled explicitly by the release script (notarytool),
+         so we don't upload during export. -->
+    <key>destination</key>
+    <string>export</string>
+</dict>
+</plist>
