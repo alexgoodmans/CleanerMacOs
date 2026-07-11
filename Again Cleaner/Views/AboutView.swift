@@ -66,6 +66,9 @@ struct AboutView: View {
                     LinkRow(icon: "globe", title: "Website",
                             detail: "mediarise.org",
                             url: URL(string: "https://mediarise.org")!)
+                    LinkRow(icon: "cup.and.saucer.fill", title: String(localized: "Buy me a coffee"),
+                            detail: "donationalerts.com/r/digkill",
+                            url: Donation.donationAlertsURL)
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding()

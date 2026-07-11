@@ -351,6 +351,14 @@ function DownloadSection() {
                 </li>
               ))}
             </ol>
+            <a
+              href="https://www.donationalerts.com/r/digkill"
+              target="_blank"
+              rel="noopener"
+              className="mt-6 text-sm font-medium text-amber-300/90 hover:text-amber-200"
+            >
+              {t("footer.coffee")}
+            </a>
           </CardContent>
         </Card>
       </Container>
@@ -372,7 +380,7 @@ function Footer() {
             <div className="text-muted-foreground">{t("footer.tagline")}</div>
           </div>
         </div>
-        <nav className="flex gap-6 text-sm text-muted-foreground">
+        <nav className="flex flex-wrap items-center gap-6 text-sm text-muted-foreground">
           <a href="https://mediarise.org" target="_blank" rel="noopener" className="hover:text-foreground">
             MediaRise
           </a>
@@ -381,6 +389,14 @@ function Footer() {
           </a>
           <a href="mailto:alexcatleva@gmail.com" className="hover:text-foreground">
             Contact
+          </a>
+          <a
+            href="https://www.donationalerts.com/r/digkill"
+            target="_blank"
+            rel="noopener"
+            className="font-medium text-amber-300/90 hover:text-amber-200"
+          >
+            {t("footer.coffee")}
           </a>
         </nav>
         <p className="text-xs text-muted-foreground">© 2026 Digkill · MediaRise</p>

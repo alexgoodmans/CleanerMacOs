@@ -72,7 +72,8 @@
       "download.step1": "Open the downloaded .dmg file",
       "download.step2": "Drag Again Cleaner to Applications",
       "download.step3": "Launch and start scanning",
-      "footer.tagline": "Made with ♥ in Swift"
+      "footer.tagline": "Made with ♥ in Swift",
+      "footer.coffee": "☕ Buy the dev a coffee"
     },
     "ru": {
       "nav.download": "Скачать",
@@ -139,7 +140,8 @@
       "download.step1": "Откройте скачанный .dmg файл",
       "download.step2": "Перетащите Again Cleaner в Программы",
       "download.step3": "Запустите и начните сканирование",
-      "footer.tagline": "Сделано с ♥ на Swift"
+      "footer.tagline": "Сделано с ♥ на Swift",
+      "footer.coffee": "☕ Угостить разработчика кофе"
     },
     "th": {
       "nav.download": "ดาวน์โหลด",
@@ -206,7 +208,8 @@
       "download.step1": "เปิดไฟล์ .dmg ที่ดาวน์โหลด",
       "download.step2": "ลาก Again Cleaner ไปที่ Applications",
       "download.step3": "เปิดใช้งานและเริ่มสแกน",
-      "footer.tagline": "สร้างด้วย ♥ บน Swift"
+      "footer.tagline": "สร้างด้วย ♥ บน Swift",
+      "footer.coffee": "☕ เลี้ยงกาแฟผู้พัฒนา"
     },
     "zh": {
       "nav.download": "下载",
@@ -273,7 +276,8 @@
       "download.step1": "打开下载的 .dmg 文件",
       "download.step2": "将 Again Cleaner 拖到应用程序文件夹",
       "download.step3": "启动并开始扫描",
-      "footer.tagline": "用 Swift 倾心打造 ♥"
+      "footer.tagline": "用 Swift 倾心打造 ♥",
+      "footer.coffee": "☕ 请开发者喝杯咖啡"
     },
     "ko": {
       "nav.download": "다운로드",
@@ -340,7 +344,8 @@
       "download.step1": "다운로드한 .dmg 파일 열기",
       "download.step2": "Again Cleaner를 응용 프로그램으로 드래그",
       "download.step3": "실행하고 스캔 시작",
-      "footer.tagline": "Swift로 ♥ 담아 제작"
+      "footer.tagline": "Swift로 ♥ 담아 제작",
+      "footer.coffee": "☕ 개발자에게 커피 한 잔"
     }
   }
 }

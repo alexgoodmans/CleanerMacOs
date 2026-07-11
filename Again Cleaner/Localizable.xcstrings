@@ -2844,6 +2844,54 @@
           }
         }
       }
+    },
+    "The app is free and always will be. If it saved you some gigabytes — you can buy the developer a coffee ☕": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Приложение бесплатно и всегда будет таким. Если оно освободило тебе пару гигабайт — можешь угостить разработчика кофе ☕"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "แอปนี้ฟรีและจะฟรีตลอดไป ถ้ามันช่วยคุณประหยัดพื้นที่ได้ — เลี้ยงกาแฟผู้พัฒนาสักแก้วได้นะ ☕"
+          }
+        }
+      }
+    },
+    "Buy me a coffee": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Угостить кофе"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "เลี้ยงกาแฟ"
+          }
+        }
+      }
+    },
+    "Opens DonationAlerts in your browser — any amount, any method.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Откроется DonationAlerts в браузере — любая сумма, любой способ."
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "เปิด DonationAlerts ในเบราว์เซอร์ — จำนวนเท่าไรก็ได้ วิธีไหนก็ได้"
+          }
+        }
+      }
     }
   },
   "version": "1.3"
