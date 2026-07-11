@@ -91,6 +91,12 @@ hdiutil create \
     -ov -format UDZO \
     "$DMG_PATH"
 
+# Sign the .dmg itself — an unsigned image fails `spctl -t open` even when
+# notarized, so Gatekeeper would still warn on the download.
+echo "▶︎ Signing the .dmg…"
+codesign --sign "Developer ID Application: MEDIARAIS, OOO (39CP3623CD)" \
+    --timestamp "$DMG_PATH"
+
 # Notarize & staple the .dmg too, so the download itself passes Gatekeeper.
 echo "▶︎ Notarizing the .dmg…"
 xcrun notarytool submit "$DMG_PATH" \

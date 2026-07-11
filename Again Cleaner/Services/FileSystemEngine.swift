@@ -85,8 +85,11 @@ struct FileSystemEngine {
         case .removePaths(let paths):
             return paths.filter { fm.fileExists(atPath: $0.path) }
 
-        case .findDirs(let root, let names):
-            return findDirectories(named: Set(names), under: root)
+        case .findDirs(let roots, let names):
+            return roots.flatMap { findDirectories(named: Set(names), under: $0) }
+
+        case .scanArtifacts(let roots, let names):
+            return roots.flatMap { artifactDirectories(named: Set(names), under: $0) }
 
         case .oldItems(let dir, let days):
             return staleItems(in: dir, olderThanDays: days)
@@ -157,6 +160,117 @@ struct FileSystemEngine {
         return matches
     }
 
+    // MARK: - Universal build-artifact search
+
+    /// Folder names that are build artifacts wherever they appear — the name
+    /// alone is proof enough.
+    nonisolated static let unambiguousArtifacts: Set<String> = [
+        "node_modules",      // JS/TS
+        "__pycache__",       // Python bytecode
+        ".venv", ".tox", ".pytest_cache", ".mypy_cache", ".ruff_cache", // Python
+        ".next", ".nuxt", ".turbo", ".parcel-cache", ".angular", // JS frameworks
+        "_build",            // Elixir / OCaml
+        ".dart_tool",        // Dart/Flutter
+        "Pods",              // CocoaPods (in-project)
+        "DerivedData",       // in-project Xcode data
+    ]
+
+    /// Ambiguous folder names → marker files that must exist in the *parent*
+    /// directory for the folder to count as a build artifact.
+    nonisolated static let artifactMarkers: [String: [String]] = [
+        "target": ["Cargo.toml"],                                   // Rust
+        "build": ["build.gradle", "build.gradle.kts", "settings.gradle",
+                  "settings.gradle.kts", "CMakeLists.txt", "package.json",
+                  "pubspec.yaml", "Makefile"],                      // Gradle/CMake/JS/Flutter/C
+        "dist": ["package.json", "pyproject.toml", "setup.py"],     // JS / Python
+        "out": ["package.json", "CMakeLists.txt"],                  // Next.js / CMake
+        "vendor": ["composer.json", "go.mod"],                      // PHP / Go
+        ".build": ["Package.swift"],                                // SwiftPM
+        "venv": [],                                                  // validated by pyvenv.cfg inside
+        "bin": [],                                                   // validated by *.csproj sibling
+        "obj": [],                                                   // validated by *.csproj sibling
+    ]
+
+    /// Top-level home folders that never contain user projects — skipping them
+    /// keeps the whole-home walk fast and avoids double-counting caches that
+    /// other categories already cover (dot-folders like ~/.npm, ~/.gradle).
+    private nonisolated static let artifactPruneTopLevel: Set<String> = [
+        "Library", "Pictures", "Music", "Movies", "Applications", ".Trash",
+    ]
+
+    private nonisolated static let artifactMaxDepth = 10
+
+    /// Walk `root` and return validated build-artifact directories. Matches are
+    /// pruned (not descended into); `.git` internals are skipped everywhere.
+    nonisolated static func artifactDirectories(named names: Set<String>, under root: URL) -> [URL] {
+        guard fm.fileExists(atPath: root.path) else { return [] }
+        var matches: [URL] = []
+        let rootDepth = root.pathComponents.count
+        // Cache of parent-dir listings for the *.csproj-style checks.
+        var parentListings: [String: [String]] = [:]
+
+        guard let enumerator = fm.enumerator(
+            at: root,
+            includingPropertiesForKeys: [.isDirectoryKey],
+            options: [],
+            errorHandler: { _, _ in true }
+        ) else { return [] }
+
+        for case let url as URL in enumerator {
+            let isDir = (try? url.resourceValues(forKeys: [.isDirectoryKey]).isDirectory) ?? false
+            guard isDir else { continue }
+            let name = url.lastPathComponent
+            let depth = url.pathComponents.count - rootDepth
+
+            // Prune: never-project top-level dirs, home dot-dirs, .git, deep trees.
+            if depth == 1, artifactPruneTopLevel.contains(name) || name.hasPrefix(".") {
+                enumerator.skipDescendants(); continue
+            }
+            if name == ".git" || depth >= artifactMaxDepth {
+                enumerator.skipDescendants(); continue
+            }
+
+            guard names.contains(name) || (names.contains("cmake-build-*") && name.hasPrefix("cmake-build-")) else { continue }
+
+            if isValidArtifact(url, name: name, parentListings: &parentListings) {
+                matches.append(url)
+                enumerator.skipDescendants()
+            }
+        }
+        return matches
+    }
+
+    private nonisolated static func isValidArtifact(
+        _ url: URL, name: String, parentListings: inout [String: [String]]
+    ) -> Bool {
+        if unambiguousArtifacts.contains(name) || name.hasPrefix("cmake-build-") { return true }
+
+        // venv-style: pyvenv.cfg lives inside the folder itself.
+        if name == "venv" || name == ".venv" {
+            return fm.fileExists(atPath: url.appendingPathComponent("pyvenv.cfg").path)
+        }
+
+        let parent = url.deletingLastPathComponent()
+
+        // .NET bin/obj: a *.csproj/fsproj/vbproj sibling must exist.
+        if name == "bin" || name == "obj" {
+            let listing = parentListings[parent.path] ?? {
+                let l = (try? fm.contentsOfDirectory(atPath: parent.path)) ?? []
+                parentListings[parent.path] = l
+                return l
+            }()
+            return listing.contains {
+                $0.hasSuffix(".csproj") || $0.hasSuffix(".fsproj") || $0.hasSuffix(".vbproj")
+            }
+        }
+
+        // Marker file in the parent proves the ecosystem.
+        guard let markers = artifactMarkers[name] else { return false }
+        return markers.contains {
+            fm.fileExists(atPath: parent.appendingPathComponent($0).path)
+        }
+    }
+
     // MARK: - Deletion
 
     /// Remove every target. When `toTrash` is true items are moved to the bin
@@ -167,18 +281,46 @@ struct FileSystemEngine {
         for url in targets {
             let itemSize = size(of: url)
             do {
-                if toTrash {
-                    try fm.trashItem(at: url, resultingItemURL: nil)
-                } else {
-                    try fm.removeItem(at: url)
-                }
+                try removeOne(url, toTrash: toTrash)
                 reclaimed += itemSize
             } catch {
-                // Best-effort: skip locked / permission-denied items and keep going.
-                continue
+                // Some caches (Go module cache) ship read-only trees that make
+                // removal fail — make the tree writable and retry once.
+                makeWritable(url)
+                if (try? removeOne(url, toTrash: toTrash)) != nil {
+                    reclaimed += itemSize
+                }
+                // Otherwise best-effort: skip and keep going.
             }
         }
         return reclaimed
+    }
+
+    private nonisolated static func removeOne(_ url: URL, toTrash: Bool) throws {
+        if toTrash {
+            try fm.trashItem(at: url, resultingItemURL: nil)
+        } else {
+            try fm.removeItem(at: url)
+        }
+    }
+
+    /// Recursively add the owner-write bit so read-only trees can be deleted.
+    private nonisolated static func makeWritable(_ url: URL) {
+        let writableDir: Int16 = 0o755
+        try? fm.setAttributes([.posixPermissions: writableDir], ofItemAtPath: url.path)
+        guard let enumerator = fm.enumerator(
+            at: url,
+            includingPropertiesForKeys: [.isDirectoryKey],
+            options: [],
+            errorHandler: { _, _ in true }
+        ) else { return }
+        for case let item as URL in enumerator {
+            let isDir = (try? item.resourceValues(forKeys: [.isDirectoryKey]).isDirectory) ?? false
+            try? fm.setAttributes(
+                [.posixPermissions: isDir ? writableDir : Int16(0o644)],
+                ofItemAtPath: item.path
+            )
+        }
     }
 
     // MARK: - Large files

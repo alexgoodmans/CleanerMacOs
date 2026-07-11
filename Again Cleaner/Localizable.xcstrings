@@ -1,146 +1,144 @@
 {
-  "sourceLanguage" : "en",
-  "strings" : {
-    "" : {
-
-    },
-    "%@\n%@" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "%1$@\n%2$@"
+  "sourceLanguage": "en",
+  "strings": {
+    "": {},
+    "%@\n%@": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "new",
+            "value": "%1$@\n%2$@"
           }
         },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "%1$@\n%2$@"
+        "ru": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "%1$@\n%2$@"
           }
         },
-        "th" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "%1$@\n%2$@"
+        "th": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "%1$@\n%2$@"
           }
         }
       }
     },
-    "%@ %@" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "%1$@ %2$@"
+    "%@ %@": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "new",
+            "value": "%1$@ %2$@"
           }
         },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "%1$@ %2$@"
+        "ru": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "%1$@ %2$@"
           }
         },
-        "th" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "%1$@ %2$@"
+        "th": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "%1$@ %2$@"
           }
         }
       }
     },
-    "%@ free of %@" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "%1$@ free of %2$@"
+    "%@ free of %@": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "new",
+            "value": "%1$@ free of %2$@"
           }
         },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "%1$@ свободно из %2$@"
+        "ru": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "%1$@ свободно из %2$@"
           }
         },
-        "th" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "ว่าง %1$@ จาก %2$@"
+        "th": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "ว่าง %1$@ จาก %2$@"
           }
         }
       }
     },
-    "%@ used · %@ free" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "%1$@ used · %2$@ free"
+    "%@ used · %@ free": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "new",
+            "value": "%1$@ used · %2$@ free"
           }
         },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "%1$@ занято · %2$@ свободно"
+        "ru": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "%1$@ занято · %2$@ свободно"
           }
         }
       }
     },
-    "%@%@" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "%1$@%2$@"
+    "%@%@": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "new",
+            "value": "%1$@%2$@"
           }
         },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "%1$@%2$@"
+        "ru": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "%1$@%2$@"
           }
         },
-        "th" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "%1$@%2$@"
+        "th": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "%1$@%2$@"
           }
         }
       }
     },
-    "%lld" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "%lld"
+    "%lld": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "%lld"
           }
         }
       }
     },
-    "%lld categories · %@" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "%#@categories@ · %2$@"
+    "%lld categories · %@": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "%#@categories@ · %2$@"
           },
-          "substitutions" : {
-            "categories" : {
-              "argNum" : 1,
-              "formatSpecifier" : "lld",
-              "variations" : {
-                "plural" : {
-                  "one" : {
-                    "stringUnit" : {
-                      "state" : "machine_translated",
-                      "value" : "%arg category"
+          "substitutions": {
+            "categories": {
+              "argNum": 1,
+              "formatSpecifier": "lld",
+              "variations": {
+                "plural": {
+                  "one": {
+                    "stringUnit": {
+                      "state": "machine_translated",
+                      "value": "%arg category"
                     }
                   },
-                  "other" : {
-                    "stringUnit" : {
-                      "state" : "machine_translated",
-                      "value" : "%arg categories"
+                  "other": {
+                    "stringUnit": {
+                      "state": "machine_translated",
+                      "value": "%arg categories"
                     }
                   }
                 }
@@ -148,39 +146,39 @@
             }
           }
         },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "%#@categories@ · %2$@"
+        "ru": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "%#@categories@ · %2$@"
           },
-          "substitutions" : {
-            "categories" : {
-              "argNum" : 1,
-              "formatSpecifier" : "lld",
-              "variations" : {
-                "plural" : {
-                  "few" : {
-                    "stringUnit" : {
-                      "state" : "machine_translated",
-                      "value" : "%arg категории"
+          "substitutions": {
+            "categories": {
+              "argNum": 1,
+              "formatSpecifier": "lld",
+              "variations": {
+                "plural": {
+                  "few": {
+                    "stringUnit": {
+                      "state": "machine_translated",
+                      "value": "%arg категории"
                     }
                   },
-                  "many" : {
-                    "stringUnit" : {
-                      "state" : "machine_translated",
-                      "value" : "%arg категорий"
+                  "many": {
+                    "stringUnit": {
+                      "state": "machine_translated",
+                      "value": "%arg категорий"
                     }
                   },
-                  "one" : {
-                    "stringUnit" : {
-                      "state" : "machine_translated",
-                      "value" : "%arg категория"
+                  "one": {
+                    "stringUnit": {
+                      "state": "machine_translated",
+                      "value": "%arg категория"
                     }
                   },
-                  "other" : {
-                    "stringUnit" : {
-                      "state" : "machine_translated",
-                      "value" : "%arg категории"
+                  "other": {
+                    "stringUnit": {
+                      "state": "machine_translated",
+                      "value": "%arg категории"
                     }
                   }
                 }
@@ -188,115 +186,21 @@
             }
           }
         },
-        "th" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "%#@categories@ · %2$@"
+        "th": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "%#@categories@ · %2$@"
           },
-          "substitutions" : {
-            "categories" : {
-              "argNum" : 1,
-              "formatSpecifier" : "lld",
-              "variations" : {
-                "plural" : {
-                  "other" : {
-                    "stringUnit" : {
-                      "state" : "machine_translated",
-                      "value" : "%arg หมวดหมู่"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "%lld files · %@ total" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "%#@files@ · %2$@ total"
-          },
-          "substitutions" : {
-            "files" : {
-              "argNum" : 1,
-              "formatSpecifier" : "lld",
-              "variations" : {
-                "plural" : {
-                  "one" : {
-                    "stringUnit" : {
-                      "state" : "machine_translated",
-                      "value" : "%arg file"
-                    }
-                  },
-                  "other" : {
-                    "stringUnit" : {
-                      "state" : "machine_translated",
-                      "value" : "%arg files"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "%#@files@ · всего %2$@"
-          },
-          "substitutions" : {
-            "files" : {
-              "argNum" : 1,
-              "formatSpecifier" : "lld",
-              "variations" : {
-                "plural" : {
-                  "few" : {
-                    "stringUnit" : {
-                      "state" : "machine_translated",
-                      "value" : "%arg файла"
-                    }
-                  },
-                  "many" : {
-                    "stringUnit" : {
-                      "state" : "machine_translated",
-                      "value" : "%arg файлов"
-                    }
-                  },
-                  "one" : {
-                    "stringUnit" : {
-                      "state" : "machine_translated",
-                      "value" : "%arg файл"
-                    }
-                  },
-                  "other" : {
-                    "stringUnit" : {
-                      "state" : "machine_translated",
-                      "value" : "%arg файла"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        },
-        "th" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "%#@files@ · รวม %2$@"
-          },
-          "substitutions" : {
-            "files" : {
-              "argNum" : 1,
-              "formatSpecifier" : "lld",
-              "variations" : {
-                "plural" : {
-                  "other" : {
-                    "stringUnit" : {
-                      "state" : "machine_translated",
-                      "value" : "%arg ไฟล์"
+          "substitutions": {
+            "categories": {
+              "argNum": 1,
+              "formatSpecifier": "lld",
+              "variations": {
+                "plural": {
+                  "other": {
+                    "stringUnit": {
+                      "state": "machine_translated",
+                      "value": "%arg หมวดหมู่"
                     }
                   }
                 }
@@ -306,192 +210,29 @@
         }
       }
     },
-    "%lld folders · %@" : {
-      "localizations" : {
-        "en" : {
-          "variations" : {
-            "plural" : {
-              "one" : {
-                "stringUnit" : {
-                  "state" : "machine_translated",
-                  "value" : "%1$lld folder · %2$@"
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "machine_translated",
-                  "value" : "%1$lld folders · %2$@"
-                }
-              }
-            }
-          }
-        },
-        "ru" : {
-          "variations" : {
-            "plural" : {
-              "few" : {
-                "stringUnit" : {
-                  "state" : "machine_translated",
-                  "value" : "%1$lld папки · %2$@"
-                }
-              },
-              "many" : {
-                "stringUnit" : {
-                  "state" : "machine_translated",
-                  "value" : "%1$lld папок · %2$@"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "machine_translated",
-                  "value" : "%1$lld папка · %2$@"
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "machine_translated",
-                  "value" : "%1$lld папки · %2$@"
-                }
-              }
-            }
-          }
-        },
-        "th" : {
-          "variations" : {
-            "plural" : {
-              "other" : {
-                "stringUnit" : {
-                  "state" : "machine_translated",
-                  "value" : "%1$lld โฟลเดอร์ · %2$@"
-                }
-              },
-              "zero" : {
-                "stringUnit" : {
-                  "state" : "machine_translated",
-                  "value" : "%1$lld โฟลเดอร์ · %2$@"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "%lld items" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "variations" : {
-            "plural" : {
-              "one" : {
-                "stringUnit" : {
-                  "state" : "machine_translated",
-                  "value" : "%lld item"
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "machine_translated",
-                  "value" : "%lld items"
-                }
-              }
-            }
-          }
-        },
-        "ru" : {
-          "variations" : {
-            "plural" : {
-              "few" : {
-                "stringUnit" : {
-                  "state" : "machine_translated",
-                  "value" : "%lld объекта"
-                }
-              },
-              "many" : {
-                "stringUnit" : {
-                  "state" : "machine_translated",
-                  "value" : "%lld объектов"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "machine_translated",
-                  "value" : "%lld объект"
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "machine_translated",
-                  "value" : "%lld объекта"
-                }
-              }
-            }
-          }
-        },
-        "th" : {
-          "variations" : {
-            "plural" : {
-              "other" : {
-                "stringUnit" : {
-                  "state" : "machine_translated",
-                  "value" : "%lld รายการ"
-                }
-              },
-              "zero" : {
-                "stringUnit" : {
-                  "state" : "machine_translated",
-                  "value" : "%lld รายการ"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "%lld MB" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "%lld МБ"
-          }
-        },
-        "th" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "%lld MB"
-          }
-        }
-      }
-    },
-    "%lld selected · %@" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "%#@count@ · %2$@"
+    "%lld files · %@ total": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "%#@files@ · %2$@ total"
           },
-          "substitutions" : {
-            "count" : {
-              "argNum" : 1,
-              "formatSpecifier" : "lld",
-              "variations" : {
-                "plural" : {
-                  "one" : {
-                    "stringUnit" : {
-                      "state" : "machine_translated",
-                      "value" : "%arg selected"
+          "substitutions": {
+            "files": {
+              "argNum": 1,
+              "formatSpecifier": "lld",
+              "variations": {
+                "plural": {
+                  "one": {
+                    "stringUnit": {
+                      "state": "machine_translated",
+                      "value": "%arg file"
                     }
                   },
-                  "other" : {
-                    "stringUnit" : {
-                      "state" : "machine_translated",
-                      "value" : "%arg selected"
-                    }
-                  },
-                  "zero" : {
-                    "stringUnit" : {
-                      "state" : "machine_translated",
-                      "value" : "%arg selected"
+                  "other": {
+                    "stringUnit": {
+                      "state": "machine_translated",
+                      "value": "%arg files"
                     }
                   }
                 }
@@ -499,45 +240,39 @@
             }
           }
         },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "%#@count@ · %2$@"
+        "ru": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "%#@files@ · всего %2$@"
           },
-          "substitutions" : {
-            "count" : {
-              "argNum" : 1,
-              "formatSpecifier" : "lld",
-              "variations" : {
-                "plural" : {
-                  "few" : {
-                    "stringUnit" : {
-                      "state" : "machine_translated",
-                      "value" : "Выбрано: %arg"
+          "substitutions": {
+            "files": {
+              "argNum": 1,
+              "formatSpecifier": "lld",
+              "variations": {
+                "plural": {
+                  "few": {
+                    "stringUnit": {
+                      "state": "machine_translated",
+                      "value": "%arg файла"
                     }
                   },
-                  "many" : {
-                    "stringUnit" : {
-                      "state" : "machine_translated",
-                      "value" : "Выбрано: %arg"
+                  "many": {
+                    "stringUnit": {
+                      "state": "machine_translated",
+                      "value": "%arg файлов"
                     }
                   },
-                  "one" : {
-                    "stringUnit" : {
-                      "state" : "machine_translated",
-                      "value" : "Выбрано: %arg"
+                  "one": {
+                    "stringUnit": {
+                      "state": "machine_translated",
+                      "value": "%arg файл"
                     }
                   },
-                  "other" : {
-                    "stringUnit" : {
-                      "state" : "machine_translated",
-                      "value" : "Выбрано: %arg"
-                    }
-                  },
-                  "zero" : {
-                    "stringUnit" : {
-                      "state" : "machine_translated",
-                      "value" : "Выбрано: %arg"
+                  "other": {
+                    "stringUnit": {
+                      "state": "machine_translated",
+                      "value": "%arg файла"
                     }
                   }
                 }
@@ -545,27 +280,21 @@
             }
           }
         },
-        "th" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "%#@count@ · %2$@"
+        "th": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "%#@files@ · รวม %2$@"
           },
-          "substitutions" : {
-            "count" : {
-              "argNum" : 1,
-              "formatSpecifier" : "lld",
-              "variations" : {
-                "plural" : {
-                  "other" : {
-                    "stringUnit" : {
-                      "state" : "machine_translated",
-                      "value" : "เลือกแล้ว %arg รายการ"
-                    }
-                  },
-                  "zero" : {
-                    "stringUnit" : {
-                      "state" : "machine_translated",
-                      "value" : "เลือกแล้ว %arg รายการ"
+          "substitutions": {
+            "files": {
+              "argNum": 1,
+              "formatSpecifier": "lld",
+              "variations": {
+                "plural": {
+                  "other": {
+                    "stringUnit": {
+                      "state": "machine_translated",
+                      "value": "%arg ไฟล์"
                     }
                   }
                 }
@@ -575,85 +304,69 @@
         }
       }
     },
-    "%lld%%" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "%lld%%"
-          }
-        },
-        "th" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "%lld%%"
-          }
-        }
-      }
-    },
-    "+ %lld more items (all included)" : {
-      "localizations" : {
-        "en" : {
-          "variations" : {
-            "plural" : {
-              "one" : {
-                "stringUnit" : {
-                  "state" : "machine_translated",
-                  "value" : "+ %lld more item (all included)"
+    "%lld folders · %@": {
+      "localizations": {
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "machine_translated",
+                  "value": "%1$lld folder · %2$@"
                 }
               },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "machine_translated",
-                  "value" : "+ %lld more items (all included)"
+              "other": {
+                "stringUnit": {
+                  "state": "machine_translated",
+                  "value": "%1$lld folders · %2$@"
                 }
               }
             }
           }
         },
-        "ru" : {
-          "variations" : {
-            "plural" : {
-              "few" : {
-                "stringUnit" : {
-                  "state" : "machine_translated",
-                  "value" : "+ ещё %lld объекта (все включены)"
+        "ru": {
+          "variations": {
+            "plural": {
+              "few": {
+                "stringUnit": {
+                  "state": "machine_translated",
+                  "value": "%1$lld папки · %2$@"
                 }
               },
-              "many" : {
-                "stringUnit" : {
-                  "state" : "machine_translated",
-                  "value" : "+ ещё %lld объектов (все включены)"
+              "many": {
+                "stringUnit": {
+                  "state": "machine_translated",
+                  "value": "%1$lld папок · %2$@"
                 }
               },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "machine_translated",
-                  "value" : "+ ещё %lld объект (все включены)"
+              "one": {
+                "stringUnit": {
+                  "state": "machine_translated",
+                  "value": "%1$lld папка · %2$@"
                 }
               },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "machine_translated",
-                  "value" : "+ ещё %lld объекта (все включены)"
+              "other": {
+                "stringUnit": {
+                  "state": "machine_translated",
+                  "value": "%1$lld папки · %2$@"
                 }
               }
             }
           }
         },
-        "th" : {
-          "variations" : {
-            "plural" : {
-              "other" : {
-                "stringUnit" : {
-                  "state" : "machine_translated",
-                  "value" : "+ อีก %lld รายการ (รวมทั้งหมด)"
+        "th": {
+          "variations": {
+            "plural": {
+              "other": {
+                "stringUnit": {
+                  "state": "machine_translated",
+                  "value": "%1$lld โฟลเดอร์ · %2$@"
                 }
               },
-              "zero" : {
-                "stringUnit" : {
-                  "state" : "machine_translated",
-                  "value" : "+ อีก %lld รายการ (รวมทั้งหมด)"
+              "zero": {
+                "stringUnit": {
+                  "state": "machine_translated",
+                  "value": "%1$lld โฟลเดอร์ · %2$@"
                 }
               }
             }
@@ -661,597 +374,70 @@
         }
       }
     },
-    "~/.espressif/dist — ESP-IDF installer archives" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "~/.espressif/dist — архивы установщика ESP-IDF"
-          }
-        },
-        "th" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "~/.espressif/dist — ไฟล์ติดตั้ง ESP-IDF"
-          }
-        }
-      }
-    },
-    "~/.gradle/caches — re-downloaded on next build" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "~/.gradle/caches — скачается при следующей сборке"
-          }
-        },
-        "th" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "~/.gradle/caches — จะดาวน์โหลดใหม่ในบิลด์ถัดไป"
-          }
-        }
-      }
-    },
-    "~/.npm/_cacache" : {
-
-    },
-    "~/.Trash — permanently empty the bin" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "~/.Trash — окончательно очистить корзину"
-          }
-        },
-        "th" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "~/.Trash — ล้างถังขยะถาวร"
-          }
-        }
-      }
-    },
-    "~/Library/Arduino15/cache & staging" : {
-
-    },
-    "~/Library/Caches/%@" : {
-
-    },
-    "~/Library/Caches/CocoaPods" : {
-
-    },
-    "~/Library/Caches/go-build" : {
-
-    },
-    "~/Library/Caches/ms-playwright" : {
-
-    },
-    "~/Library/Caches/pip" : {
-
-    },
-    "~/Library/Caches/pnpm" : {
-
-    },
-    "~/Library/Caches/Yarn" : {
-
-    },
-    "~/Library/Logs — diagnostic logs" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "~/Library/Logs — диагностические логи"
-          }
-        },
-        "th" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "~/Library/Logs — บันทึกวินิจฉัย"
-          }
-        }
-      }
-    },
-    "About" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "О программе"
-          }
-        },
-        "th" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "เกี่ยวกับ"
-          }
-        }
-      }
-    },
-    "Add Folder" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "Добавить папку"
-          }
-        },
-        "th" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "เพิ่มโฟลเดอร์"
-          }
-        }
-      }
-    },
-    "Add folder to Favorites" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Добавить папку в Избранное"
-          }
-        },
-        "th" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "เพิ่มโฟลเดอร์ในรายการโปรด"
-          }
-        }
-      }
-    },
-    "Add folders like a build output, a downloads bucket or a scratch directory." : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "Добавьте папки, например каталог сборки, папку загрузок или временную папку."
-          }
-        },
-        "th" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "เพิ่มโฟลเดอร์ เช่น โฟลเดอร์ผลลัพธ์การบิลด์ โฟลเดอร์ดาวน์โหลด หรือโฟลเดอร์ชั่วคราว"
-          }
-        }
-      }
-    },
-    "Add folders you clean often — then empty them all in one click." : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "Добавьте папки, которые часто очищаете, — и очищайте их все в один клик."
-          }
-        }
-      }
-    },
-    "Add to Favorites" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "В Избранное"
-          }
-        },
-        "th" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "เพิ่มในรายการโปรด"
-          }
-        }
-      }
-    },
-    "Again Cleaner" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "Again Cleaner"
-          }
-        },
-        "th" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "Again Cleaner"
-          }
-        }
-      }
-    },
-    "All" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "Все"
-          }
-        },
-        "th" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "ทั้งหมด"
-          }
-        }
-      }
-    },
-    "Arduino Cache" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Кэш Arduino"
-          }
-        },
-        "th" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "แคช Arduino"
-          }
-        }
-      }
-    },
-    "Build folders in ~/Projects" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Папки сборки в ~/Projects"
-          }
-        },
-        "th" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "โฟลเดอร์บิลด์ใน ~/Projects"
-          }
-        }
-      }
-    },
-    "Build intermediates — rebuilt on next build" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Промежуточные файлы сборки — создадутся заново"
-          }
-        },
-        "th" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ไฟล์ระหว่างบิลด์ — จะถูกสร้างใหม่ในบิลด์ถัดไป"
-          }
-        }
-      }
-    },
-    "Cache / CachedData / GPUCache / logs" : {
-
-    },
-    "Cancel" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "Отменить"
-          }
-        }
-      }
-    },
-    "Caution" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Осторожно"
-          }
-        },
-        "th" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ระวัง"
-          }
-        }
-      }
-    },
-    "Choose an amount" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "Выберите сумму"
-          }
-        },
-        "th" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "เลือกจำนวนเงิน"
-          }
-        }
-      }
-    },
-    "Choose folders to add to your favorites for quick cleanup." : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Выберите папки, чтобы добавить их в Избранное для быстрой очистки."
-          }
-        },
-        "th" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "เลือกโฟลเดอร์เพื่อเพิ่มในรายการโปรดสำหรับการล้างอย่างรวดเร็ว"
-          }
-        }
-      }
-    },
-    "Clean" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "Очистить"
-          }
-        },
-        "th" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "ทำความสะอาด"
-          }
-        }
-      }
-    },
-    "Clean %@?" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "Очистить %@?"
-          }
-        }
-      }
-    },
-    "Clean Favorites" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "Очистить избранное"
-          }
-        }
-      }
-    },
-    "CocoaPods Cache" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Кэш CocoaPods"
-          }
-        },
-        "th" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "แคช CocoaPods"
-          }
-        }
-      }
-    },
-    "Currency" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "Валюта"
-          }
-        },
-        "th" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "สกุลเงิน"
-          }
-        }
-      }
-    },
-    "Cursor Caches" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Кэши Cursor"
-          }
-        },
-        "th" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "แคช Cursor"
-          }
-        }
-      }
-    },
-    "Custom amount" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "Другая сумма"
-          }
-        },
-        "th" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "จำนวนเงินที่กำหนดเอง"
-          }
-        }
-      }
-    },
-    "Delete %@?" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "Удалить «%@»?"
-          }
-        },
-        "th" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "ลบ %@ ไหม?"
-          }
-        }
-      }
-    },
-    "Delete Contents" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "Удалить содержимое"
-          }
-        },
-        "th" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "ลบเนื้อหา"
-          }
-        }
-      }
-    },
-    "Delete Permanently" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "Удалить навсегда"
-          }
-        },
-        "th" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "ลบถาวร"
-          }
-        }
-      }
-    },
-    "Delete this file" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "Удалить этот файл"
-          }
-        },
-        "th" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "ลบไฟล์นี้"
-          }
-        }
-      }
-    },
-    "Developer" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "Разработчик"
-          }
-        },
-        "th" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "ผู้พัฒนา"
-          }
-        }
-      }
-    },
-    "Donate" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "Поддержать"
-          }
-        },
-        "th" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "บริจาค"
-          }
-        }
-      }
-    },
-    "Downloaded bottles & formulae" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Скачанные пакеты и формулы"
-          }
-        },
-        "th" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "แพ็กเกจและ formula ที่ดาวน์โหลดไว้"
-          }
-        }
-      }
-    },
-    "Empty %lld favorite folder(s)?" : {
-      "localizations" : {
-        "en" : {
-          "variations" : {
-            "plural" : {
-              "one" : {
-                "stringUnit" : {
-                  "state" : "machine_translated",
-                  "value" : "Empty %lld favorite folder?"
+    "%lld items": {
+      "extractionState": "stale",
+      "localizations": {
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "machine_translated",
+                  "value": "%lld item"
                 }
               },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "machine_translated",
-                  "value" : "Empty %lld favorite folders?"
-                }
-              },
-              "zero" : {
-                "stringUnit" : {
-                  "state" : "machine_translated",
-                  "value" : "Empty %lld favorite folders?"
+              "other": {
+                "stringUnit": {
+                  "state": "machine_translated",
+                  "value": "%lld items"
                 }
               }
             }
           }
         },
-        "ru" : {
-          "variations" : {
-            "plural" : {
-              "few" : {
-                "stringUnit" : {
-                  "state" : "machine_translated",
-                  "value" : "Очистить %lld избранные папки?"
+        "ru": {
+          "variations": {
+            "plural": {
+              "few": {
+                "stringUnit": {
+                  "state": "machine_translated",
+                  "value": "%lld объекта"
                 }
               },
-              "many" : {
-                "stringUnit" : {
-                  "state" : "machine_translated",
-                  "value" : "Очистить %lld избранных папок?"
+              "many": {
+                "stringUnit": {
+                  "state": "machine_translated",
+                  "value": "%lld объектов"
                 }
               },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "machine_translated",
-                  "value" : "Очистить %lld избранную папку?"
+              "one": {
+                "stringUnit": {
+                  "state": "machine_translated",
+                  "value": "%lld объект"
                 }
               },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "machine_translated",
-                  "value" : "Очистить %lld избранной папки?"
+              "other": {
+                "stringUnit": {
+                  "state": "machine_translated",
+                  "value": "%lld объекта"
+                }
+              }
+            }
+          }
+        },
+        "th": {
+          "variations": {
+            "plural": {
+              "other": {
+                "stringUnit": {
+                  "state": "machine_translated",
+                  "value": "%lld รายการ"
                 }
               },
-              "zero" : {
-                "stringUnit" : {
-                  "state" : "machine_translated",
-                  "value" : "Очистить %lld избранных папок?"
+              "zero": {
+                "stringUnit": {
+                  "state": "machine_translated",
+                  "value": "%lld รายการ"
                 }
               }
             }
@@ -1259,928 +445,127 @@
         }
       }
     },
-    "Espressif Downloads" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Загрузки Espressif"
+    "%lld MB": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "%lld МБ"
           }
         },
-        "th" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ดาวน์โหลด Espressif"
+        "th": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "%lld MB"
           }
         }
       }
     },
-    "Every node_modules — restore with `npm install`" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Все node_modules — восстанавливаются через `npm install`"
-          }
-        },
-        "th" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "node_modules ทั้งหมด — กู้คืนได้ด้วย `npm install`"
-          }
-        }
-      }
-    },
-    "Favorite folders" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "Избранные папки"
-          }
-        },
-        "th" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "โฟลเดอร์ที่ชื่นชอบ"
-          }
-        }
-      }
-    },
-    "Favorites" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "Избранное"
-          }
-        }
-      }
-    },
-    "Files larger than" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "Файлы больше"
-          }
-        },
-        "th" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "ไฟล์ที่ใหญ่กว่า"
-          }
-        }
-      }
-    },
-    "Found %@ of junk" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "Найдено %@ мусора"
-          }
-        },
-        "th" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "พบไฟล์ขยะ %@"
-          }
-        }
-      }
-    },
-    "Found problems" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "Найденные проблемы"
-          }
-        }
-      }
-    },
-    "Go Build Cache" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Кэш сборки Go"
-          }
-        },
-        "th" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "แคชบิลด์ Go"
-          }
-        }
-      }
-    },
-    "Gradle Cache" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Кэш Gradle"
-          }
-        },
-        "th" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "แคช Gradle"
-          }
-        }
-      }
-    },
-    "Hide files" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "Скрыть файлы"
-          }
-        },
-        "th" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "ซ่อนไฟล์"
-          }
-        }
-      }
-    },
-    "Homebrew Cache" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Кэш Homebrew"
-          }
-        },
-        "th" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "แคช Homebrew"
-          }
-        }
-      }
-    },
-    "iOS Device Support" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Поддержка устройств iOS"
-          }
-        },
-        "th" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ไฟล์รองรับอุปกรณ์ iOS"
-          }
-        }
-      }
-    },
-    "Items in ~/Downloads untouched for 30+ days" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Файлы в ~/Downloads, не тронутые 30+ дней"
-          }
-        },
-        "th" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "รายการใน ~/Downloads ที่ไม่ได้แตะต้องเกิน 30 วัน"
-          }
-        }
-      }
-    },
-    "Items on the Desktop untouched for 90+ days" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Элементы Рабочего стола, не тронутые 90+ дней"
-          }
-        },
-        "th" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "รายการบนเดสก์ท็อปที่ไม่ได้แตะต้องเกิน 90 วัน"
-          }
-        }
-      }
-    },
-    "Junk Cleanup" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "Очистка от мусора"
-          }
-        },
-        "th" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "ล้างไฟล์ขยะ"
-          }
-        }
-      }
-    },
-    "Large Files" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "Большие файлы"
-          }
-        }
-      }
-    },
-    "Loading…" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "Загрузка…"
-          }
-        }
-      }
-    },
-    "Location" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "Расположение"
-          }
-        },
-        "th" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "ตำแหน่งที่ตั้ง"
-          }
-        }
-      }
-    },
-    "Logs" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Логи"
-          }
-        },
-        "th" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "บันทึก (Logs)"
-          }
-        }
-      }
-    },
-    "Macintosh HD" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "Macintosh HD"
-          }
-        }
-      }
-    },
-    "Made with ♥ in Swift · © %lld Digkill" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "Сделано с ♥ на Swift · © %lld Digkill"
-          }
-        },
-        "th" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "สร้างด้วย ♥ ใน Swift · © %lld Digkill"
-          }
-        }
-      }
-    },
-    "MediaRise" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "MediaRise"
-          }
-        }
-      }
-    },
-    "Modified" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "Изменён"
-          }
-        },
-        "th" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "แก้ไขเมื่อ"
-          }
-        }
-      }
-    },
-    "Move Contents to Trash" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "Переместить содержимое в Корзину"
-          }
-        }
-      }
-    },
-    "Move to Trash" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "Переместить в Корзину"
-          }
-        },
-        "th" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "ย้ายไปที่ถังขยะ"
-          }
-        }
-      }
-    },
-    "Name" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "Имя"
-          }
-        },
-        "th" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "ชื่อ"
-          }
-        }
-      }
-    },
-    "No favorites yet" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "Пока нет избранного"
-          }
-        },
-        "th" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "ยังไม่มีรายการโปรด"
-          }
-        }
-      }
-    },
-    "No large files found" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "Большие файлы не найдены"
-          }
-        }
-      }
-    },
-    "node_modules in ~/Projects" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "node_modules в ~/Projects"
-          }
-        },
-        "th" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "node_modules ใน ~/Projects"
-          }
-        }
-      }
-    },
-    "None" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "Ничего"
-          }
-        },
-        "th" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "ไม่เลือก"
-          }
-        }
-      }
-    },
-    "Nothing scanned yet" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "Проверка ещё не выполнялась"
-          }
-        },
-        "th" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "ยังไม่ได้สแกน"
-          }
-        }
-      }
-    },
-    "Nothing to remove" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "Нечего удалять"
-          }
-        },
-        "th" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "ไม่มีสิ่งที่ต้องลบ"
-          }
-        }
-      }
-    },
-    "npm Cache" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Кэш npm"
-          }
-        },
-        "th" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "แคช npm"
-          }
-        }
-      }
-    },
-    "Old app archives — keep if you still ship them" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Старые архивы приложений — оставьте, если ещё публикуете"
-          }
-        },
-        "th" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "อาร์ไคฟ์แอปเก่า — เก็บไว้ถ้ายังใช้เผยแพร่"
-          }
-        }
-      }
-    },
-    "Old Desktop Items" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Старое с Рабочего стола"
-          }
-        },
-        "th" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "รายการเก่าบนเดสก์ท็อป"
-          }
-        }
-      }
-    },
-    "Old Downloads" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Старые загрузки"
-          }
-        },
-        "th" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ดาวน์โหลดเก่า"
-          }
-        }
-      }
-    },
-    "Opens PayPal in your browser. You can pay with a card even without a PayPal account." : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "Откроется PayPal в вашем браузере. Оплатить картой можно даже без учётной записи PayPal."
-          }
-        }
-      }
-    },
-    "Other ways" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "Другие способы"
-          }
-        }
-      }
-    },
-    "Overview" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "Обзор"
-          }
-        },
-        "th" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "ภาพรวม"
-          }
-        }
-      }
-    },
-    "pip Cache" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Кэш pip"
-          }
-        },
-        "th" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "แคช pip"
-          }
-        }
-      }
-    },
-    "Playwright Browsers" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Браузеры Playwright"
-          }
-        },
-        "th" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "เบราว์เซอร์ Playwright"
-          }
-        }
-      }
-    },
-    "pnpm Store" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Хранилище pnpm"
-          }
-        },
-        "th" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ที่เก็บ pnpm"
-          }
-        }
-      }
-    },
-    "Reclaimed %@" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "Освобождено %@"
-          }
-        }
-      }
-    },
-    "Recommended flow" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "Рекомендуемый порядок действий"
-          }
-        },
-        "th" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "ขั้นตอนที่แนะนำ"
-          }
-        }
-      }
-    },
-    "Remove from favorites" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "Удалить из избранного"
-          }
-        }
-      }
-    },
-    "Remove from Favorites" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Убрать из Избранного"
-          }
-        },
-        "th" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "นำออกจากรายการโปรด"
-          }
-        }
-      }
-    },
-    "Rescan" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "Повторить проверку"
-          }
-        },
-        "th" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "สแกนอีกครั้ง"
-          }
-        }
-      }
-    },
-    "Reveal in Finder" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "Показать в Finder"
-          }
-        },
-        "th" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "แสดงใน Finder"
-          }
-        }
-      }
-    },
-    "Risky" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Рискованно"
-          }
-        },
-        "th" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "เสี่ยง"
-          }
-        }
-      }
-    },
-    "Run a scan to discover caches, logs and old build data." : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "Запустите сканирование, чтобы найти кэши, журналы и старые данные сборки."
-          }
-        }
-      }
-    },
-    "Safe" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Безопасно"
-          }
-        },
-        "th" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ปลอดภัย"
-          }
-        }
-      }
-    },
-    "Safe items are pre-selected. Review risky ones before cleaning." : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "Безопасные объекты выбраны заранее. Проверьте рискованные перед очисткой."
-          }
-        }
-      }
-    },
-    "Safe, no-nonsense disk cleanup for macOS." : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "Безопасная и понятная очистка диска для macOS."
-          }
-        }
-      }
-    },
-    "Scan" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "Сканировать"
-          }
-        }
-      }
-    },
-    "Scan for Junk" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "Сканировать на мусор"
-          }
-        }
-      }
-    },
-    "Scan your home folder for files above the size threshold." : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "Просканируйте домашнюю папку в поисках файлов больше заданного размера."
-          }
-        }
-      }
-    },
-    "Scanning…" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "Сканирование…"
-          }
-        },
-        "th" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "กำลังสแกน…"
-          }
-        }
-      }
-    },
-    "Select all" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Выбрать все"
-          }
-        },
-        "th" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "เลือกทั้งหมด"
-          }
-        }
-      }
-    },
-    "Selected items will be moved to the Trash where you can recover them." : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "Выбранные объекты будут перемещены в Корзину, откуда их можно восстановить."
-          }
-        }
-      }
-    },
-    "Selected items will be permanently deleted and cannot be recovered." : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "Выбранные объекты будут удалены без возможности восстановления."
-          }
-        },
-        "th" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "รายการที่เลือกจะถูกลบอย่างถาวรและไม่สามารถกู้คืนได้"
-          }
-        }
-      }
-    },
-    "Show %lld item(s) to pick what to remove" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "variations" : {
-            "plural" : {
-              "one" : {
-                "stringUnit" : {
-                  "state" : "machine_translated",
-                  "value" : "Show %lld item to pick what to remove"
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "machine_translated",
-                  "value" : "Show %lld items to pick what to remove"
-                }
-              },
-              "zero" : {
-                "stringUnit" : {
-                  "state" : "machine_translated",
-                  "value" : "Show %lld items to pick what to remove"
+    "%lld selected · %@": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "%#@count@ · %2$@"
+          },
+          "substitutions": {
+            "count": {
+              "argNum": 1,
+              "formatSpecifier": "lld",
+              "variations": {
+                "plural": {
+                  "one": {
+                    "stringUnit": {
+                      "state": "machine_translated",
+                      "value": "%arg selected"
+                    }
+                  },
+                  "other": {
+                    "stringUnit": {
+                      "state": "machine_translated",
+                      "value": "%arg selected"
+                    }
+                  },
+                  "zero": {
+                    "stringUnit": {
+                      "state": "machine_translated",
+                      "value": "%arg selected"
+                    }
+                  }
                 }
               }
             }
           }
         },
-        "ru" : {
-          "variations" : {
-            "plural" : {
-              "few" : {
-                "stringUnit" : {
-                  "state" : "machine_translated",
-                  "value" : "Показать %lld объекта для выбора удаляемого"
-                }
-              },
-              "many" : {
-                "stringUnit" : {
-                  "state" : "machine_translated",
-                  "value" : "Показать %lld объектов для выбора удаляемого"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "machine_translated",
-                  "value" : "Показать %lld объект для выбора удаляемого"
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "machine_translated",
-                  "value" : "Показать %lld объекта для выбора удаляемого"
-                }
-              },
-              "zero" : {
-                "stringUnit" : {
-                  "state" : "machine_translated",
-                  "value" : "Показать %lld объектов для выбора удаляемого"
+        "ru": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "%#@count@ · %2$@"
+          },
+          "substitutions": {
+            "count": {
+              "argNum": 1,
+              "formatSpecifier": "lld",
+              "variations": {
+                "plural": {
+                  "few": {
+                    "stringUnit": {
+                      "state": "machine_translated",
+                      "value": "Выбрано: %arg"
+                    }
+                  },
+                  "many": {
+                    "stringUnit": {
+                      "state": "machine_translated",
+                      "value": "Выбрано: %arg"
+                    }
+                  },
+                  "one": {
+                    "stringUnit": {
+                      "state": "machine_translated",
+                      "value": "Выбрано: %arg"
+                    }
+                  },
+                  "other": {
+                    "stringUnit": {
+                      "state": "machine_translated",
+                      "value": "Выбрано: %arg"
+                    }
+                  },
+                  "zero": {
+                    "stringUnit": {
+                      "state": "machine_translated",
+                      "value": "Выбрано: %arg"
+                    }
+                  }
                 }
               }
             }
           }
         },
-        "th" : {
-          "variations" : {
-            "plural" : {
-              "other" : {
-                "stringUnit" : {
-                  "state" : "machine_translated",
-                  "value" : "แสดง %lld รายการเพื่อเลือกสิ่งที่จะลบ"
-                }
-              },
-              "zero" : {
-                "stringUnit" : {
-                  "state" : "machine_translated",
-                  "value" : "แสดง %lld รายการเพื่อเลือกสิ่งที่จะลบ"
+        "th": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "%#@count@ · %2$@"
+          },
+          "substitutions": {
+            "count": {
+              "argNum": 1,
+              "formatSpecifier": "lld",
+              "variations": {
+                "plural": {
+                  "other": {
+                    "stringUnit": {
+                      "state": "machine_translated",
+                      "value": "เลือกแล้ว %arg รายการ"
+                    }
+                  },
+                  "zero": {
+                    "stringUnit": {
+                      "state": "machine_translated",
+                      "value": "เลือกแล้ว %arg รายการ"
+                    }
+                  }
                 }
               }
             }
@@ -2188,259 +573,2278 @@
         }
       }
     },
-    "Show files (%lld)" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Показать файлы (%lld)"
+    "%lld%%": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "%lld%%"
           }
         },
-        "th" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "แสดงไฟล์ (%lld)"
+        "th": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "%lld%%"
           }
         }
       }
     },
-    "Size" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "Размер"
-          }
-        }
-      }
-    },
-    "Software • Robotics • Startups" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "Программное обеспечение • Робототехника • Стартапы"
+    "+ %lld more items (all included)": {
+      "localizations": {
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "machine_translated",
+                  "value": "+ %lld more item (all included)"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "machine_translated",
+                  "value": "+ %lld more items (all included)"
+                }
+              }
+            }
           }
         },
-        "th" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "ซอฟต์แวร์ • หุ่นยนต์ • สตาร์ทอัพ"
-          }
-        }
-      }
-    },
-    "Stop" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "Остановить"
-          }
-        },
-        "th" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "หยุด"
-          }
-        }
-      }
-    },
-    "Support Again Cleaner" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "Поддержите Again Cleaner"
+        "ru": {
+          "variations": {
+            "plural": {
+              "few": {
+                "stringUnit": {
+                  "state": "machine_translated",
+                  "value": "+ ещё %lld объекта (все включены)"
+                }
+              },
+              "many": {
+                "stringUnit": {
+                  "state": "machine_translated",
+                  "value": "+ ещё %lld объектов (все включены)"
+                }
+              },
+              "one": {
+                "stringUnit": {
+                  "state": "machine_translated",
+                  "value": "+ ещё %lld объект (все включены)"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "machine_translated",
+                  "value": "+ ещё %lld объекта (все включены)"
+                }
+              }
+            }
           }
         },
-        "th" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "สนับสนุน Again Cleaner"
+        "th": {
+          "variations": {
+            "plural": {
+              "other": {
+                "stringUnit": {
+                  "state": "machine_translated",
+                  "value": "+ อีก %lld รายการ (รวมทั้งหมด)"
+                }
+              },
+              "zero": {
+                "stringUnit": {
+                  "state": "machine_translated",
+                  "value": "+ อีก %lld รายการ (รวมทั้งหมด)"
+                }
+              }
+            }
           }
         }
       }
     },
-    "Symbols for old iOS versions — re-downloaded on connect" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Символы старых версий iOS — скачаются заново при подключении"
+    "~/.espressif/dist — ESP-IDF installer archives": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "~/.espressif/dist — архивы установщика ESP-IDF"
           }
         },
-        "th" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ซิมโบลของ iOS เวอร์ชันเก่า — จะดาวน์โหลดใหม่เมื่อเชื่อมต่อ"
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "~/.espressif/dist — ไฟล์ติดตั้ง ESP-IDF"
           }
         }
       }
     },
-    "target / build / .next / dist / .gradle caches" : {
-
-    },
-    "Thank you for your support ♥" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "Спасибо за вашу поддержку ♥"
+    "~/.gradle/caches — re-downloaded on next build": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "~/.gradle/caches — скачается при следующей сборке"
           }
         },
-        "th" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "ขอบคุณสำหรับการสนับสนุน ♥"
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "~/.gradle/caches — จะดาวน์โหลดใหม่ในบิลด์ถัดไป"
           }
         }
       }
     },
-    "The app is free. If it saved you some disk space — or a little time — you can chip in whatever you like. Every bit helps development." : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "Приложение бесплатное. Если оно освободило вам немного места на диске — или сэкономило время, — вы можете поддержать его на любую сумму. Каждый вклад помогает развитию."
-          }
-        }
-      }
-    },
-    "The contents of every favorite folder will be removed. The folders themselves are kept. Items go to the Trash." : {
-
-    },
-    "The contents of every favorite folder will be removed. The folders themselves are kept. This cannot be undone." : {
-
-    },
-    "Tick what to remove · %lld items" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Отметьте, что удалить · элементов: %lld"
+    "~/.npm/_cacache": {},
+    "~/.Trash — permanently empty the bin": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "~/.Trash — окончательно очистить корзину"
           }
         },
-        "th" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "เลือกรายการที่จะลบ · %lld รายการ"
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "~/.Trash — ล้างถังขยะถาวร"
           }
         }
       }
     },
-    "Trash" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Корзина"
+    "~/Library/Arduino15/cache & staging": {},
+    "~/Library/Caches/%@": {},
+    "~/Library/Caches/CocoaPods": {},
+    "~/Library/Caches/go-build": {},
+    "~/Library/Caches/ms-playwright": {},
+    "~/Library/Caches/pip": {},
+    "~/Library/Caches/pnpm": {},
+    "~/Library/Caches/Yarn": {},
+    "~/Library/Logs — diagnostic logs": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "~/Library/Logs — диагностические логи"
           }
         },
-        "th" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ถังขยะ"
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "~/Library/Logs — บันทึกวินิจฉัย"
           }
         }
       }
     },
-    "used" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "занято"
+    "About": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "О программе"
           }
         },
-        "th" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "ใช้ไป"
+        "th": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "เกี่ยวกับ"
           }
         }
       }
     },
-    "VS Code Caches" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Кэши VS Code"
+    "Add Folder": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "Добавить папку"
           }
         },
-        "th" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "แคช VS Code"
+        "th": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "เพิ่มโฟลเดอร์"
           }
         }
       }
     },
-    "Xcode Archives" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Архивы Xcode"
+    "Add folder to Favorites": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Добавить папку в Избранное"
           }
         },
-        "th" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "อาร์ไคฟ์ Xcode"
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "เพิ่มโฟลเดอร์ในรายการโปรด"
           }
         }
       }
     },
-    "Xcode DerivedData" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Xcode DerivedData"
+    "Add folders like a build output, a downloads bucket or a scratch directory.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "Добавьте папки, например каталог сборки, папку загрузок или временную папку."
           }
         },
-        "th" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Xcode DerivedData"
+        "th": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "เพิ่มโฟลเดอร์ เช่น โฟลเดอร์ผลลัพธ์การบิลด์ โฟลเดอร์ดาวน์โหลด หรือโฟลเดอร์ชั่วคราว"
           }
         }
       }
     },
-    "Yarn Cache" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Кэш Yarn"
-          }
-        },
-        "th" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "แคช Yarn"
+    "Add folders you clean often — then empty them all in one click.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "Добавьте папки, которые часто очищаете, — и очищайте их все в один клик."
           }
         }
       }
     },
-    "Your disk is almost full. Start with a Junk Cleanup." : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "Диск почти заполнен. Начните с очистки от мусора."
+    "Add to Favorites": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "В Избранное"
           }
         },
-        "th" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "ดิสก์ของคุณเกือบเต็มแล้ว เริ่มด้วยการล้างไฟล์ขยะ"
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "เพิ่มในรายการโปรด"
+          }
+        }
+      }
+    },
+    "Again Cleaner": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "Again Cleaner"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "Again Cleaner"
+          }
+        }
+      }
+    },
+    "All": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "Все"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "ทั้งหมด"
+          }
+        }
+      }
+    },
+    "Arduino Cache": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Кэш Arduino"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "แคช Arduino"
+          }
+        }
+      }
+    },
+    "Build intermediates — rebuilt on next build": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Промежуточные файлы сборки — создадутся заново"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ไฟล์ระหว่างบิลด์ — จะถูกสร้างใหม่ในบิลด์ถัดไป"
+          }
+        }
+      }
+    },
+    "Cache / CachedData / GPUCache / logs": {},
+    "Cancel": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "Отменить"
+          }
+        }
+      }
+    },
+    "Caution": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Осторожно"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ระวัง"
+          }
+        }
+      }
+    },
+    "Choose an amount": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "Выберите сумму"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "เลือกจำนวนเงิน"
+          }
+        }
+      }
+    },
+    "Choose folders to add to your favorites for quick cleanup.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выберите папки, чтобы добавить их в Избранное для быстрой очистки."
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "เลือกโฟลเดอร์เพื่อเพิ่มในรายการโปรดสำหรับการล้างอย่างรวดเร็ว"
+          }
+        }
+      }
+    },
+    "Clean": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "Очистить"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "ทำความสะอาด"
+          }
+        }
+      }
+    },
+    "Clean %@?": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "Очистить %@?"
+          }
+        }
+      }
+    },
+    "Clean Favorites": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "Очистить избранное"
+          }
+        }
+      }
+    },
+    "CocoaPods Cache": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Кэш CocoaPods"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "แคช CocoaPods"
+          }
+        }
+      }
+    },
+    "Currency": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "Валюта"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "สกุลเงิน"
+          }
+        }
+      }
+    },
+    "Cursor Caches": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Кэши Cursor"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "แคช Cursor"
+          }
+        }
+      }
+    },
+    "Custom amount": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "Другая сумма"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "จำนวนเงินที่กำหนดเอง"
+          }
+        }
+      }
+    },
+    "Delete %@?": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "Удалить «%@»?"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "ลบ %@ ไหม?"
+          }
+        }
+      }
+    },
+    "Delete Contents": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "Удалить содержимое"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "ลบเนื้อหา"
+          }
+        }
+      }
+    },
+    "Delete Permanently": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "Удалить навсегда"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "ลบถาวร"
+          }
+        }
+      }
+    },
+    "Delete this file": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "Удалить этот файл"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "ลบไฟล์นี้"
+          }
+        }
+      }
+    },
+    "Developer": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "Разработчик"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "ผู้พัฒนา"
+          }
+        }
+      }
+    },
+    "Donate": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "Поддержать"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "บริจาค"
+          }
+        }
+      }
+    },
+    "Downloaded bottles & formulae": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Скачанные пакеты и формулы"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "แพ็กเกจและ formula ที่ดาวน์โหลดไว้"
+          }
+        }
+      }
+    },
+    "Empty %lld favorite folder(s)?": {
+      "localizations": {
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "machine_translated",
+                  "value": "Empty %lld favorite folder?"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "machine_translated",
+                  "value": "Empty %lld favorite folders?"
+                }
+              },
+              "zero": {
+                "stringUnit": {
+                  "state": "machine_translated",
+                  "value": "Empty %lld favorite folders?"
+                }
+              }
+            }
+          }
+        },
+        "ru": {
+          "variations": {
+            "plural": {
+              "few": {
+                "stringUnit": {
+                  "state": "machine_translated",
+                  "value": "Очистить %lld избранные папки?"
+                }
+              },
+              "many": {
+                "stringUnit": {
+                  "state": "machine_translated",
+                  "value": "Очистить %lld избранных папок?"
+                }
+              },
+              "one": {
+                "stringUnit": {
+                  "state": "machine_translated",
+                  "value": "Очистить %lld избранную папку?"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "machine_translated",
+                  "value": "Очистить %lld избранной папки?"
+                }
+              },
+              "zero": {
+                "stringUnit": {
+                  "state": "machine_translated",
+                  "value": "Очистить %lld избранных папок?"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "Espressif Downloads": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Загрузки Espressif"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ดาวน์โหลด Espressif"
+          }
+        }
+      }
+    },
+    "Favorite folders": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "Избранные папки"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "โฟลเดอร์ที่ชื่นชอบ"
+          }
+        }
+      }
+    },
+    "Favorites": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "Избранное"
+          }
+        }
+      }
+    },
+    "Files larger than": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "Файлы больше"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "ไฟล์ที่ใหญ่กว่า"
+          }
+        }
+      }
+    },
+    "Found %@ of junk": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "Найдено %@ мусора"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "พบไฟล์ขยะ %@"
+          }
+        }
+      }
+    },
+    "Found problems": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "Найденные проблемы"
+          }
+        }
+      }
+    },
+    "Go Build Cache": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Кэш сборки Go"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "แคชบิลด์ Go"
+          }
+        }
+      }
+    },
+    "Gradle Cache": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Кэш Gradle"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "แคช Gradle"
+          }
+        }
+      }
+    },
+    "Hide files": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "Скрыть файлы"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "ซ่อนไฟล์"
+          }
+        }
+      }
+    },
+    "Homebrew Cache": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Кэш Homebrew"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "แคช Homebrew"
+          }
+        }
+      }
+    },
+    "iOS Device Support": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Поддержка устройств iOS"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ไฟล์รองรับอุปกรณ์ iOS"
+          }
+        }
+      }
+    },
+    "Items in ~/Downloads untouched for 30+ days": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Файлы в ~/Downloads, не тронутые 30+ дней"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "รายการใน ~/Downloads ที่ไม่ได้แตะต้องเกิน 30 วัน"
+          }
+        }
+      }
+    },
+    "Items on the Desktop untouched for 90+ days": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Элементы Рабочего стола, не тронутые 90+ дней"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "รายการบนเดสก์ท็อปที่ไม่ได้แตะต้องเกิน 90 วัน"
+          }
+        }
+      }
+    },
+    "Junk Cleanup": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "Очистка от мусора"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "ล้างไฟล์ขยะ"
+          }
+        }
+      }
+    },
+    "Large Files": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "Большие файлы"
+          }
+        }
+      }
+    },
+    "Loading…": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "Загрузка…"
+          }
+        }
+      }
+    },
+    "Location": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "Расположение"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "ตำแหน่งที่ตั้ง"
+          }
+        }
+      }
+    },
+    "Logs": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Логи"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "บันทึก (Logs)"
+          }
+        }
+      }
+    },
+    "Macintosh HD": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "Macintosh HD"
+          }
+        }
+      }
+    },
+    "Made with ♥ in Swift · © %lld Digkill": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "Сделано с ♥ на Swift · © %lld Digkill"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "สร้างด้วย ♥ ใน Swift · © %lld Digkill"
+          }
+        }
+      }
+    },
+    "MediaRise": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "MediaRise"
+          }
+        }
+      }
+    },
+    "Modified": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "Изменён"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "แก้ไขเมื่อ"
+          }
+        }
+      }
+    },
+    "Move Contents to Trash": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "Переместить содержимое в Корзину"
+          }
+        }
+      }
+    },
+    "Move to Trash": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "Переместить в Корзину"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "ย้ายไปที่ถังขยะ"
+          }
+        }
+      }
+    },
+    "Name": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "Имя"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "ชื่อ"
+          }
+        }
+      }
+    },
+    "No favorites yet": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "Пока нет избранного"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "ยังไม่มีรายการโปรด"
+          }
+        }
+      }
+    },
+    "No large files found": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "Большие файлы не найдены"
+          }
+        }
+      }
+    },
+    "None": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "Ничего"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "ไม่เลือก"
+          }
+        }
+      }
+    },
+    "Nothing scanned yet": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "Проверка ещё не выполнялась"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "ยังไม่ได้สแกน"
+          }
+        }
+      }
+    },
+    "Nothing to remove": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "Нечего удалять"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "ไม่มีสิ่งที่ต้องลบ"
+          }
+        }
+      }
+    },
+    "npm Cache": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Кэш npm"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "แคช npm"
+          }
+        }
+      }
+    },
+    "Old app archives — keep if you still ship them": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Старые архивы приложений — оставьте, если ещё публикуете"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "อาร์ไคฟ์แอปเก่า — เก็บไว้ถ้ายังใช้เผยแพร่"
+          }
+        }
+      }
+    },
+    "Old Desktop Items": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Старое с Рабочего стола"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "รายการเก่าบนเดสก์ท็อป"
+          }
+        }
+      }
+    },
+    "Old Downloads": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Старые загрузки"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ดาวน์โหลดเก่า"
+          }
+        }
+      }
+    },
+    "Opens PayPal in your browser. You can pay with a card even without a PayPal account.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "Откроется PayPal в вашем браузере. Оплатить картой можно даже без учётной записи PayPal."
+          }
+        }
+      }
+    },
+    "Other ways": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "Другие способы"
+          }
+        }
+      }
+    },
+    "Overview": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "Обзор"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "ภาพรวม"
+          }
+        }
+      }
+    },
+    "pip Cache": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Кэш pip"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "แคช pip"
+          }
+        }
+      }
+    },
+    "Playwright Browsers": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Браузеры Playwright"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "เบราว์เซอร์ Playwright"
+          }
+        }
+      }
+    },
+    "pnpm Store": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Хранилище pnpm"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ที่เก็บ pnpm"
+          }
+        }
+      }
+    },
+    "Reclaimed %@": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "Освобождено %@"
+          }
+        }
+      }
+    },
+    "Recommended flow": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "Рекомендуемый порядок действий"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "ขั้นตอนที่แนะนำ"
+          }
+        }
+      }
+    },
+    "Remove from favorites": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "Удалить из избранного"
+          }
+        }
+      }
+    },
+    "Remove from Favorites": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Убрать из Избранного"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "นำออกจากรายการโปรด"
+          }
+        }
+      }
+    },
+    "Rescan": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "Повторить проверку"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "สแกนอีกครั้ง"
+          }
+        }
+      }
+    },
+    "Reveal in Finder": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "Показать в Finder"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "แสดงใน Finder"
+          }
+        }
+      }
+    },
+    "Risky": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Рискованно"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "เสี่ยง"
+          }
+        }
+      }
+    },
+    "Run a scan to discover caches, logs and old build data.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "Запустите сканирование, чтобы найти кэши, журналы и старые данные сборки."
+          }
+        }
+      }
+    },
+    "Safe": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Безопасно"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ปลอดภัย"
+          }
+        }
+      }
+    },
+    "Safe items are pre-selected. Review risky ones before cleaning.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "Безопасные объекты выбраны заранее. Проверьте рискованные перед очисткой."
+          }
+        }
+      }
+    },
+    "Safe, no-nonsense disk cleanup for macOS.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "Безопасная и понятная очистка диска для macOS."
+          }
+        }
+      }
+    },
+    "Scan": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "Сканировать"
+          }
+        }
+      }
+    },
+    "Scan for Junk": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "Сканировать на мусор"
+          }
+        }
+      }
+    },
+    "Scan your home folder for files above the size threshold.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "Просканируйте домашнюю папку в поисках файлов больше заданного размера."
+          }
+        }
+      }
+    },
+    "Scanning…": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "Сканирование…"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "กำลังสแกน…"
+          }
+        }
+      }
+    },
+    "Select all": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выбрать все"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "เลือกทั้งหมด"
+          }
+        }
+      }
+    },
+    "Selected items will be moved to the Trash where you can recover them.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "Выбранные объекты будут перемещены в Корзину, откуда их можно восстановить."
+          }
+        }
+      }
+    },
+    "Selected items will be permanently deleted and cannot be recovered.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "Выбранные объекты будут удалены без возможности восстановления."
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "รายการที่เลือกจะถูกลบอย่างถาวรและไม่สามารถกู้คืนได้"
+          }
+        }
+      }
+    },
+    "Show %lld item(s) to pick what to remove": {
+      "extractionState": "stale",
+      "localizations": {
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "machine_translated",
+                  "value": "Show %lld item to pick what to remove"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "machine_translated",
+                  "value": "Show %lld items to pick what to remove"
+                }
+              },
+              "zero": {
+                "stringUnit": {
+                  "state": "machine_translated",
+                  "value": "Show %lld items to pick what to remove"
+                }
+              }
+            }
+          }
+        },
+        "ru": {
+          "variations": {
+            "plural": {
+              "few": {
+                "stringUnit": {
+                  "state": "machine_translated",
+                  "value": "Показать %lld объекта для выбора удаляемого"
+                }
+              },
+              "many": {
+                "stringUnit": {
+                  "state": "machine_translated",
+                  "value": "Показать %lld объектов для выбора удаляемого"
+                }
+              },
+              "one": {
+                "stringUnit": {
+                  "state": "machine_translated",
+                  "value": "Показать %lld объект для выбора удаляемого"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "machine_translated",
+                  "value": "Показать %lld объекта для выбора удаляемого"
+                }
+              },
+              "zero": {
+                "stringUnit": {
+                  "state": "machine_translated",
+                  "value": "Показать %lld объектов для выбора удаляемого"
+                }
+              }
+            }
+          }
+        },
+        "th": {
+          "variations": {
+            "plural": {
+              "other": {
+                "stringUnit": {
+                  "state": "machine_translated",
+                  "value": "แสดง %lld รายการเพื่อเลือกสิ่งที่จะลบ"
+                }
+              },
+              "zero": {
+                "stringUnit": {
+                  "state": "machine_translated",
+                  "value": "แสดง %lld รายการเพื่อเลือกสิ่งที่จะลบ"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "Show files (%lld)": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Показать файлы (%lld)"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "แสดงไฟล์ (%lld)"
+          }
+        }
+      }
+    },
+    "Size": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "Размер"
+          }
+        }
+      }
+    },
+    "Software • Robotics • Startups": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "Программное обеспечение • Робототехника • Стартапы"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "ซอฟต์แวร์ • หุ่นยนต์ • สตาร์ทอัพ"
+          }
+        }
+      }
+    },
+    "Stop": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "Остановить"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "หยุด"
+          }
+        }
+      }
+    },
+    "Support Again Cleaner": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "Поддержите Again Cleaner"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "สนับสนุน Again Cleaner"
+          }
+        }
+      }
+    },
+    "Symbols for old iOS versions — re-downloaded on connect": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Символы старых версий iOS — скачаются заново при подключении"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ซิมโบลของ iOS เวอร์ชันเก่า — จะดาวน์โหลดใหม่เมื่อเชื่อมต่อ"
+          }
+        }
+      }
+    },
+    "target / build / .next / dist / .gradle caches": {},
+    "Thank you for your support ♥": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "Спасибо за вашу поддержку ♥"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "ขอบคุณสำหรับการสนับสนุน ♥"
+          }
+        }
+      }
+    },
+    "The app is free. If it saved you some disk space — or a little time — you can chip in whatever you like. Every bit helps development.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "Приложение бесплатное. Если оно освободило вам немного места на диске — или сэкономило время, — вы можете поддержать его на любую сумму. Каждый вклад помогает развитию."
+          }
+        }
+      }
+    },
+    "The contents of every favorite folder will be removed. The folders themselves are kept. Items go to the Trash.": {},
+    "The contents of every favorite folder will be removed. The folders themselves are kept. This cannot be undone.": {},
+    "Tick what to remove · %lld items": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Отметьте, что удалить · элементов: %lld"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "เลือกรายการที่จะลบ · %lld รายการ"
+          }
+        }
+      }
+    },
+    "Trash": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Корзина"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ถังขยะ"
+          }
+        }
+      }
+    },
+    "used": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "занято"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "ใช้ไป"
+          }
+        }
+      }
+    },
+    "VS Code Caches": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Кэши VS Code"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "แคช VS Code"
+          }
+        }
+      }
+    },
+    "Xcode Archives": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Архивы Xcode"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "อาร์ไคฟ์ Xcode"
+          }
+        }
+      }
+    },
+    "Xcode DerivedData": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Xcode DerivedData"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Xcode DerivedData"
+          }
+        }
+      }
+    },
+    "Yarn Cache": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Кэш Yarn"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "แคช Yarn"
+          }
+        }
+      }
+    },
+    "Your disk is almost full. Start with a Junk Cleanup.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "Диск почти заполнен. Начните с очистки от мусора."
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "machine_translated",
+            "value": "ดิสก์ของคุณเกือบเต็มแล้ว เริ่มด้วยการล้างไฟล์ขยะ"
+          }
+        }
+      }
+    },
+    "Found anywhere in your home folder — restore with `npm install`": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ищется по всей домашней папке — восстанавливается через `npm install`"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ค้นหาทั่วโฟลเดอร์บ้านของคุณ — กู้คืนได้ด้วย `npm install`"
+          }
+        }
+      }
+    },
+    "Build artifacts (Rust, Java, Python, PHP…)": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Артефакты сборки (Rust, Java, Python, PHP…)"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ไฟล์บิลด์ (Rust, Java, Python, PHP…)"
+          }
+        }
+      }
+    },
+    "target / build / dist / vendor / __pycache__ / .venv and more": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "target / build / dist / vendor / __pycache__ / .venv и другие"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "target / build / dist / vendor / __pycache__ / .venv และอื่น ๆ"
+          }
+        }
+      }
+    },
+    "Go Module Cache": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Кэш модулей Go"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "แคชโมดูล Go"
+          }
+        }
+      }
+    },
+    "~/go/pkg/mod — re-downloaded on next build": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "~/go/pkg/mod — скачается при следующей сборке"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "~/go/pkg/mod — จะดาวน์โหลดใหม่ในบิลด์ถัดไป"
+          }
+        }
+      }
+    },
+    "NuGet Packages": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Пакеты NuGet"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "แพ็กเกจ NuGet"
+          }
+        }
+      }
+    },
+    "~/.nuget/packages — restored by dotnet": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "~/.nuget/packages — восстанавливается dotnet"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "~/.nuget/packages — กู้คืนโดย dotnet"
+          }
+        }
+      }
+    },
+    "Conan Cache": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Кэш Conan"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "แคช Conan"
+          }
+        }
+      }
+    },
+    "~/.conan2/p — C/C++ package cache": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "~/.conan2/p — кэш пакетов C/C++"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "~/.conan2/p — แคชแพ็กเกจ C/C++"
+          }
+        }
+      }
+    },
+    "Bun Cache": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Кэш Bun"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "แคช Bun"
+          }
+        }
+      }
+    },
+    "Android Tools Cache": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Кэш Android-инструментов"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "แคชเครื่องมือ Android"
+          }
+        }
+      }
+    },
+    "iOS Device Backups": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Бэкапы iOS-устройств"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ข้อมูลสำรองอุปกรณ์ iOS"
+          }
+        }
+      }
+    },
+    "Old iPhone/iPad backups — check before deleting!": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Старые бэкапы iPhone/iPad — проверьте перед удалением!"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ข้อมูลสำรอง iPhone/iPad เก่า — ตรวจสอบก่อนลบ!"
+          }
+        }
+      }
+    },
+    "iOS Simulators": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Симуляторы iOS"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ซิมูเลเตอร์ iOS"
+          }
+        }
+      }
+    },
+    "CoreSimulator devices & caches — recreated by Xcode": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Устройства и кэши CoreSimulator — Xcode создаст заново"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "อุปกรณ์และแคช CoreSimulator — Xcode สร้างใหม่ได้"
+          }
+        }
+      }
+    },
+    "iOS Device Logs": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Логи iOS-устройств"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "บันทึกอุปกรณ์ iOS"
+          }
+        }
+      }
+    },
+    "Mail Downloads": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Загрузки Mail"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ดาวน์โหลดของ Mail"
+          }
+        }
+      }
+    },
+    "Viewed attachments Mail forgets to delete": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Просмотренные вложения, которые Mail забывает удалить"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ไฟล์แนบที่เปิดดูแล้วซึ่ง Mail ลืมลบ"
+          }
+        }
+      }
+    },
+    "Saved Application State": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Состояния приложений"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "สถานะแอปที่บันทึกไว้"
+          }
+        }
+      }
+    },
+    "Window states — apps just reopen fresh": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Состояния окон — приложения просто откроются заново"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "สถานะหน้าต่าง — แอปจะเปิดใหม่ตามปกติ"
+          }
+        }
+      }
+    },
+    "iTunes Mobile Apps": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Приложения iTunes (.ipa)"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "แอปมือถือของ iTunes"
+          }
+        }
+      }
+    },
+    "Old .ipa files from iTunes syncs": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Старые .ipa от синхронизаций iTunes"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ไฟล์ .ipa เก่าจากการซิงก์ iTunes"
+          }
+        }
+      }
+    },
+    "Adobe Media Cache": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Медиакэш Adobe"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "แคชสื่อ Adobe"
+          }
+        }
+      }
+    },
+    "Premiere/After Effects render cache": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Кэш рендера Premiere/After Effects"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "แคชเรนเดอร์ Premiere/After Effects"
+          }
+        }
+      }
+    },
+    "Dropbox Cache": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Кэш Dropbox"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "แคช Dropbox"
+          }
+        }
+      }
+    },
+    "Steam Caches": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Кэши Steam"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "แคช Steam"
+          }
+        }
+      }
+    },
+    "appcache / depotcache / shadercache / logs": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "appcache / depotcache / shadercache / логи"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "appcache / depotcache / shadercache / บันทึก"
+          }
+        }
+      }
+    },
+    "App caches & logs in Application Support": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Кэши и логи приложения в Application Support"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "แคชและบันทึกของแอปใน Application Support"
+          }
+        }
+      }
+    },
+    "Google Drive Cache": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Кэш Google Drive"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "แคช Google Drive"
+          }
+        }
+      }
+    },
+    "Offline file cache — re-synced on demand": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Кэш офлайн-файлов — синхронизируется заново по запросу"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "แคชไฟล์ออฟไลน์ — ซิงก์ใหม่ได้ตามต้องการ"
           }
         }
       }
     }
   },
-  "version" : "1.3"
+  "version": "1.3"
 }

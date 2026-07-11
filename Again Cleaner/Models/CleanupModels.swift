@@ -34,9 +34,16 @@ enum CleanRule: Sendable {
     /// Remove these paths entirely (files or directories).
     case removePaths([URL])
 
-    /// Recursively find directories named `names` under `root` and remove them.
-    /// (e.g. every `node_modules` under ~/Projects.)
-    case findDirs(root: URL, names: [String])
+    /// Recursively find directories named `names` under any of `roots` and
+    /// remove them (e.g. every `node_modules` under the user's project folders).
+    case findDirs(roots: [URL], names: [String])
+
+    /// Universal build-artifact search: walk `roots` looking for well-known
+    /// build/dependency folders of any language ecosystem (from `names`).
+    /// Ambiguous names ("build", "dist", "vendor"…) only match when a marker
+    /// file (Cargo.toml, package.json, composer.json…) proves the parent is a
+    /// project of that ecosystem — see FileSystemEngine.artifactMarkers.
+    case scanArtifacts(roots: [URL], names: [String])
 
     /// Remove the *top-level* items directly inside `dir` that haven't been
     /// modified in the last `days` days. Used for user folders (Downloads,
@@ -49,7 +56,8 @@ enum CleanRule: Sendable {
         switch self {
         case .clearContents(let dirs):  return dirs
         case .removePaths(let paths):   return paths
-        case .findDirs(let root, _):    return [root]
+        case .findDirs(let roots, _):   return roots
+        case .scanArtifacts(let roots, _): return roots
         case .oldItems(let dir, _):     return [dir]
         }
     }

@@ -24,7 +24,7 @@ enum CleanupCatalog {
 
     /// Everything the app knows about, in display order.
     static var all: [JunkCategory] {
-        curated + otherAppCaches() + userFolders()
+        curated + otherAppCaches() + electronAppCaches() + userFolders()
     }
 
     // MARK: - Curated, well-known categories
@@ -141,6 +141,134 @@ enum CleanupCatalog {
                                     h("Library/Arduino15/staging")])
             ),
 
+            // ── More package/tool caches ───────────────────────────────────
+            JunkCategory(
+                id: "gomod",
+                title: String(localized: "Go Module Cache"),
+                subtitle: String(localized: "~/go/pkg/mod — re-downloaded on next build"),
+                systemImage: "cube.box",
+                safety: .caution,
+                rule: .clearContents([h("go/pkg/mod")])
+            ),
+            JunkCategory(
+                id: "nuget",
+                title: String(localized: "NuGet Packages"),
+                subtitle: String(localized: "~/.nuget/packages — restored by dotnet"),
+                systemImage: "cube.box",
+                safety: .caution,
+                rule: .clearContents([h(".nuget/packages")])
+            ),
+            JunkCategory(
+                id: "conan",
+                title: String(localized: "Conan Cache"),
+                subtitle: String(localized: "~/.conan2/p — C/C++ package cache"),
+                systemImage: "cube.box",
+                safety: .caution,
+                rule: .clearContents([h(".conan2/p")])
+            ),
+            JunkCategory(
+                id: "bun",
+                title: String(localized: "Bun Cache"),
+                subtitle: String(localized: "~/.bun/install/cache"),
+                systemImage: "cube.box",
+                safety: .caution,
+                rule: .clearContents([h(".bun/install/cache")])
+            ),
+            JunkCategory(
+                id: "android-cache",
+                title: String(localized: "Android Tools Cache"),
+                subtitle: String(localized: "~/.android/cache"),
+                systemImage: "cube.box",
+                safety: .caution,
+                rule: .clearContents([h(".android/cache")])
+            ),
+
+            // ── Apple system leftovers ─────────────────────────────────────
+            JunkCategory(
+                id: "ios-backups",
+                title: String(localized: "iOS Device Backups"),
+                subtitle: String(localized: "Old iPhone/iPad backups — check before deleting!"),
+                systemImage: "iphone.and.arrow.forward",
+                safety: .risky,
+                rule: .clearContents([h("Library/Application Support/MobileSync/Backup")])
+            ),
+            JunkCategory(
+                id: "ios-simulators",
+                title: String(localized: "iOS Simulators"),
+                subtitle: String(localized: "CoreSimulator devices & caches — recreated by Xcode"),
+                systemImage: "ipad.and.iphone",
+                safety: .caution,
+                rule: .clearContents([
+                    h("Library/Developer/CoreSimulator/Devices"),
+                    h("Library/Developer/CoreSimulator/Caches"),
+                ])
+            ),
+            JunkCategory(
+                id: "xcode-devicelogs",
+                title: String(localized: "iOS Device Logs"),
+                subtitle: String(localized: "~/Library/Developer/Xcode/iOS Device Logs"),
+                systemImage: "doc.text.magnifyingglass",
+                safety: .safe,
+                rule: .clearContents([h("Library/Developer/Xcode/iOS Device Logs")])
+            ),
+            JunkCategory(
+                id: "mail-downloads",
+                title: String(localized: "Mail Downloads"),
+                subtitle: String(localized: "Viewed attachments Mail forgets to delete"),
+                systemImage: "envelope.open",
+                safety: .caution,
+                rule: .clearContents([h("Library/Containers/com.apple.mail/Data/Library/Mail Downloads")])
+            ),
+            JunkCategory(
+                id: "saved-state",
+                title: String(localized: "Saved Application State"),
+                subtitle: String(localized: "Window states — apps just reopen fresh"),
+                systemImage: "macwindow",
+                safety: .caution,
+                rule: .clearContents([h("Library/Saved Application State")])
+            ),
+            JunkCategory(
+                id: "itunes-ipa",
+                title: String(localized: "iTunes Mobile Apps"),
+                subtitle: String(localized: "Old .ipa files from iTunes syncs"),
+                systemImage: "square.and.arrow.down",
+                safety: .caution,
+                rule: .clearContents([h("Music/iTunes/iTunes Media/Mobile Applications")])
+            ),
+
+            // ── App-specific heavy caches ──────────────────────────────────
+            JunkCategory(
+                id: "adobe-media",
+                title: String(localized: "Adobe Media Cache"),
+                subtitle: String(localized: "Premiere/After Effects render cache"),
+                systemImage: "film",
+                safety: .caution,
+                rule: .clearContents([h("Library/Application Support/Adobe/Common/Media Cache Files")])
+            ),
+            JunkCategory(
+                id: "dropbox-cache",
+                title: String(localized: "Dropbox Cache"),
+                subtitle: String(localized: "~/Dropbox/.dropbox.cache"),
+                systemImage: "shippingbox",
+                safety: .caution,
+                rule: .clearContents([h("Dropbox/.dropbox.cache")])
+            ),
+            JunkCategory(
+                id: "steam",
+                title: String(localized: "Steam Caches"),
+                subtitle: String(localized: "appcache / depotcache / shadercache / logs"),
+                systemImage: "gamecontroller",
+                safety: .caution,
+                rule: .removePaths([
+                    h("Library/Application Support/Steam/appcache"),
+                    h("Library/Application Support/Steam/depotcache"),
+                    h("Library/Application Support/Steam/logs"),
+                    h("Library/Application Support/Steam/steamapps/shadercache"),
+                    h("Library/Application Support/Steam/steamapps/temp"),
+                    h("Library/Application Support/Steam/steamapps/download"),
+                ])
+            ),
+
             // ── Xcode / iOS development ────────────────────────────────────
             JunkCategory(
                 id: "xcode-derived",
@@ -198,24 +326,56 @@ enum CleanupCatalog {
                 ])
             ),
 
-            // ── Heavy: project build artefacts ─────────────────────────────
+        ] + projectArtifactCategories()
+    }
+
+    // MARK: - Universal build artifacts (whole home, any language)
+
+    /// UserDefaults key with extra user-defined scan roots (absolute paths),
+    /// e.g. project folders on external volumes outside the home directory.
+    static let customProjectRootsKey = "customProjectRoots"
+
+    /// Roots to scan for build artifacts: the whole home folder (system and
+    /// media folders are pruned inside the engine) plus any custom roots that
+    /// live outside of it.
+    static var artifactRoots: [URL] {
+        var roots = [home]
+        let custom = UserDefaults.standard.stringArray(forKey: customProjectRootsKey) ?? []
+        for path in custom {
+            let url = URL(fileURLWithPath: (path as NSString).expandingTildeInPath)
+            var isDir: ObjCBool = false
+            guard fm.fileExists(atPath: url.path, isDirectory: &isDir), isDir.boolValue,
+                  !url.path.hasPrefix(home.path) else { continue }
+            roots.append(url)
+        }
+        return roots
+    }
+
+    private static func projectArtifactCategories() -> [JunkCategory] {
+        let roots = artifactRoots
+        return [
             JunkCategory(
                 id: "node-modules",
-                title: String(localized: "node_modules in ~/Projects"),
-                subtitle: String(localized: "Every node_modules — restore with `npm install`"),
+                title: "node_modules",
+                subtitle: String(localized: "Found anywhere in your home folder — restore with `npm install`"),
                 systemImage: "folder.badge.gearshape",
                 safety: .risky,
-                rule: .findDirs(root: h("Projects"),
-                                names: ["node_modules"])
+                rule: .scanArtifacts(roots: roots, names: ["node_modules"])
             ),
             JunkCategory(
                 id: "build-dirs",
-                title: String(localized: "Build folders in ~/Projects"),
-                subtitle: String(localized: "target / build / .next / dist / .gradle caches"),
+                title: String(localized: "Build artifacts (Rust, Java, Python, PHP…)"),
+                subtitle: String(localized: "target / build / dist / vendor / __pycache__ / .venv and more"),
                 systemImage: "folder.badge.gearshape",
                 safety: .risky,
-                rule: .findDirs(root: h("Projects"),
-                                names: ["target", "build", ".next", "dist"])
+                rule: .scanArtifacts(roots: roots, names: [
+                    "target", "build", "dist", "out", "vendor",
+                    "__pycache__", ".venv", "venv", ".tox", ".pytest_cache",
+                    ".mypy_cache", ".ruff_cache",
+                    ".next", ".nuxt", ".turbo", ".parcel-cache", ".angular",
+                    "_build", ".dart_tool", ".build", "Pods", "DerivedData",
+                    "bin", "obj", "cmake-build-*",
+                ])
             ),
         ]
     }
@@ -253,6 +413,70 @@ enum CleanupCatalog {
             )
         }
         .sorted { $0.title.localizedCaseInsensitiveCompare($1.title) == .orderedAscending }
+    }
+
+    // MARK: - Generated: Electron/Chromium app caches in Application Support
+
+    /// Junk subfolders every Electron/Chromium-based app accumulates inside
+    /// its ~/Library/Application Support/<App>/ directory. One generated
+    /// category per app — Discord, Slack, Obsidian, Postman, browsers… all
+    /// covered without a hand-maintained list.
+    private static let electronJunkNames = [
+        "Cache", "Code Cache", "GPUCache",
+        "DawnCache", "DawnGraphiteCache", "DawnWebGPUCache",
+        "GrShaderCache", "ShaderCache", "logs",
+    ]
+
+    /// Apps whose Application Support caches are already curated above.
+    private static let curatedAppSupportNames: Set<String> = ["Cursor", "Code", "Steam"]
+
+    private static func electronAppCaches() -> [JunkCategory] {
+        let appSupport = h("Library/Application Support")
+        let apps = (try? fm.contentsOfDirectory(
+            at: appSupport,
+            includingPropertiesForKeys: [.isDirectoryKey],
+            options: [.skipsHiddenFiles]
+        )) ?? []
+
+        var categories: [JunkCategory] = apps.compactMap { appDir in
+            let isDir = (try? appDir.resourceValues(forKeys: [.isDirectoryKey]).isDirectory) ?? false
+            let name = appDir.lastPathComponent
+            guard isDir, !curatedAppSupportNames.contains(name) else { return nil }
+
+            let junk = electronJunkNames
+                .map { appDir.appendingPathComponent($0) }
+                .filter { fm.fileExists(atPath: $0.path) }
+            guard !junk.isEmpty else { return nil }
+
+            return JunkCategory(
+                id: "electron:\(name)",
+                title: friendlyName(name),
+                subtitle: String(localized: "App caches & logs in Application Support"),
+                systemImage: "app.dashed",
+                safety: .caution,
+                rule: .removePaths(junk)
+            )
+        }
+        .sorted { $0.title.localizedCaseInsensitiveCompare($1.title) == .orderedAscending }
+
+        // Google Drive: per-account content_cache lives one level deeper.
+        let driveFS = h("Library/Application Support/Google/DriveFS")
+        if let accounts = try? fm.contentsOfDirectory(at: driveFS, includingPropertiesForKeys: nil) {
+            let caches = accounts
+                .map { $0.appendingPathComponent("content_cache") }
+                .filter { fm.fileExists(atPath: $0.path) }
+            if !caches.isEmpty {
+                categories.append(JunkCategory(
+                    id: "drivefs-cache",
+                    title: String(localized: "Google Drive Cache"),
+                    subtitle: String(localized: "Offline file cache — re-synced on demand"),
+                    systemImage: "arrow.triangle.2.circlepath.icloud",
+                    safety: .caution,
+                    rule: .removePaths(caches)
+                ))
+            }
+        }
+        return categories
     }
 
     // MARK: - Generated: user folders

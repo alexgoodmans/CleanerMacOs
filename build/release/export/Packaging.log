@@ -1,0 +1,111 @@
+2026-07-11 12:38:53 +0000 [MT] Initial pipeline context: <IDEDistributionProcessingPipelineContext: 0x7038bdb00; archive(resolved)="<IDEArchive: 0x7029b6d80>", distributionTask(resolved)="2", distributionDestination(resolved)="1", distributionMethod(resolved)="<IDEDistributionMethodDeveloperID: 0x7015c2330>", team(resolved)="<IDEProvisioningBasicTeam: 0x6ffc64a20; teamID='39CP3623CD', teamName='(null)'>">
+	Chain (12, self inclusive):
+	<IDEDistributionProcessingPipelineContext: 0x7038bdb00; archive = "<IDEArchive: 0x7029b6d80>", distributionMethod="<IDEDistributionMethodDeveloperID: 0x7015c2330>", team="<IDEProvisioningBasicTeam: 0x6ffc64a20; teamID='39CP3623CD', teamName='(null)'>">
+	<IDEDistributionProcessingPipelineContext: 0x7038bd800; archive = "<IDEArchive: 0x7029b6d80>", distributionMethod="<IDEDistributionMethodDeveloperID: 0x7015c2330>", team="<IDEProvisioningBasicTeam: 0x6ffc64a20; teamID='39CP3623CD', teamName='(null)'>">
+	<IDEDistributionContext: 0x70041e300; archive = "<IDEArchive: 0x7029b6d80>", distributionMethod="<IDEDistributionMethodDeveloperID: 0x7015c2330>", team="<IDEProvisioningBasicTeam: 0x6ffc64a20; teamID='39CP3623CD', teamName='(null)'>">
+	<IDEDistributionContext: 0x70041de00; archive = "<IDEArchive: 0x7029b6d80>", distributionMethod="<IDEDistributionMethodDeveloperID: 0x7015c2330>", team="<IDEProvisioningBasicTeam: 0x6ffc64a20; teamID='39CP3623CD', teamName='(null)'>">
+	<IDEDistributionContext: 0x70041db80; archive = "<IDEArchive: 0x7029b6d80>", distributionMethod="<IDEDistributionMethodDeveloperID: 0x7015c2330>", team="<IDEProvisioningBasicTeam: 0x6ffc64a20; teamID='39CP3623CD', teamName='(null)'>">
+	<IDEDistributionContext: 0x70041d900; archive = "<IDEArchive: 0x7029b6d80>", distributionMethod="<IDEDistributionMethodDeveloperID: 0x7015c2330>", team="<IDEProvisioningBasicTeam: 0x6ffc64a20; teamID='39CP3623CD', teamName='(null)'>">
+	<IDEDistributionContext: 0x70041ca00; archive = "<IDEArchive: 0x7029b6d80>", distributionMethod="<IDEDistributionMethodDeveloperID: 0x7015c2330>", team="<IDEProvisioningBasicTeam: 0x6ffc64a20; teamID='39CP3623CD', teamName='(null)'>">
+	<IDEDistributionContext: 0x70041c780; archive = "<IDEArchive: 0x7029b6d80>", distributionMethod="<IDEDistributionMethodDeveloperID: 0x7015c2330>", team="<IDEProvisioningBasicTeam: 0x6ffc64a20; teamID='39CP3623CD', teamName='(null)'>">
+	<IDEDistributionContext: 0x70041c500; archive = "<IDEArchive: 0x7029b6d80>", distributionMethod="<IDEDistributionMethodDeveloperID: 0x7015c2330>", team="<IDEProvisioningBasicTeam: 0x6ffc64a20; teamID='39CP3623CD', teamName='(null)'>">
+	<IDEDistributionContext: 0x70041c280; archive = "<IDEArchive: 0x7029b6d80>", distributionMethod="<IDEDistributionMethodDeveloperID: 0x7015c2330>", team="(null)">
+	<IDEDistributionContext: 0x70041c000; archive = "<IDEArchive: 0x7029b6d80>", distributionMethod="<IDEDistributionMethodDeveloperID: 0x7015c2330>", team="(null)">
+	<IDEDistributionContext: 0x102df43f0; archive = "<IDEArchive: 0x7029b6d80>", distributionMethod="(null)", team="(null)">
+</IDEDistributionProcessingPipelineContext: 0x7038bdb00>
+2026-07-11 12:38:53 +0000 [MT] Processing step: IDEDistributionCreateDestRootStep
+2026-07-11 12:38:53 +0000 [MT] Processing step: IDEDistributionCopyItemStep
+2026-07-11 12:38:53 +0000 [MT] Running /usr/bin/ditto '-V' '/Users/digkill/Projects/Swift/AgainCleaner/Again Cleaner/build/release/Again Cleaner.xcarchive/Products/Applications/Again Cleaner.app' '/var/folders/6z/w0nwvf514mn4r3dt6kgfpjkr0000gn/T/XcodeDistPipeline.~~~Alrumh/Root/Applications/Again Cleaner.app'
+2026-07-11 12:38:53 +0000  >>> Copying /Users/digkill/Projects/Swift/AgainCleaner/Again Cleaner/build/release/Again Cleaner.xcarchive/Products/Applications/Again Cleaner.app 
+2026-07-11 12:38:53 +0000  copying file ./Contents/_CodeSignature/CodeResources ... 
+2026-07-11 12:38:53 +0000  4551 bytes for ./Contents/_CodeSignature/CodeResources
+2026-07-11 12:38:53 +0000  copying file ./Contents/MacOS/Again Cleaner ... 
+2026-07-11 12:38:53 +0000  1301456 bytes for ./Contents/MacOS/Again Cleaner
+2026-07-11 12:38:53 +0000  copying file ./Contents/Resources/en.lproj/Localizable.stringsdict ... 
+2026-07-11 12:38:53 +0000  7758 bytes for ./Contents/Resources/en.lproj/Localizable.stringsdict
+2026-07-11 12:38:53 +0000  copying file ./Contents/Resources/AppIcon.icns ... 
+2026-07-11 12:38:53 +0000  157729 bytes for ./Contents/Resources/AppIcon.icns
+2026-07-11 12:38:53 +0000  copying file ./Contents/Resources/Assets.car ... 
+2026-07-11 12:38:53 +0000  4014328 bytes for ./Contents/Resources/Assets.car
+2026-07-11 12:38:53 +0000  copying file ./Contents/Resources/ru.lproj/Localizable.strings ... 
+2026-07-11 12:38:53 +0000  23410 bytes for ./Contents/Resources/ru.lproj/Localizable.strings
+2026-07-11 12:38:53 +0000  copying file ./Contents/Resources/ru.lproj/Localizable.stringsdict ... 
+2026-07-11 12:38:53 +0000  9802 bytes for ./Contents/Resources/ru.lproj/Localizable.stringsdict
+2026-07-11 12:38:53 +0000  copying file ./Contents/Resources/th.lproj/Localizable.strings ... 
+2026-07-11 12:38:53 +0000  17678 bytes for ./Contents/Resources/th.lproj/Localizable.strings
+2026-07-11 12:38:53 +0000  copying file ./Contents/Resources/th.lproj/Localizable.stringsdict ... 
+2026-07-11 12:38:53 +0000  6284 bytes for ./Contents/Resources/th.lproj/Localizable.stringsdict
+2026-07-11 12:38:53 +0000  copying file ./Contents/Info.plist ... 
+2026-07-11 12:38:53 +0000  1551 bytes for ./Contents/Info.plist
+2026-07-11 12:38:53 +0000  copying file ./Contents/PkgInfo ... 
+2026-07-11 12:38:53 +0000  8 bytes for ./Contents/PkgInfo
+2026-07-11 12:38:53 +0000 [MT] /usr/bin/ditto exited with 0
+2026-07-11 12:38:53 +0000 [MT] Processing step: IDEDistributionEmbedProfileStep
+2026-07-11 12:38:53 +0000 [MT] Skipping profile for item: <IDEDistributionItem: 0x702ab9860; bundleID='mediarise.org.Again-Cleaner', path='<DVTFilePath:0x702759d80:'/Users/digkill/Projects/Swift/AgainCleaner/Again Cleaner/build/release/Again Cleaner.xcarchive/Products/Applications/Again Cleaner.app'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0x702ab9320; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0x700ee6dc0; name='Apple Development: Vitaliy Edifanov (237S7M29BS)', hash='8B17ED4744953DF1AA773979E1E75385D0173D99', serialNumber='31ED51965768EA1C504B6278C3DF28AE', certificateKinds='(
+    "1.2.840.113635.100.6.1.12",
+    "1.2.840.113635.100.6.1.2"
+), issueDate='2025-12-10 17:08:04 +0000''>', entitlements='{
+    "com.apple.security.files.user-selected.read-only" = 1;
+}', teamID='39CP3623CD', identifier='mediarise.org.Again-Cleaner', executablePath='<DVTFilePath:0x7025ad960:'/Users/digkill/Projects/Swift/AgainCleaner/Again Cleaner/build/release/Again Cleaner.xcarchive/Products/Applications/Again Cleaner.app/Contents/MacOS/Again Cleaner'>', hardenedRuntime='1'>'>
+2026-07-11 12:38:53 +0000 [MT] Processing step: IDEDistributionInfoPlistStep
+2026-07-11 12:38:53 +0000 [MT] Skipping step: IDEDistributionInfoPlistStep because it said so
+2026-07-11 12:38:53 +0000 [MT] Processing step: IDEDistributionAppThinningPlistStep
+2026-07-11 12:38:53 +0000 [MT] Processing step: IDEDistributionSymbolsStep
+2026-07-11 12:38:53 +0000 [MT] Skipping step: IDEDistributionSymbolsStep because it said so
+2026-07-11 12:38:53 +0000 [MT] Processing step: IDEDistributionAppThinningStep
+2026-07-11 12:38:53 +0000 [MT] Skipping step: IDEDistributionAppThinningStep because it said so
+2026-07-11 12:38:53 +0000 [MT] Processing step: IDEDistributionArchThinningStep
+2026-07-11 12:38:53 +0000 [MT] Archs to thin for item /Users/digkill/Projects/Swift/AgainCleaner/Again Cleaner/build/release/Again Cleaner.xcarchive/Products/Applications/Again Cleaner.app are []
+2026-07-11 12:38:53 +0000 [MT] Processing step: IDEDistributionODRStep
+2026-07-11 12:38:53 +0000 [MT] Processing step: IDEDistributionStripXattrsStep
+2026-07-11 12:38:53 +0000 [MT] Skipping stripping extended attributes because the codesign step will strip them.
+2026-07-11 12:38:53 +0000 [MT] Processing step: IDEDistributionCodesignStep
+2026-07-11 12:38:53 +0000 [MT] Entitlements for <IDEDistributionItem: 0x702ab9860; bundleID='mediarise.org.Again-Cleaner', path='<DVTFilePath:0x702759d80:'/Users/digkill/Projects/Swift/AgainCleaner/Again Cleaner/build/release/Again Cleaner.xcarchive/Products/Applications/Again Cleaner.app'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0x702ab9320; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0x700ee6dc0; name='Apple Development: Vitaliy Edifanov (237S7M29BS)', hash='8B17ED4744953DF1AA773979E1E75385D0173D99', serialNumber='31ED51965768EA1C504B6278C3DF28AE', certificateKinds='(
+    "1.2.840.113635.100.6.1.12",
+    "1.2.840.113635.100.6.1.2"
+), issueDate='2025-12-10 17:08:04 +0000''>', entitlements='{
+    "com.apple.security.files.user-selected.read-only" = 1;
+}', teamID='39CP3623CD', identifier='mediarise.org.Again-Cleaner', executablePath='<DVTFilePath:0x7025ad960:'/Users/digkill/Projects/Swift/AgainCleaner/Again Cleaner/build/release/Again Cleaner.xcarchive/Products/Applications/Again Cleaner.app/Contents/MacOS/Again Cleaner'>', hardenedRuntime='1'>'>: {
+    "com.apple.security.files.user-selected.read-only" = 1;
+}
+2026-07-11 12:38:53 +0000 [MT] Associated App Clip Identifiers Filter: Skipping because "com.apple.developer.associated-appclip-app-identifiers" is not present
+2026-07-11 12:38:53 +0000 [MT] Entitlements for <IDEDistributionItem: 0x702ab9860; bundleID='mediarise.org.Again-Cleaner', path='<DVTFilePath:0x702759d80:'/Users/digkill/Projects/Swift/AgainCleaner/Again Cleaner/build/release/Again Cleaner.xcarchive/Products/Applications/Again Cleaner.app'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0x702ab9320; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0x700ee7180; name='Apple Development: Vitaliy Edifanov (237S7M29BS)', hash='8B17ED4744953DF1AA773979E1E75385D0173D99', serialNumber='31ED51965768EA1C504B6278C3DF28AE', certificateKinds='(
+    "1.2.840.113635.100.6.1.12",
+    "1.2.840.113635.100.6.1.2"
+), issueDate='2025-12-10 17:08:04 +0000''>', entitlements='{
+    "com.apple.security.files.user-selected.read-only" = 1;
+}', teamID='39CP3623CD', identifier='mediarise.org.Again-Cleaner', executablePath='<DVTFilePath:0x7025ad960:'/Users/digkill/Projects/Swift/AgainCleaner/Again Cleaner/build/release/Again Cleaner.xcarchive/Products/Applications/Again Cleaner.app/Contents/MacOS/Again Cleaner'>', hardenedRuntime='1'>'> are: {
+    "com.apple.security.files.user-selected.read-only" = 1;
+}
+2026-07-11 12:38:53 +0000 [MT] Writing entitlements for <IDEDistributionItem: 0x702ab9860; bundleID='mediarise.org.Again-Cleaner', path='<DVTFilePath:0x702759d80:'/Users/digkill/Projects/Swift/AgainCleaner/Again Cleaner/build/release/Again Cleaner.xcarchive/Products/Applications/Again Cleaner.app'>', codeSigningInfo='<_DVTCodeSigningInformation_Path: 0x702ab9320; isSigned='1', isAdHocSigned='0', signingCertificate='<DVTSigningCertificate: 0x700ee7180; name='Apple Development: Vitaliy Edifanov (237S7M29BS)', hash='8B17ED4744953DF1AA773979E1E75385D0173D99', serialNumber='31ED51965768EA1C504B6278C3DF28AE', certificateKinds='(
+    "1.2.840.113635.100.6.1.12",
+    "1.2.840.113635.100.6.1.2"
+), issueDate='2025-12-10 17:08:04 +0000''>', entitlements='{
+    "com.apple.security.files.user-selected.read-only" = 1;
+}', teamID='39CP3623CD', identifier='mediarise.org.Again-Cleaner', executablePath='<DVTFilePath:0x7025ad960:'/Users/digkill/Projects/Swift/AgainCleaner/Again Cleaner/build/release/Again Cleaner.xcarchive/Products/Applications/Again Cleaner.app/Contents/MacOS/Again Cleaner'>', hardenedRuntime='1'>'> to: /var/folders/6z/w0nwvf514mn4r3dt6kgfpjkr0000gn/T/XcodeDistPipeline.~~~Alrumh/entitlements~~~iYuYFs
+2026-07-11 12:38:53 +0000 [MT] invoking codesign: <NSConcreteTask: 0x702763e80; launchPath='/usr/bin/codesign', arguments='(
+    "-f",
+    "-s",
+    AFDA469497E8620C7FFBBC730CCE914134F64BD9,
+    "--entitlements",
+    "/var/folders/6z/w0nwvf514mn4r3dt6kgfpjkr0000gn/T/XcodeDistPipeline.~~~Alrumh/entitlements~~~iYuYFs",
+    "--requirements",
+    "=designated => anchor apple generic  and identifier \"$self.identifier\" and ((cert leaf[field.1.2.840.113635.100.6.1.9] exists) or ( certificate 1[field.1.2.840.113635.100.6.2.6] exists and certificate leaf[field.1.2.840.113635.100.6.1.13] exists  and certificate leaf[subject.OU] = \"39CP3623CD\" ))",
+    "--preserve-metadata=identifier,flags,runtime,launch-constraints,library-constraints",
+    "--generate-entitlement-der",
+    "--strip-disallowed-xattrs",
+    "-vvv",
+    "/var/folders/6z/w0nwvf514mn4r3dt6kgfpjkr0000gn/T/XcodeDistPipeline.~~~Alrumh/Root/Applications/Again Cleaner.app"
+)'>
+2026-07-11 12:38:54 +0000 [MT] codesign output: /var/folders/6z/w0nwvf514mn4r3dt6kgfpjkr0000gn/T/XcodeDistPipeline.~~~Alrumh/Root/Applications/Again Cleaner.app: replacing existing signature
+/var/folders/6z/w0nwvf514mn4r3dt6kgfpjkr0000gn/T/XcodeDistPipeline.~~~Alrumh/Root/Applications/Again Cleaner.app: signed app bundle with Mach-O universal (x86_64 arm64) [mediarise.org.Again-Cleaner]
+2026-07-11 12:38:54 +0000 [MT] Processing step: IDEDistributionZipODRItemStep
+2026-07-11 12:38:54 +0000 [MT] Skipping step: IDEDistributionZipODRItemStep because it said so
+2026-07-11 12:38:54 +0000 [MT] Processing step: IDEDistributionSkipPackagingStep
+2026-07-11 12:38:54 +0000 [MT] Processing step: IDEDistributionAppStoreInformationStep
+2026-07-11 12:38:54 +0000 [MT] Skipping step: IDEDistributionAppStoreInformationStep because it said so
+2026-07-11 12:38:54 +0000 [MT] Processing step: IDEDistributionGenerateProcessedDistributionItems
+2026-07-11 12:38:54 +0000 [MT] IDEDistributionItem init <DVTFilePath:0x702b3bf00:'/var/folders/6z/w0nwvf514mn4r3dt6kgfpjkr0000gn/T/XcodeDistPipeline.~~~Alrumh/Root/Applications/Again Cleaner.app'>
+2026-07-11 12:38:54 +0000 [MT] [OPTIONAL] Didn't find embedded provisioning profile for <DVTFilePath:0x702b3bf00:'/var/folders/6z/w0nwvf514mn4r3dt6kgfpjkr0000gn/T/XcodeDistPipeline.~~~Alrumh/Root/Applications/Again Cleaner.app'>: Error Domain=NSCocoaErrorDomain Code=4 "No file at <DVTFilePath:0x7030e72c0:'/var/folders/6z/w0nwvf514mn4r3dt6kgfpjkr0000gn/T/XcodeDistPipeline.~~~Alrumh/Root/Applications/Again Cleaner.app/Contents/embedded.provisionprofile'>" UserInfo={NSLocalizedDescription=No file at <DVTFilePath:0x7030e72c0:'/var/folders/6z/w0nwvf514mn4r3dt6kgfpjkr0000gn/T/XcodeDistPipeline.~~~Alrumh/Root/Applications/Again Cleaner.app/Contents/embedded.provisionprofile'>}
+2026-07-11 12:38:54 +0000 [MT] Processing step: IDEDistributionCreateManifestStep
+2026-07-11 12:38:54 +0000 [MT] Skipping step: IDEDistributionCreateManifestStep because it said so
