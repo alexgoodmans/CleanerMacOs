@@ -1,0 +1,17 @@
+# macOS
+.DS_Store
+
+# Xcode
+build/
+DerivedData/
+xcuserdata/
+*.xcuserstate
+
+# Node (landing has its own .gitignore too)
+node_modules/
+dist/
+
+# Secrets — never commit keys or env files
+*.p8
+.env
+.env.*
