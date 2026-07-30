@@ -430,6 +430,16 @@ enum CleanupCatalog {
     /// Apps whose Application Support caches are already curated above.
     private static let curatedAppSupportNames: Set<String> = ["Cursor", "Code", "Steam"]
 
+    /// A top-level Application Support folder that holds a regenerable, on-demand
+    /// ML model (e.g. Xcode's `OptGuideOnDeviceModel`) rather than user data.
+    /// Matched by name so future Apple/third-party model folders are caught too.
+    private static func isRegenerableModelFolder(_ name: String) -> Bool {
+        let n = name.lowercased()
+        return n.contains("ondevicemodel")
+            || n.hasSuffix("modelcatalog")
+            || n == "optguideondevicemodel"
+    }
+
     private static func electronAppCaches() -> [JunkCategory] {
         let appSupport = h("Library/Application Support")
         let apps = (try? fm.contentsOfDirectory(
@@ -438,10 +448,24 @@ enum CleanupCatalog {
             options: [.skipsHiddenFiles]
         )) ?? []
 
-        var categories: [JunkCategory] = apps.compactMap { appDir in
+        var categories: [JunkCategory] = apps.compactMap { appDir -> JunkCategory? in
             let isDir = (try? appDir.resourceValues(forKeys: [.isDirectoryKey]).isDirectory) ?? false
             let name = appDir.lastPathComponent
             guard isDir, !curatedAppSupportNames.contains(name) else { return nil }
+
+            // On-device ML models (Xcode's OptGuideOnDeviceModel, and similar):
+            // large, versioned, and always re-downloaded on demand. Safe to
+            // surface as a whole folder — unlike arbitrary app data.
+            if isRegenerableModelFolder(name) {
+                return JunkCategory(
+                    id: "model:\(name)",
+                    title: friendlyName(name),
+                    subtitle: String(localized: "On-device model — re-downloaded on demand"),
+                    systemImage: "brain",
+                    safety: .caution,
+                    rule: .clearContents([appDir])
+                )
+            }
 
             let junk = electronJunkNames
                 .map { appDir.appendingPathComponent($0) }
@@ -499,6 +523,22 @@ enum CleanupCatalog {
                 safety: .risky,
                 rule: .oldItems(dir: h("Desktop"), days: 90)
             ),
+            // Review-only: the biggest Application Support folders. These hold
+            // real app data (databases, profiles, licenses) — never pre-selected,
+            // shown so a 4 GB surprise can't hide. Folders with a dedicated
+            // category above are excluded to avoid double-listing.
+            JunkCategory(
+                id: "appsupport-large",
+                title: String(localized: "Large App Data (review)"),
+                subtitle: String(localized: "Biggest folders in Application Support — real app data, check before removing"),
+                systemImage: "externaldrive.badge.questionmark",
+                safety: .risky,
+                rule: .largeChildren(
+                    dir: h("Library/Application Support"),
+                    minSize: 500_000_000,
+                    exclude: ["Cursor", "Code", "Steam", "Caches"]
+                )
+            ),
         ]
     }
 
@@ -533,6 +573,7 @@ enum CleanupCatalog {
         "node-gyp": "node-gyp",
         "composer": "Composer",
         "Movavi": "Movavi",
+        "OptGuideOnDeviceModel": "Xcode Predictive Model",
     ]
 
     private static func icon(for name: String) -> String {

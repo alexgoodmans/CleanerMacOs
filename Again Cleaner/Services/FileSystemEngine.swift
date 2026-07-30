@@ -93,7 +93,30 @@ struct FileSystemEngine {
 
         case .oldItems(let dir, let days):
             return staleItems(in: dir, olderThanDays: days)
+
+        case .largeChildren(let dir, let minSize, let exclude):
+            return largeChildren(in: dir, minSize: minSize, exclude: Set(exclude))
         }
+    }
+
+    /// Top-level children of `dir` bigger than `minSize`, biggest first,
+    /// skipping excluded names and hidden files. Sizes measured here.
+    private nonisolated static func largeChildren(
+        in dir: URL, minSize: Int64, exclude: Set<String>
+    ) -> [URL] {
+        guard fm.fileExists(atPath: dir.path) else { return [] }
+        let items = (try? fm.contentsOfDirectory(
+            at: dir,
+            includingPropertiesForKeys: [.isDirectoryKey],
+            options: [.skipsHiddenFiles]
+        )) ?? []
+
+        return items
+            .filter { !exclude.contains($0.lastPathComponent) }
+            .map { (url: $0, size: size(of: $0)) }
+            .filter { $0.size >= minSize }
+            .sorted { $0.size > $1.size }
+            .map(\.url)
     }
 
     /// Top-level items in `dir` whose most recent modification is older than the

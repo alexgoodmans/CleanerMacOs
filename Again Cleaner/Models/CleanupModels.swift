@@ -50,6 +50,12 @@ enum CleanRule: Sendable {
     /// Desktop) where only stale files should ever be suggested.
     case oldItems(dir: URL, days: Int)
 
+    /// Surface the top-level children of `dir` larger than `minSize`, skipping
+    /// names in `exclude`. Review-only: this can point at folders holding real
+    /// app data, so the category using it must be Risky and never pre-selected.
+    /// Sizes are measured during the scan, not when the catalog is built.
+    case largeChildren(dir: URL, minSize: Int64, exclude: [String])
+
     /// The folder(s) that represent this rule when the user pins it to
     /// Favorites for one-click cleanup later.
     var favoritableURLs: [URL] {
@@ -59,6 +65,7 @@ enum CleanRule: Sendable {
         case .findDirs(let roots, _):   return roots
         case .scanArtifacts(let roots, _): return roots
         case .oldItems(let dir, _):     return [dir]
+        case .largeChildren(let dir, _, _): return [dir]
         }
     }
 }

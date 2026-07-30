@@ -2892,6 +2892,54 @@
           }
         }
       }
+    },
+    "On-device model — re-downloaded on demand": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "On-device модель — скачается заново по требованию"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "โมเดลบนเครื่อง — ดาวน์โหลดใหม่เมื่อต้องใช้"
+          }
+        }
+      }
+    },
+    "Large App Data (review)": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Крупные данные приложений (обзор)"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ข้อมูลแอปขนาดใหญ่ (ตรวจสอบ)"
+          }
+        }
+      }
+    },
+    "Biggest folders in Application Support — real app data, check before removing": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Самые большие папки в Application Support — это реальные данные приложений, проверьте перед удалением"
+          }
+        },
+        "th": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "โฟลเดอร์ที่ใหญ่ที่สุดใน Application Support — เป็นข้อมูลแอปจริง ตรวจสอบก่อนลบ"
+          }
+        }
+      }
     }
   },
   "version": "1.3"
