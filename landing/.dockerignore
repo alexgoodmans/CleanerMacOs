@@ -1,0 +1,13 @@
+node_modules
+dist
+.git
+.DS_Store
+*.local
+
+# Pre-Vite static version of the site — not part of the image.
+legacy
+
+# Bare-metal nginx templates are documentation; only the files the Dockerfile
+# copies explicitly (nginx-docker.conf, security-headers.inc) end up in the image.
+deploy/nginx.conf
+deploy/nginx-http.conf
