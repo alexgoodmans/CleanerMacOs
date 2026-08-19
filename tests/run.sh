@@ -1,22 +1,27 @@
 #!/bin/bash
 #
-# run.sh — compile & run the safety unit tests against the REAL source files.
-#
-# These live outside the app target (so the test's top-level `exit()` never
-# gets compiled into the app) but compile the actual production Safety/*.swift,
-# so they test the shipping code, not a copy.
+# run.sh — compile & run the safety/parsing unit tests against the REAL source
+# files. These live outside the app target (so a test's top-level entry point
+# never gets compiled into the app) but compile the actual production code.
 #
 #   ./tests/run.sh
 #
 set -euo pipefail
 cd "$(dirname "$0")"
 
-SRC="../Again Cleaner/Safety"
-OUT="$(mktemp -d)/safety-tests"
+SRC="../Again Cleaner"
+TMP="$(mktemp -d)"
+fails=0
 
-xcrun swiftc -swift-version 6 \
-    "$SRC/PathGuard.swift" \
-    PathGuardTests.swift \
-    -o "$OUT"
+echo "▶︎ PathGuard safety tests"
+xcrun swiftc -swift-version 6 "$SRC/Safety/PathGuard.swift" PathGuardTests.swift -o "$TMP/pathguard"
+"$TMP/pathguard" || fails=$((fails+1))
 
-"$OUT"
+echo ""
+echo "▶︎ Docker parsing tests"
+xcrun swiftc -swift-version 6 "$SRC/Services/DockerParsing.swift" DockerParsingTests.swift -o "$TMP/docker"
+"$TMP/docker" || fails=$((fails+1))
+
+echo ""
+if [ "$fails" -eq 0 ]; then echo "✅ All test suites passed"; else echo "❌ $fails suite(s) failed"; fi
+exit "$fails"

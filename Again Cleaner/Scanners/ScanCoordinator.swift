@@ -14,7 +14,11 @@ struct ScanCoordinator: Sendable {
     /// The default set of scanners. For now just the catalog bridge; dedicated
     /// scanners (Xcode, Docker, Homebrew…) are appended here as they land.
     static var standard: ScanCoordinator {
-        ScanCoordinator(scanners: [BuiltinCatalogScanner()])
+        ScanCoordinator(scanners: [
+            BuiltinCatalogScanner(),
+            DockerScanner(),
+            HomebrewScanner(),
+        ])
     }
 
     /// Scan every available scanner concurrently. `onProgress` is called on the

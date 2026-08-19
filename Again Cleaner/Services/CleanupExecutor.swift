@@ -58,12 +58,30 @@ struct CleanupExecutor: Sendable {
                     report.skipped.append((candidate.name, "could not remove"))
                 }
 
-            case .dockerBuilderPrune, .dockerVolumeRemove,
-                 .homebrewCleanup, .tmutil:
-                // Tool-driven methods arrive in Phase 2/3 (ProcessRunner).
-                report.skipped.append((candidate.name, "tool cleanup not wired yet"))
+            case .dockerBuilderPrune:
+                if await runTool(ProcessRunner.locate("docker"),
+                                 ["builder", "prune", "-f"], timeout: .seconds(120)) {
+                    report.expectedBytes += candidate.size
+                    report.removedCount += 1
+                } else {
+                    report.skipped.append((candidate.name, "docker builder prune failed"))
+                }
 
-            case .manualOnly:
+            case .homebrewCleanup:
+                if await runTool(ProcessRunner.locate("brew"),
+                                 ["cleanup"], timeout: .seconds(120)) {
+                    report.expectedBytes += candidate.size
+                    report.removedCount += 1
+                } else {
+                    report.skipped.append((candidate.name, "brew cleanup failed"))
+                }
+
+            case .tmutil:
+                // APFS snapshot thinning arrives with the snapshot scanner (Phase 3).
+                report.skipped.append((candidate.name, "snapshot cleanup not wired yet"))
+
+            case .dockerVolumeRemove, .manualOnly:
+                // Volumes and other destructive tool ops are user-driven only.
                 report.skipped.append((candidate.name, "manual only"))
             }
         }
@@ -73,5 +91,11 @@ struct CleanupExecutor: Sendable {
         try? await Task.sleep(for: .seconds(1))
         report.after = DiskSpace.snapshot()
         return report
+    }
+
+    /// Run a CLI cleanup tool; returns whether it exited successfully.
+    private func runTool(_ path: String?, _ args: [String], timeout: Duration) async -> Bool {
+        guard let path else { return false }
+        return (try? await ProcessRunner.run(path, args, timeout: timeout))?.ok ?? false
     }
 }
