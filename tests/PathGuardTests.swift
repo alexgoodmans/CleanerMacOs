@@ -41,6 +41,21 @@ static func run() -> Int32 {
               "/Library/Caches/SomeCache"] {
         check(PathGuard.verdict(for: u(p)), blocked: false, p)
     }
+
+    print("REGRESSION: existing catalog targets must still be allowed:")
+    for p in [
+        "~/Music/iTunes/iTunes Media/Mobile Applications/App.ipa",  // iTunes mobile apps
+        "~/Dropbox/.dropbox.cache/blob",                            // Dropbox cache
+        "~/Library/Application Support/Steam/appcache",             // Steam
+        "~/Library/Containers/com.apple.mail/Data/Library/Mail Downloads/x", // Mail Downloads
+        "~/Library/Application Support/MobileSync/Backup/UDID",     // iOS backups
+        "~/Library/Developer/CoreSimulator/Devices/ABC",            // simulators
+        "~/Library/Developer/Xcode/DerivedData/App-xyz",           // DerivedData
+        "~/.espressif/dist/tool.tar.gz", "~/.nuget/packages/pkg",   // dev caches
+        "~/Library/Application Support/OptGuideOnDeviceModel/2025", // Xcode model
+    ] {
+        check(PathGuard.verdict(for: u(p)), blocked: false, p)
+    }
     print("ROOT-ITSELF blocked:")
     check(PathGuard.verdict(for: u("~/Library/Caches")), blocked: true, "~/Library/Caches (root)")
 

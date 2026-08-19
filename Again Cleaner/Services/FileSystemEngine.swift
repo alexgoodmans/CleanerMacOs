@@ -302,6 +302,10 @@ struct FileSystemEngine {
     nonisolated static func remove(_ targets: [URL], toTrash: Bool) -> Int64 {
         var reclaimed: Int64 = 0
         for url in targets {
+            // Backstop: never unlink a protected path, even if a rule points at
+            // one or a symlink tries to escape. Skip silently and keep going.
+            guard PathGuard.isDeletable(url) else { continue }
+
             let itemSize = size(of: url)
             do {
                 try removeOne(url, toTrash: toTrash)
