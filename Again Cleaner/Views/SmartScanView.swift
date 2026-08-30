@@ -16,6 +16,7 @@ struct SmartScanView: View {
     var body: some View {
         VStack(spacing: 0) {
             header
+            if !vm.runningBlockers.isEmpty { runningAppsBanner }
             Divider()
             content
             Divider()
@@ -52,6 +53,24 @@ struct SmartScanView: View {
             }
         }
         .padding()
+    }
+
+    private var runningAppsBanner: some View {
+        HStack(spacing: 10) {
+            Image(systemName: "exclamationmark.triangle.fill").foregroundStyle(.orange)
+            VStack(alignment: .leading, spacing: 1) {
+                Text("\(vm.runningBlockers.joined(separator: ", ")) is running")
+                    .font(.subheadline).bold()
+                Text("Close it before cleaning its data to avoid corruption.")
+                    .font(.caption).foregroundStyle(.secondary)
+            }
+            Spacer()
+            Button("Quit & Clean") { Task { await vm.quitAndClean() } }
+                .buttonStyle(.borderedProminent)
+            Button("Dismiss") { vm.dismissBlockers() }.buttonStyle(.link)
+        }
+        .padding(.horizontal).padding(.vertical, 8)
+        .background(.orange.opacity(0.12))
     }
 
     // MARK: - Content
@@ -137,6 +156,16 @@ struct SmartScanView: View {
                     .font(.caption).foregroundStyle(.secondary)
                 Text(Format.size(vm.selectedBytes))
                     .font(.headline.monospacedDigit())
+            }
+
+            if vm.hasScanned && !vm.presetMatches.isEmpty {
+                Button {
+                    Task { await vm.quickClean() }
+                } label: {
+                    Label("Quick Clean · \(Format.size(vm.presetBytes))", systemImage: "bolt.fill")
+                }
+                .help("Clean the same categories you cleaned last time")
+                .disabled(vm.isCleaning)
             }
 
             Button("Select Safe") { vm.selectSmart() }

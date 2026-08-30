@@ -25,9 +25,22 @@ final class SmartScanModel: ObservableObject {
     @Published var selected: Set<UUID> = []
     @Published var moveToTrash = true
 
+    /// Apps that are running and would be affected by the current selection.
+    /// Non-empty means the clean is paused until the user quits them.
+    @Published private(set) var runningBlockers: [String] = []
+
     private let coordinator = ScanCoordinator.standard
     private let executor = CleanupExecutor()
     private var token = CancelToken()
+
+    // Quick-clean preset: the scanner ids the user cleaned last time.
+    private let presetKey = "cleanPresetScannerIDs"
+    @Published private(set) var preset: Set<String> = []
+
+    init() {
+        let saved = UserDefaults.standard.stringArray(forKey: presetKey) ?? []
+        preset = Set(saved)
+    }
 
     // MARK: - Scan
 
@@ -38,6 +51,7 @@ final class SmartScanModel: ObservableObject {
         candidates = []
         selected = []
         lastReport = nil
+        runningBlockers = []
 
         let token = CancelToken()
         self.token = token
@@ -101,14 +115,25 @@ final class SmartScanModel: ObservableObject {
 
     // MARK: - Clean
 
-    func cleanSelected() async {
+    func cleanSelected(force: Bool = false) async {
         guard !isCleaning else { return }
         let items = selectedItems()
         guard !items.isEmpty else { return }
+
+        // Process detection: don't clean a running app's data unless forced.
+        if !force {
+            let blockers = RunningAppGuard.blockingApps(for: items)
+            if !blockers.isEmpty { runningBlockers = blockers; return }
+        }
+        runningBlockers = []
         isCleaning = true
 
         let selectedIDs = Set(items.map(\.id))
         let report = await executor.clean(items, toTrash: moveToTrash)
+
+        // Remember what was cleaned as the quick-clean preset (only the
+        // auto-cleanable kinds, so replay stays safe).
+        rememberPreset(from: items, skipped: report.skipped)
 
         // Remove from the list everything that was selected and NOT skipped.
         let skippedNames = Set(report.skipped.map(\.name))
@@ -119,6 +144,51 @@ final class SmartScanModel: ObservableObject {
 
         lastReport = report
         isCleaning = false
+    }
+
+    /// Quit the blocking apps, wait for them to exit, then clean.
+    func quitAndClean() async {
+        let names = runningBlockers
+        guard !names.isEmpty else { return }
+        RunningAppGuard.quit(names)
+        try? await Task.sleep(for: .seconds(1.5))
+        runningBlockers = []
+        await cleanSelected(force: true)
+    }
+
+    func dismissBlockers() { runningBlockers = [] }
+
+    // MARK: - Quick-clean preset
+
+    private func rememberPreset(from items: [CleanupCandidate],
+                                skipped: [(name: String, reason: String)]) {
+        let skippedNames = Set(skipped.map(\.name))
+        let cleaned = items.filter {
+            $0.risk.isAutoSelectable && !skippedNames.contains($0.name)
+        }
+        guard !cleaned.isEmpty else { return }
+        preset = Set(cleaned.map(\.scannerID))
+        UserDefaults.standard.set(Array(preset), forKey: presetKey)
+    }
+
+    /// Whether a saved preset exists and matches anything in the current scan.
+    var hasPreset: Bool { !preset.isEmpty }
+
+    var presetMatches: [CleanupCandidate] {
+        candidates.filter { preset.contains($0.scannerID) && $0.risk.isDeletable }
+    }
+
+    var presetBytes: Int64 { presetMatches.reduce(0) { $0 + $1.size } }
+
+    /// Select exactly what the preset covers (from the current scan).
+    func applyPreset() {
+        selected = Set(presetMatches.map(\.id))
+    }
+
+    /// One-click: select the preset and clean it.
+    func quickClean() async {
+        applyPreset()
+        await cleanSelected()
     }
 
     // MARK: - Reveal
