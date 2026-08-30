@@ -31,5 +31,10 @@ xcrun swiftc -swift-version 6 \
 "$TMP/analyzer" || fails=$((fails+1))
 
 echo ""
+echo "▶︎ Leftover matching tests"
+xcrun swiftc -swift-version 6 "$SRC/Services/LeftoverMatching.swift" LeftoverMatchingTests.swift -o "$TMP/leftover"
+"$TMP/leftover" || fails=$((fails+1))
+
+echo ""
 if [ "$fails" -eq 0 ]; then echo "✅ All test suites passed"; else echo "❌ $fails suite(s) failed"; fi
 exit "$fails"
