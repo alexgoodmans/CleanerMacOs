@@ -8,6 +8,7 @@ import SwiftUI
 enum Section: String, CaseIterable, Identifiable {
     case overview  = "Overview"
     case smartScan = "Smart Scan"
+    case deepScan  = "Deep Disk Scan"
     case junk      = "Junk Cleanup"
     case largeFiles = "Large Files"
     case favorites = "Favorites"
@@ -28,6 +29,7 @@ enum Section: String, CaseIterable, Identifiable {
         switch self {
         case .overview:   return "gauge.with.dots.needle.67percent"
         case .smartScan:  return "wand.and.stars"
+        case .deepScan:   return "chart.pie"
         case .junk:       return "sparkles"
         case .largeFiles: return "doc.viewfinder"
         case .favorites:  return "star"
@@ -40,6 +42,7 @@ enum Section: String, CaseIterable, Identifiable {
 struct ContentView: View {
     @StateObject private var vm = CleanerViewModel()
     @StateObject private var smart = SmartScanModel()
+    @StateObject private var deep = DeepDiskModel()
     @State private var section: Section = .overview
 
     var body: some View {
@@ -56,6 +59,7 @@ struct ContentView: View {
                 switch section {
                 case .overview:   OverviewView(vm: vm)
                 case .smartScan:  SmartScanView(vm: smart)
+                case .deepScan:   DeepDiskView(vm: deep)
                 case .junk:       JunkView(vm: vm)
                 case .largeFiles: LargeFilesView(vm: vm)
                 case .favorites:  FavoritesView(vm: vm)
