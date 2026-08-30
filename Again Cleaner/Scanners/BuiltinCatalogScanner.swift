@@ -11,7 +11,7 @@
 
 import Foundation
 
-struct BuiltinCatalogScanner: CleanupScanner {
+nonisolated struct BuiltinCatalogScanner: CleanupScanner {
     let id = "builtin-catalog"
     let displayName = "General Cleanup"
 

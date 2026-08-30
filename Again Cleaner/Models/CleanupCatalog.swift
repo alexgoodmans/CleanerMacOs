@@ -13,7 +13,7 @@
 
 import Foundation
 
-enum CleanupCatalog {
+nonisolated enum CleanupCatalog {
 
     private static let fm = FileManager.default
     private static let home = FileManager.default.homeDirectoryForCurrentUser

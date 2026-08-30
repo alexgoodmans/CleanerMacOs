@@ -11,14 +11,14 @@
 import Foundation
 
 /// Shared services + cancellation handed to every scanner.
-struct ScanContext: Sendable {
+nonisolated struct ScanContext: Sendable {
     let usage: DiskUsageService
     let isCancelled: @Sendable () -> Bool
 }
 
 /// One source of disk junk. Implementations are stateless and Sendable so the
 /// coordinator can fan them out with a TaskGroup.
-protocol CleanupScanner: Sendable {
+nonisolated protocol CleanupScanner: Sendable {
     /// Stable identifier, e.g. "xcode", "docker".
     var id: String { get }
     /// Human-readable section name for the UI.
@@ -31,5 +31,5 @@ protocol CleanupScanner: Sendable {
 }
 
 extension CleanupScanner {
-    func isAvailable() -> Bool { true }
+    nonisolated func isAvailable() -> Bool { true }
 }

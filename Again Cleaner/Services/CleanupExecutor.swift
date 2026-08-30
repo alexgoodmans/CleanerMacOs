@@ -23,7 +23,7 @@ struct CleanupReport: Sendable {
     }
 }
 
-struct CleanupExecutor: Sendable {
+nonisolated struct CleanupExecutor: Sendable {
 
     /// Remove the given candidates. `toTrash` moves filesystem items to the
     /// Trash (recoverable) instead of unlinking. Runs off the main actor.

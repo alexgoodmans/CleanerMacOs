@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct ScanCoordinator: Sendable {
+nonisolated struct ScanCoordinator: Sendable {
     let scanners: [CleanupScanner]
 
     /// The default set of scanners. For now just the catalog bridge; dedicated

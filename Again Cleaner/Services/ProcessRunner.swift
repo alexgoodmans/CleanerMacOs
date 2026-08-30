@@ -12,7 +12,7 @@ import Foundation
 
 struct ProcessRunner: Sendable {
 
-    struct Output: Sendable {
+    nonisolated struct Output: Sendable {
         let status: Int32
         let stdout: String
         let stderr: String

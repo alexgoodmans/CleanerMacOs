@@ -56,7 +56,7 @@ extension Safety {
     /// Map the current model onto the new risk scale so both can coexist while
     /// the analyzer is built out. Most `caution` categories are regeneratable
     /// caches; `risky` ones are the "look before you leap" kind.
-    var risk: CleanupRisk {
+    nonisolated var risk: CleanupRisk {
         switch self {
         case .safe:    return .safe
         case .caution: return .regeneratable

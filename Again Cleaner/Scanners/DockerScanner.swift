@@ -12,7 +12,7 @@
 
 import Foundation
 
-struct DockerScanner: CleanupScanner {
+nonisolated struct DockerScanner: CleanupScanner {
     let id = "docker"
     let displayName = "Docker"
 

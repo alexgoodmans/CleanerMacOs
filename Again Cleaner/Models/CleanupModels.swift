@@ -8,7 +8,7 @@
 import Foundation
 
 /// How dangerous a category is to clean. Drives colour + default selection.
-enum Safety: Int, Comparable, Codable {
+nonisolated enum Safety: Int, Comparable, Codable, Sendable {
     case safe       // caches, logs, trash — always fine to remove
     case caution    // package-manager caches, DerivedData — regenerated on demand
     case risky      // simulators, whole app-support folders — needs re-download / thought
@@ -26,7 +26,7 @@ enum Safety: Int, Comparable, Codable {
 
 /// Describes *what* a category removes. Kept declarative so the UI never
 /// has to know how a category is cleaned.
-enum CleanRule: Sendable {
+nonisolated enum CleanRule: Sendable {
     /// Remove the children of these directories but keep the directory itself.
     /// (e.g. ~/Library/Caches — the folder must survive.)
     case clearContents([URL])
@@ -71,7 +71,7 @@ enum CleanRule: Sendable {
 }
 
 /// A group of junk that can be scanned and cleaned as a unit.
-struct JunkCategory: Identifiable, Sendable {
+nonisolated struct JunkCategory: Identifiable, Sendable {
     let id: String
     let title: String
     let subtitle: String

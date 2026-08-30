@@ -9,7 +9,7 @@
 
 import Foundation
 
-struct HomebrewScanner: CleanupScanner {
+nonisolated struct HomebrewScanner: CleanupScanner {
     let id = "homebrew"
     let displayName = "Homebrew"
 
