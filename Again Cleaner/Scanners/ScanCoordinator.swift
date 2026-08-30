@@ -16,6 +16,11 @@ nonisolated struct ScanCoordinator: Sendable {
     static var standard: ScanCoordinator {
         ScanCoordinator(scanners: [
             BuiltinCatalogScanner(),
+            DeviceSupportScanner(),
+            CursorScanner(),
+            ArduinoScanner(),
+            ApplicationScanner(),
+            APFSSnapshotScanner(),
             DockerScanner(),
             HomebrewScanner(),
         ])
@@ -49,7 +54,40 @@ nonisolated struct ScanCoordinator: Sendable {
                 let fraction = Double(done) / Double(total)
                 await onProgress(fraction)
             }
-            return all.sorted { $0.size > $1.size }
+            return Self.dedupe(all, owners: ownedPrefixes()).sorted { $0.size > $1.size }
         }
+    }
+
+    /// Canonical prefixes owned by dedicated (non-catalog) scanners.
+    private func ownedPrefixes() -> [String] {
+        scanners
+            .filter { $0.id != "builtin-catalog" }
+            .flatMap { $0.ownedPrefixes }
+            .map { PathGuard.canonicalPath($0) }
+    }
+
+    /// Drop generic catalog candidates that a dedicated scanner already covers,
+    /// then remove any exact-path duplicates (keeping the dedicated one).
+    nonisolated static func dedupe(_ items: [CleanupCandidate], owners: [String]) -> [CleanupCandidate] {
+        func isBuiltin(_ c: CleanupCandidate) -> Bool { c.scannerID.hasPrefix("builtin:") }
+
+        let afterOwnership = items.filter { c in
+            guard isBuiltin(c), let url = c.path else { return true }
+            let path = PathGuard.canonicalPath(url)
+            return !owners.contains { path == $0 || path.hasPrefix($0 + "/") }
+        }
+
+        // Exact-path de-dup: dedicated scanners win over builtin.
+        var seen: Set<String> = []
+        var result: [CleanupCandidate] = []
+        for c in afterOwnership.sorted(by: { !isBuiltin($0) && isBuiltin($1) }) {
+            if let url = c.path {
+                let key = PathGuard.canonicalPath(url)
+                if seen.contains(key) { continue }
+                seen.insert(key)
+            }
+            result.append(c)
+        }
+        return result
     }
 }

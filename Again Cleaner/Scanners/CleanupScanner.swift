@@ -26,10 +26,15 @@ nonisolated protocol CleanupScanner: Sendable {
     /// Whether this scanner is applicable on this machine (tool installed, path
     /// exists…). Checked before `scan` so absent tools cost nothing.
     func isAvailable() -> Bool
+    /// Filesystem subtrees this scanner fully "owns". The coordinator drops any
+    /// generic BuiltinCatalog candidates that fall under these, so a dedicated
+    /// scanner's richer breakdown replaces the coarse catalog one (no dupes).
+    var ownedPrefixes: [URL] { get }
     /// Produce candidates. Must honour `ctx.isCancelled`.
     func scan(_ ctx: ScanContext) async -> [CleanupCandidate]
 }
 
 extension CleanupScanner {
     nonisolated func isAvailable() -> Bool { true }
+    nonisolated var ownedPrefixes: [URL] { [] }
 }

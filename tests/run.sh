@@ -23,5 +23,13 @@ xcrun swiftc -swift-version 6 "$SRC/Services/DockerParsing.swift" DockerParsingT
 "$TMP/docker" || fails=$((fails+1))
 
 echo ""
+echo "▶︎ Analyzer parsing tests (DeviceSupport, versions)"
+xcrun swiftc -swift-version 6 \
+    "$SRC/Services/DeviceSupportParsing.swift" \
+    "$SRC/Services/VersionOrdering.swift" \
+    AnalyzerParsingTests.swift -o "$TMP/analyzer"
+"$TMP/analyzer" || fails=$((fails+1))
+
+echo ""
 if [ "$fails" -eq 0 ]; then echo "✅ All test suites passed"; else echo "❌ $fails suite(s) failed"; fi
 exit "$fails"
