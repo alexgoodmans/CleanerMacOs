@@ -27,10 +27,10 @@ nonisolated struct APFSSnapshotScanner: CleanupScanner {
         return [CleanupCandidate(
             scannerID: "apfs:snapshots",
             name: String(localized: "Local APFS Snapshots (\(snapshots.count))"),
-            path: nil, size: 0, risk: .systemProtected,
+            path: nil, size: 0, risk: .reviewRequired,
             explanation: String(localized: "\(snapshots.count) Time Machine local snapshot(s). They occupy purgeable space macOS frees automatically when the disk fills."),
-            consequence: String(localized: "Managed by the system. Thin manually with `tmutil thinlocalsnapshots /` if needed."),
-            method: .manualOnly
+            consequence: String(localized: "Thins local snapshots via `tmutil thinlocalsnapshots`. Actual space freed is shown after. May require privileges on some systems."),
+            method: .tmutil
         )]
     }
 

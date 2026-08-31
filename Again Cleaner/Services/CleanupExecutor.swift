@@ -77,8 +77,16 @@ nonisolated struct CleanupExecutor: Sendable {
                 }
 
             case .tmutil:
-                // APFS snapshot thinning arrives with the snapshot scanner (Phase 3).
-                report.skipped.append((candidate.name, "snapshot cleanup not wired yet"))
+                // Ask macOS to thin local APFS snapshots via the sanctioned tool.
+                // A large purge amount + urgency 4 = "reclaim as much as possible".
+                // This may require privileges on some systems; report honestly.
+                if await runTool("/usr/bin/tmutil",
+                                 ["thinlocalsnapshots", "/", "999999999999", "4"],
+                                 timeout: .seconds(120)) {
+                    report.removedCount += 1
+                } else {
+                    report.skipped.append((candidate.name, "tmutil thinning failed (may require privileges)"))
+                }
 
             case .dockerVolumeRemove, .manualOnly:
                 // Volumes and other destructive tool ops are user-driven only.
