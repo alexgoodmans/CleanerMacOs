@@ -9,11 +9,10 @@ struct OverviewView: View {
     @ObservedObject var vm: CleanerViewModel
     @State private var confirmClean = false
 
-    /// Categories with real reclaimable content, biggest first.
+    /// Categories with real reclaimable content, ordered by the chosen sort.
     private var found: [JunkCategory] {
-        vm.visibleCategories
+        vm.sortedVisibleCategories
             .filter { (vm.results[$0.id]?.size ?? 0) > 0 }
-            .sorted { (vm.results[$0.id]?.size ?? 0) > (vm.results[$1.id]?.size ?? 0) }
     }
 
     var body: some View {
@@ -115,6 +114,23 @@ struct OverviewView: View {
                     .font(.headline)
                     .padding(.leading, 8)
                 Spacer()
+
+                // Sort control (shared with the Junk screen).
+                Menu {
+                    Picker("Sort by", selection: $vm.junkSort) {
+                        ForEach(CleanerViewModel.JunkSort.allCases) { s in
+                            Label(s.rawValue, systemImage: s.systemImage).tag(s)
+                        }
+                    }
+                    .pickerStyle(.inline)
+                } label: {
+                    Label("Sort: \(vm.junkSort.rawValue)", systemImage: vm.junkSort.systemImage)
+                        .font(.caption)
+                }
+                .menuStyle(.borderlessButton)
+                .fixedSize()
+                .help("Sort categories")
+
                 Text("\(found.count) categories · \(Format.size(vm.totalReclaimable))")
                     .font(.caption).foregroundStyle(.secondary)
             }
@@ -182,6 +198,15 @@ private struct FoundRow: View {
 
     var body: some View {
         HStack(spacing: 12) {
+            // Leading disclosure indicator — makes it obvious the row expands.
+            Image(systemName: "chevron.right")
+                .font(.caption.weight(.bold))
+                .foregroundStyle(isExpanded ? Color.accentColor : Color.secondary)
+                .rotationEffect(.degrees(isExpanded ? 90 : 0))
+                .opacity(itemCount > 0 ? 1 : 0)
+                .frame(width: 12)
+                .onTapGesture { if itemCount > 0 { toggleExpand() } }
+
             Image(systemName: isSelected ? "checkmark.circle.fill" : "circle")
                 .font(.title3)
                 .foregroundStyle(isSelected ? Color.accentColor : Color.secondary)
