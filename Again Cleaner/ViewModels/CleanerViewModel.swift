@@ -104,6 +104,57 @@ final class CleanerViewModel: ObservableObject {
         }
     }
 
+    // Sorting for the junk list.
+    enum JunkSort: String, CaseIterable, Identifiable {
+        case `default` = "Default"
+        case name = "Name"
+        case size = "Size"
+        case favorite = "Favorite"
+        case date = "Date"
+        var id: String { rawValue }
+        var systemImage: String {
+            switch self {
+            case .default:  return "list.bullet"
+            case .name:     return "textformat"
+            case .size:     return "arrow.up.arrow.down"
+            case .favorite: return "star"
+            case .date:     return "calendar"
+            }
+        }
+    }
+
+    @Published var junkSort: JunkSort = .default
+
+    /// `visibleCategories` ordered by the current sort choice.
+    var sortedVisibleCategories: [JunkCategory] {
+        let cats = visibleCategories
+        switch junkSort {
+        case .default:
+            return cats
+        case .name:
+            return cats.sorted { $0.title.localizedCaseInsensitiveCompare($1.title) == .orderedAscending }
+        case .size:
+            return cats.sorted { reclaimable(for: $0) > reclaimable(for: $1) }
+        case .favorite:
+            // Favorited first, then by size within each group.
+            return cats.sorted { a, b in
+                let fa = isFavorited(a), fb = isFavorited(b)
+                if fa != fb { return fa }
+                return reclaimable(for: a) > reclaimable(for: b)
+            }
+        case .date:
+            // Newest first; categories without a date sink to the bottom.
+            return cats.sorted { a, b in
+                switch (results[a.id]?.modified, results[b.id]?.modified) {
+                case let (x?, y?): return x > y
+                case (_?, nil):    return true
+                case (nil, _?):    return false
+                case (nil, nil):   return reclaimable(for: a) > reclaimable(for: b)
+                }
+            }
+        }
+    }
+
     // MARK: - Lifecycle
 
     func refreshDisk() {
@@ -144,7 +195,8 @@ final class CleanerViewModel: ObservableObject {
                     let (targets, size) = FileSystemEngine.resolve(cat)
                     return CategoryScanResult(
                         id: cat.id, size: size,
-                        itemCount: targets.count, isScanning: false
+                        itemCount: targets.count, isScanning: false,
+                        modified: FileSystemEngine.newestModified(of: targets)
                     )
                 }
             }

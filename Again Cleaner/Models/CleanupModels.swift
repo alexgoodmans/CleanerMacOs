@@ -86,6 +86,7 @@ struct CategoryScanResult: Identifiable {
     var size: Int64            // reclaimable bytes
     var itemCount: Int         // number of top-level items that would be removed
     var isScanning: Bool
+    var modified: Date? = nil  // newest modification date among its targets
 }
 
 /// One concrete item that a category would remove — shown when a row is

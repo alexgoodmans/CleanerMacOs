@@ -17,7 +17,7 @@ struct JunkView: View {
                 emptyState
             } else {
                 List {
-                    ForEach(vm.visibleCategories) { cat in
+                    ForEach(vm.sortedVisibleCategories) { cat in
                         JunkRow(
                             category: cat,
                             size: vm.reclaimable(for: cat),
@@ -85,6 +85,23 @@ struct JunkView: View {
                     .font(.caption).foregroundStyle(.secondary)
             }
             Spacer()
+
+            // Sort control.
+            Menu {
+                Picker("Sort by", selection: $vm.junkSort) {
+                    ForEach(CleanerViewModel.JunkSort.allCases) { s in
+                        Label(s.rawValue, systemImage: s.systemImage).tag(s)
+                    }
+                }
+                .pickerStyle(.inline)
+            } label: {
+                Label("Sort: \(vm.junkSort.rawValue)", systemImage: vm.junkSort.systemImage)
+            }
+            .menuStyle(.borderlessButton)
+            .fixedSize()
+            .help("Sort categories")
+            .disabled(vm.results.isEmpty)
+
             Button {
                 Task { await vm.scanJunk() }
             } label: {
@@ -171,6 +188,16 @@ private struct JunkRow: View {
 
     var body: some View {
         HStack(spacing: 12) {
+            // Leading disclosure indicator — makes it obvious the row expands.
+            Image(systemName: "chevron.right")
+                .font(.caption.weight(.bold))
+                .foregroundStyle(isExpanded ? Color.accentColor : Color.secondary)
+                .rotationEffect(.degrees(isExpanded ? 90 : 0))
+                .opacity(itemCount > 0 ? 1 : 0)
+                .frame(width: 12)
+                .onTapGesture { if itemCount > 0 { toggleExpand() } }
+                .help(itemCount > 0 ? "Show files" : "")
+
             Image(systemName: isSelected ? "checkmark.circle.fill" : "circle")
                 .font(.title3)
                 .foregroundStyle(isSelected ? Color.accentColor : Color.secondary)

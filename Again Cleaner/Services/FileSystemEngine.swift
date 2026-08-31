@@ -73,6 +73,13 @@ struct FileSystemEngine {
         return (targets, total)
     }
 
+    /// Newest top-level modification date among `urls` (best-effort, cheap stat).
+    nonisolated static func newestModified(of urls: [URL]) -> Date? {
+        urls.compactMap {
+            try? $0.resourceValues(forKeys: [.contentModificationDateKey]).contentModificationDate
+        }.max()
+    }
+
     /// The paths that will actually be removed on clean.
     /// - `clearContents`: the *children* of each directory.
     /// - `removePaths`: the paths themselves.
