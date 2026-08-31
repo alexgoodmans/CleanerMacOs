@@ -21,6 +21,7 @@ nonisolated struct ScanCoordinator: Sendable {
             ArduinoScanner(),
             ApplicationScanner(),
             APFSSnapshotScanner(),
+            BrowserScanner(),
             LeftoverScanner(),
             DockerScanner(),
             HomebrewScanner(),

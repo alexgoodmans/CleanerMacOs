@@ -36,5 +36,10 @@ xcrun swiftc -swift-version 6 "$SRC/Services/LeftoverMatching.swift" LeftoverMat
 "$TMP/leftover" || fails=$((fails+1))
 
 echo ""
+echo "▶︎ Chromium storage tests"
+xcrun swiftc -swift-version 6 "$SRC/Services/ChromiumStorage.swift" ChromiumStorageTests.swift -o "$TMP/chromium"
+"$TMP/chromium" || fails=$((fails+1))
+
+echo ""
 if [ "$fails" -eq 0 ]; then echo "✅ All test suites passed"; else echo "❌ $fails suite(s) failed"; fi
 exit "$fails"
