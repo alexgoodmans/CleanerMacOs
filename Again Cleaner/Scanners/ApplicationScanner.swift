@@ -36,12 +36,15 @@ nonisolated struct ApplicationScanner: CleanupScanner {
                 if ctx.isCancelled() { break }
                 let size = await ctx.usage.size(of: app, isCancelled: ctx.isCancelled)
                 guard size >= Self.minSize else { continue }
+                // Carry the bundle id in the scanner id so the UI can uninstall
+                // the app and hunt its leftovers precisely.
+                let bundleID = Bundle(url: app)?.bundleIdentifier ?? app.lastPathComponent
                 out.append(CleanupCandidate(
-                    scannerID: "app:\(app.lastPathComponent)",
+                    scannerID: "app:\(bundleID)",
                     name: app.deletingPathExtension().lastPathComponent,
                     path: app, size: size, risk: .systemProtected,
                     explanation: String(localized: "An installed application — not junk. Shown so you can see what uses space."),
-                    consequence: String(localized: "Use Reveal in Finder to uninstall if you no longer need it."),
+                    consequence: String(localized: "Uninstall it (moves to Trash), then find its leftover files."),
                     method: .manualOnly
                 ))
             }

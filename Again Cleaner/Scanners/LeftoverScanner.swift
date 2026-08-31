@@ -16,7 +16,8 @@ nonisolated struct LeftoverScanner: CleanupScanner {
     let displayName = "Leftover App Data"
 
     /// Locations keyed strictly by bundle id, and how confident a match is.
-    private nonisolated static let strictDirs: [(rel: String, confidence: String)] = [
+    /// Shared with focused leftover lookups (e.g. after an uninstall).
+    nonisolated static let strictDirs: [(rel: String, confidence: String)] = [
         // Strictly bundle-id-keyed by macOS → high confidence.
         ("Library/Containers", "Certain"),
         ("Library/HTTPStorages", "Certain"),

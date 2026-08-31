@@ -227,6 +227,17 @@ private struct CandidateRow: View {
                 }
             }
 
+            if vm.isApp(item) {
+                Button { Task { await vm.findLeftovers(for: item) } } label: {
+                    Image(systemName: "magnifyingglass")
+                }
+                .buttonStyle(.borderless).help("Find leftover files")
+                Button { Task { await vm.uninstall(item) } } label: {
+                    Image(systemName: "trash")
+                }
+                .buttonStyle(.borderless).help("Uninstall (move to Trash)")
+            }
+
             if item.path != nil {
                 Button { vm.reveal(item) } label: {
                     Image(systemName: "arrow.forward.square")

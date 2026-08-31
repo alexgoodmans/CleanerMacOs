@@ -191,6 +191,62 @@ final class SmartScanModel: ObservableObject {
         await cleanSelected()
     }
 
+    // MARK: - Large Applications: uninstall + leftovers
+
+    private let usage = DiskUsageService()
+
+    func isApp(_ c: CleanupCandidate) -> Bool { c.scannerID.hasPrefix("app:") }
+
+    private func bundleID(of c: CleanupCandidate) -> String? {
+        guard isApp(c) else { return nil }
+        return String(c.scannerID.dropFirst("app:".count))
+    }
+
+    /// Move an application to the Trash (guarded by PathGuard — system apps are
+    /// refused). Then drop it from the list.
+    func uninstall(_ c: CleanupCandidate) async {
+        guard isApp(c), let url = c.path else { return }
+        _ = await Task.detached(priority: .userInitiated) {
+            FileSystemEngine.remove([url], toTrash: true)
+        }.value
+        candidates.removeAll { $0.id == c.id }
+        selected.remove(c.id)
+    }
+
+    /// Search the standard support locations for data left by `c`'s app and add
+    /// any matches as Review candidates. Matches on the exact bundle id only.
+    func findLeftovers(for c: CleanupCandidate) async {
+        guard let bundleID = bundleID(of: c) else { return }
+        let home = FileManager.default.homeDirectoryForCurrentUser
+        let fm = FileManager.default
+        let target = bundleID.lowercased()
+        var found: [CleanupCandidate] = []
+        let existing = Set(candidates.map(\.scannerID))
+
+        for (rel, confidence) in LeftoverScanner.strictDirs {
+            let dir = home.appendingPathComponent(rel)
+            let entries = (try? fm.contentsOfDirectory(
+                at: dir, includingPropertiesForKeys: nil, options: [.skipsHiddenFiles])) ?? []
+            for url in entries {
+                let id = LeftoverMatching.bundleID(fromFileName: url.lastPathComponent)
+                guard id.lowercased() == target else { continue }
+                let sid = "leftover:\(id)"
+                guard !existing.contains(sid), !found.contains(where: { $0.scannerID == sid && $0.path == url }) else { continue }
+                let size = await usage.size(of: url)
+                guard size > 0 else { continue }
+                found.append(CleanupCandidate(
+                    scannerID: sid,
+                    name: "\(id) — leftover",
+                    path: url, size: size, risk: .reviewRequired,
+                    explanation: String(localized: "Data left by “\(bundleID)” after uninstall. Confidence: \(confidence)."),
+                    consequence: String(localized: "Review before removing — safe to delete if you're done with the app."),
+                    method: .filesystem
+                ))
+            }
+        }
+        candidates.append(contentsOf: found)
+    }
+
     // MARK: - Reveal
 
     func reveal(_ c: CleanupCandidate) {
