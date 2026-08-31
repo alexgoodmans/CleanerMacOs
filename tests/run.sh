@@ -41,5 +41,12 @@ xcrun swiftc -swift-version 6 "$SRC/Services/ChromiumStorage.swift" ChromiumStor
 "$TMP/chromium" || fails=$((fails+1))
 
 echo ""
+echo "▶︎ Large file kind/attribution tests"
+xcrun swiftc -swift-version 6 \
+    "$SRC/Services/FileKind.swift" "$SRC/Services/FileAttribution.swift" \
+    LargeFileTests.swift -o "$TMP/largefile"
+"$TMP/largefile" || fails=$((fails+1))
+
+echo ""
 if [ "$fails" -eq 0 ]; then echo "✅ All test suites passed"; else echo "❌ $fails suite(s) failed"; fi
 exit "$fails"

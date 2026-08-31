@@ -21,7 +21,7 @@ struct LargeFilesView: View {
                 }
                 .frame(maxHeight: .infinity)
             } else {
-                Table(vm.largeFiles) {
+                Table(vm.filteredLargeFiles) {
                     TableColumn("Size") { file in
                         Text(Format.size(file.size))
                             .font(.body.monospacedDigit())
@@ -30,6 +30,17 @@ struct LargeFilesView: View {
                     TableColumn("Name") { file in
                         Text(file.name).lineLimit(1).truncationMode(.middle)
                     }
+                    TableColumn("Type") { file in
+                        Label(file.kind.displayName, systemImage: file.kind.systemImage)
+                            .font(.caption).foregroundStyle(.secondary)
+                    }
+                    .width(120)
+                    TableColumn("Belongs to") { file in
+                        Text(file.owner ?? "—")
+                            .font(.caption).foregroundStyle(.secondary)
+                            .lineLimit(1).truncationMode(.middle)
+                    }
+                    .width(130)
                     TableColumn("Location") { file in
                         Text(file.url.deletingLastPathComponent().path)
                             .font(.caption).foregroundStyle(.secondary)
@@ -98,9 +109,24 @@ struct LargeFilesView: View {
                 }
             }
             if !vm.largeFiles.isEmpty {
-                Text("\(vm.largeFiles.count) files · \(Format.size(vm.largeFiles.reduce(0) { $0 + $1.size })) total")
-                    .font(.caption).foregroundStyle(.secondary)
-                    .frame(maxWidth: .infinity, alignment: .leading)
+                HStack(spacing: 8) {
+                    Text("Type").font(.caption).foregroundStyle(.secondary)
+                    Picker("Type", selection: $vm.largeFileKind) {
+                        Text("All").tag(FileKind?.none)
+                        ForEach(vm.largeFileKinds, id: \.kind) { entry in
+                            Text("\(entry.kind.displayName) (\(entry.count))").tag(FileKind?.some(entry.kind))
+                        }
+                    }
+                    .labelsHidden()
+                    .pickerStyle(.menu)
+                    .frame(maxWidth: 200)
+
+                    Spacer()
+
+                    Text("\(vm.filteredLargeFiles.count) files · \(Format.size(vm.filteredLargeFiles.reduce(0) { $0 + $1.size }))")
+                        .font(.caption).foregroundStyle(.secondary)
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
             }
         }
         .padding()

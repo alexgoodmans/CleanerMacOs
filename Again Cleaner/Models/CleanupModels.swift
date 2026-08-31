@@ -119,6 +119,8 @@ struct LargeFile: Identifiable, Hashable {
 
     var name: String { url.lastPathComponent }
     var path: String { url.path }
+    var kind: FileKind { FileKind.of(url) }
+    var owner: String? { FileAttribution.owner(for: url) }
 }
 
 /// Snapshot of the boot volume's capacity.

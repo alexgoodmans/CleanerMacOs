@@ -35,7 +35,23 @@ final class CleanerViewModel: ObservableObject {
     @Published var largeFiles: [LargeFile] = []
     @Published var isScanningFiles = false
     @Published var largeFileThresholdMB: Double = 500
+    @Published var largeFileKind: FileKind? = nil     // nil = all types
     private var largeScanToken = CancelToken()
+
+    /// Large files after applying the type filter, largest first.
+    var filteredLargeFiles: [LargeFile] {
+        guard let kind = largeFileKind else { return largeFiles }
+        return largeFiles.filter { $0.kind == kind }
+    }
+
+    /// Type filters that actually appear in the current results (with counts).
+    var largeFileKinds: [(kind: FileKind, count: Int)] {
+        let groups = Dictionary(grouping: largeFiles, by: \.kind)
+        return FileKind.allCases.compactMap { k in
+            let c = groups[k]?.count ?? 0
+            return c > 0 ? (k, c) : nil
+        }
+    }
 
     // Cleaning
     @Published var moveToTrash = true
