@@ -2,20 +2,21 @@
 //  SmartScanView.swift
 //  Again Cleaner
 //
-//  The new analyzer screen. Shows every candidate grouped by risk with what it
-//  is and what happens after removal. Smart Clean removes only safe +
-//  regeneratable items; everything riskier is opt-in. After cleaning it reports
-//  the REAL recovered space, not the summed file size.
+//  Analyzer screen: candidates grouped by category, classified by the 5-level
+//  safety scale. Smart Clean auto-selects only Safe + Usually Safe. Review
+//  Required is never folded into the green "safe cleanup" number.
 //
 
 import SwiftUI
 
 struct SmartScanView: View {
     @ObservedObject var vm: SmartScanModel
+    @State private var confirmClean = false
 
     var body: some View {
         VStack(spacing: 0) {
             header
+            if vm.hasScanned || vm.isScanning { summaryBar }
             if !vm.runningBlockers.isEmpty { runningAppsBanner }
             Divider()
             content
@@ -23,6 +24,14 @@ struct SmartScanView: View {
             actionBar
         }
         .navigationTitle("Smart Scan")
+        .sheet(isPresented: $confirmClean) {
+            CleanupPreviewSheet(vm: vm) {
+                confirmClean = false
+                Task { await vm.cleanSelected() }
+            } cancel: {
+                confirmClean = false
+            }
+        }
     }
 
     // MARK: - Header
@@ -55,6 +64,23 @@ struct SmartScanView: View {
         .padding()
     }
 
+    private var summaryBar: some View {
+        HStack(spacing: 12) {
+            SummaryChip(title: String(localized: "Scanned"),
+                        value: Format.size(vm.totalFound), tint: .secondary)
+            SummaryChip(title: String(localized: "Safe to clean"),
+                        value: Format.size(vm.safeBytes), tint: .green)
+            SummaryChip(title: String(localized: "Review required"),
+                        value: Format.size(vm.reviewBytes), tint: .orange)
+            SummaryChip(title: String(localized: "Selected"),
+                        value: Format.size(vm.selectedBytes), tint: .accentColor)
+            SummaryChip(title: String(localized: "Est. free after"),
+                        value: Format.size(vm.estimatedFreeAfter), tint: .teal)
+        }
+        .padding(.horizontal)
+        .padding(.bottom, 8)
+    }
+
     private var runningAppsBanner: some View {
         HStack(spacing: 10) {
             Image(systemName: "exclamationmark.triangle.fill").foregroundStyle(.orange)
@@ -84,14 +110,13 @@ struct SmartScanView: View {
         } else {
             List {
                 if let report = vm.lastReport { reportRow(report) }
-                ForEach(vm.groups, id: \.risk) { group in
+                ForEach(vm.categoryGroups, id: \.category) { group in
                     SwiftUI.Section {
                         ForEach(group.items) { item in
                             CandidateRow(item: item, vm: vm)
                         }
                     } header: {
-                        riskHeader(group.risk, count: group.items.count,
-                                   size: vm.size(of: group.risk))
+                        categoryHeader(group.category, items: group.items)
                     }
                 }
             }
@@ -104,7 +129,7 @@ struct SmartScanView: View {
             Spacer()
             Image(systemName: "wand.and.stars").font(.system(size: 44)).foregroundStyle(.tint)
             Text("Scan your Mac").font(.title3).bold()
-            Text("Find caches, build artifacts, Docker build cache and more —\nclassified by how safe they are to remove.")
+            Text("Find caches, build artifacts, SDKs, models and more —\nclassified by how safe they are to remove. Large is not junk.")
                 .font(.callout).foregroundStyle(.secondary).multilineTextAlignment(.center)
             Button { Task { await vm.scan() } } label: {
                 Label("Scan", systemImage: "sparkles.rectangle.stack")
@@ -115,13 +140,38 @@ struct SmartScanView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 
-    private func riskHeader(_ risk: CleanupRisk, count: Int, size: Int64) -> some View {
-        HStack {
-            Circle().fill(risk.tint).frame(width: 8, height: 8)
-            Text(risk.label).font(.subheadline).bold()
-            Text("· \(count)").foregroundStyle(.secondary)
+    private func categoryHeader(_ category: ScanCategory, items: [CleanupCandidate]) -> some View {
+        let tick = vm.groupTick(for: items)
+        let selectable = vm.selectableItems(in: items)
+        return HStack(spacing: 8) {
+            Button {
+                vm.toggleGroup(items)
+            } label: {
+                Image(systemName: tick.symbol)
+                    .font(.title3)
+                    .foregroundStyle(tick == .none ? Color.secondary : Color.accentColor)
+            }
+            .buttonStyle(.plain)
+            .disabled(selectable.isEmpty)
+            .help(selectable.isEmpty
+                  ? String(localized: "Nothing in this group can be selected")
+                  : String(localized: "Select or deselect the whole group"))
+
+            Image(systemName: category.systemImage)
+            Text(category.title).font(.subheadline).bold()
+            Text("· \(items.count)").foregroundStyle(.secondary)
+            if !selectable.isEmpty {
+                Text("· \(selectable.filter { vm.isSelected($0) }.count)/\(selectable.count)")
+                    .foregroundStyle(.secondary)
+            }
             Spacer()
-            Text(Format.size(size)).font(.subheadline.monospacedDigit()).foregroundStyle(.secondary)
+            Text(Format.size(items.reduce(0) { $0 + $1.size }))
+                .font(.subheadline.monospacedDigit()).foregroundStyle(.secondary)
+        }
+        .contentShape(Rectangle())
+        .onTapGesture {
+            guard !selectable.isEmpty else { return }
+            vm.toggleGroup(items)
         }
     }
 
@@ -160,19 +210,21 @@ struct SmartScanView: View {
 
             if vm.hasScanned && !vm.presetMatches.isEmpty {
                 Button {
-                    Task { await vm.quickClean() }
+                    vm.applyPreset()
+                    confirmClean = true
                 } label: {
                     Label("Quick Clean · \(Format.size(vm.presetBytes))", systemImage: "bolt.fill")
                 }
-                .help("Clean the same categories you cleaned last time")
+                .help("Select the same categories you cleaned last time — you'll still review before anything is removed")
                 .disabled(vm.isCleaning)
             }
 
             Button("Select Safe") { vm.selectSmart() }
                 .disabled(vm.candidates.isEmpty)
+                .help("Select only Safe and Usually Safe items")
 
             Button {
-                Task { await vm.cleanSelected() }
+                confirmClean = true
             } label: {
                 if vm.isCleaning {
                     ProgressView().controlSize(.small)
@@ -187,6 +239,135 @@ struct SmartScanView: View {
     }
 }
 
+private struct SummaryChip: View {
+    let title: String
+    let value: String
+    let tint: Color
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 2) {
+            Text(title).font(.caption2).foregroundStyle(.secondary)
+            Text(value).font(.callout.bold().monospacedDigit()).foregroundStyle(tint)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(8)
+        .background(.quaternary.opacity(0.35), in: RoundedRectangle(cornerRadius: 8))
+    }
+}
+
+// MARK: - Confirmation
+
+private struct CleanupPreviewSheet: View {
+    @ObservedObject var vm: SmartScanModel
+    let confirm: () -> Void
+    let cancel: () -> Void
+
+    private var safeOnly: [CleanupCandidate] {
+        vm.selectedItems().filter { $0.risk == .safe }
+    }
+    private var usuallySafe: [CleanupCandidate] {
+        vm.selectedItems().filter { $0.risk == .usuallySafe }
+    }
+    private var reviewItems: [CleanupCandidate] {
+        vm.selectedItems().filter { $0.risk == .reviewRequired }
+    }
+    private var destructive: [CleanupCandidate] {
+        vm.selectedItems().filter { !$0.isRegenerable }
+    }
+    /// Anything riskier than the confirmed-disposable tier — worth a second look.
+    private var nonSafeItems: [CleanupCandidate] {
+        vm.selectedItems().filter { $0.risk != .safe }.sorted { $0.size > $1.size }
+    }
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            Text("Confirm cleanup").font(.title2).bold()
+            Text("This is not all junk. Review the mix before continuing.")
+                .font(.callout).foregroundStyle(.secondary)
+
+            Grid(alignment: .leading, horizontalSpacing: 16, verticalSpacing: 8) {
+                row(String(localized: "Items"), "\(vm.selected.count)")
+                row(String(localized: "Reclaimable"), Format.size(vm.selectedBytes))
+                row(String(localized: "Safe"), Format.size(safeOnly.reduce(0) { $0 + $1.reclaimableBytes }))
+                row(String(localized: "Usually safe"), Format.size(usuallySafe.reduce(0) { $0 + $1.reclaimableBytes }))
+                row(String(localized: "Review required"), Format.size(vm.selectedReviewBytes))
+            }
+
+            if !usuallySafe.isEmpty {
+                Label("\(usuallySafe.count) “usually safe” item(s) selected — regenerable for MOST apps, but this is a heuristic guess about where a file lives, not a guarantee about what's inside it. Check the list below.",
+                      systemImage: "questionmark.circle.fill")
+                    .foregroundStyle(.teal)
+                    .font(.callout)
+            }
+            if !reviewItems.isEmpty {
+                Label("\(reviewItems.count) review-required item(s) are selected. These may be SDKs, AVDs, volumes, models or documents — not cache.",
+                      systemImage: "exclamationmark.triangle.fill")
+                    .foregroundStyle(.orange)
+                    .font(.callout)
+            }
+            if !destructive.isEmpty {
+                Label("\(destructive.count) selected item(s) are not regenerable.",
+                      systemImage: "xmark.shield")
+                    .font(.callout)
+            }
+            let apps = RunningAppGuard.blockingApps(for: vm.selectedItems())
+            if !apps.isEmpty {
+                Label("Quit first: \(apps.joined(separator: ", "))",
+                      systemImage: "app.badge.checkmark")
+                    .font(.callout)
+            }
+
+            if !nonSafeItems.isEmpty {
+                Text("What will be removed (beyond confirmed-safe):")
+                    .font(.caption).bold().foregroundStyle(.secondary)
+                ScrollView {
+                    VStack(alignment: .leading, spacing: 6) {
+                        ForEach(nonSafeItems) { item in
+                            HStack(alignment: .top, spacing: 8) {
+                                Text(item.risk.label)
+                                    .font(.caption2).bold()
+                                    .padding(.horizontal, 5).padding(.vertical, 1)
+                                    .background(item.risk.tint.opacity(0.18), in: Capsule())
+                                    .foregroundStyle(item.risk.tint)
+                                VStack(alignment: .leading, spacing: 1) {
+                                    Text(item.name).font(.caption).lineLimit(1)
+                                    if let path = item.path {
+                                        Text(path.path).font(.caption2.monospaced())
+                                            .foregroundStyle(.tertiary).lineLimit(1).truncationMode(.middle)
+                                    }
+                                }
+                                Spacer()
+                                Text(Format.size(item.reclaimableBytes))
+                                    .font(.caption2.monospacedDigit()).foregroundStyle(.secondary)
+                            }
+                        }
+                    }
+                }
+                .frame(maxHeight: 160)
+                .padding(8)
+                .background(.quaternary.opacity(0.25), in: RoundedRectangle(cornerRadius: 8))
+            }
+
+            HStack {
+                Spacer()
+                Button("Cancel", action: cancel)
+                Button(vm.moveToTrash ? "Move to Trash" : "Delete", action: confirm)
+                    .buttonStyle(.borderedProminent)
+                    .tint(!reviewItems.isEmpty ? .orange : .accentColor)
+            }
+        }
+        .padding(24)
+        .frame(minWidth: 480, idealWidth: 520)
+    }
+
+    private func row(_ k: String, _ v: String) -> some View {
+        GridRow {
+            Text(k).foregroundStyle(.secondary)
+            Text(v).bold()
+        }
+    }
+}
+
 // MARK: - Candidate row
 
 private struct CandidateRow: View {
@@ -195,7 +376,7 @@ private struct CandidateRow: View {
 
     var body: some View {
         HStack(alignment: .top, spacing: 10) {
-            if item.risk.isDeletable {
+            if item.canUserDelete {
                 Button {
                     vm.toggle(item)
                 } label: {
@@ -209,21 +390,31 @@ private struct CandidateRow: View {
 
             VStack(alignment: .leading, spacing: 2) {
                 HStack(spacing: 6) {
-                    Text(item.name).font(.body).lineLimit(1)
+                    Text(item.name).font(.body).lineLimit(1).truncationMode(.middle)
+                    Text(item.risk.label)
+                        .font(.caption2).bold()
+                        .padding(.horizontal, 6).padding(.vertical, 1)
+                        .background(item.risk.tint.opacity(0.18), in: Capsule())
+                        .foregroundStyle(item.risk.tint)
+                        .help(item.risk.detail)
                     Spacer()
-                    Text(Format.size(item.size))
+                    Text(Format.size(item.reclaimableBytes))
                         .font(.callout.monospacedDigit()).foregroundStyle(.secondary)
                 }
                 Text(item.explanation)
-                    .font(.caption).foregroundStyle(.secondary).lineLimit(2)
+                    .font(.caption).foregroundStyle(.secondary).lineLimit(3)
                 HStack(spacing: 4) {
                     Image(systemName: "arrow.right.circle").font(.caption2)
-                    Text(item.consequence).font(.caption2)
+                    Text(item.consequence).font(.caption2).lineLimit(2)
                 }
                 .foregroundStyle(item.risk.tint)
+                if item.confidence == .unknown || item.confidence == .low {
+                    Text(item.confidence.label).font(.caption2).foregroundStyle(.orange)
+                }
                 if let path = item.path {
                     Text(path.path)
-                        .font(.caption2.monospaced()).foregroundStyle(.tertiary).lineLimit(1)
+                        .font(.caption2.monospaced()).foregroundStyle(.tertiary)
+                        .lineLimit(1).truncationMode(.middle)
                 }
             }
 
@@ -239,6 +430,12 @@ private struct CandidateRow: View {
             }
 
             if item.path != nil {
+                Button { vm.ignore(item) } label: {
+                    Image(systemName: "eye.slash")
+                }
+                .buttonStyle(.borderless)
+                .help("Ignore this item")
+
                 Button { vm.reveal(item) } label: {
                     Image(systemName: "arrow.forward.square")
                 }

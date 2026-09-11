@@ -35,6 +35,15 @@ static func run() -> Int32 {
     try? FileManager.default.removeItem(atPath: link)
     check(PathGuard.verdict(for: u("/tmp/random")), blocked: true, "outside roots (/tmp)")
 
+    print("PARENT / CHILD:")
+    let homeURL = FileManager.default.homeDirectoryForCurrentUser
+    let cache = homeURL.appendingPathComponent("Library/Caches/com.test")
+    let nested = cache.appendingPathComponent("blob")
+    if PathGuard.isStrictChild(nested, of: cache) { pass += 1; print("  ✓ nested cache is child") }
+    else { fail += 1; print("  ✗ FAIL nested cache is child") }
+    if !PathGuard.isStrictChild(cache, of: nested) { pass += 1; print("  ✓ reverse child false") }
+    else { fail += 1; print("  ✗ FAIL reverse child false") }
+
     print("MUST BE ALLOWED:")
     for p in ["~/Library/Caches/com.test.app","~/Library/Logs/SomeApp","~/.gradle/caches",
               "~/go/pkg/mod","~/Downloads/old.zip","~/Projects/app/node_modules",
@@ -58,6 +67,27 @@ static func run() -> Int32 {
     }
     print("ROOT-ITSELF blocked:")
     check(PathGuard.verdict(for: u("~/Library/Caches")), blocked: true, "~/Library/Caches (root)")
+
+    print("CREDENTIALS / KEYS — regression for the real incident (must ALWAYS be blocked, at any depth):")
+    for p in [
+        "~/.ssh/id_rsa", "~/.ssh/id_ed25519", "~/.ssh/config",
+        "~/.gnupg/private-keys-v1.d/ABCDEF.key",
+        "~/.aws/credentials", "~/.aws/config",
+        "~/.kube/config", "~/.azure/accessTokens.json",
+        "~/.docker/config.json",
+        "~/.netrc", "~/.npmrc", "~/.git-credentials", "~/.pgpass",
+        // The actual gap: Keychains was blocked as a folder, not its CONTENTS.
+        "~/Library/Keychains/login.keychain-db",
+        "~/Library/Keychains/ABCDEF-1234/keychain-2.db",
+        // Even nested arbitrarily deep inside an otherwise-allowed cleanup root.
+        "~/Library/Caches/SomeVendor/.aws/credentials",
+        "~/.terraform.d/credentials.tfrc.json",
+        // Key/cert file extensions anywhere.
+        "~/Downloads/server.pem", "~/Downloads/release.keystore",
+        "~/Desktop/backup.p12", "~/Projects/app/private.key",
+    ] {
+        check(PathGuard.verdict(for: u(p)), blocked: true, p)
+    }
 
     print("\n\(pass) passed, \(fail) failed")
     return fail == 0 ? 0 : 1

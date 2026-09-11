@@ -68,7 +68,7 @@ enum PathGuard {
             h + "/Library", h + "/.Trash",
             h + "/.gradle", h + "/.npm", h + "/.cursor", h + "/.espressif",
             h + "/.bun", h + "/.android", h + "/.nuget", h + "/.conan2",
-            h + "/go", h + "/Downloads", h + "/Desktop",
+            h + "/.vscode", h + "/go", h + "/Downloads", h + "/Desktop",
             h,                                    // build artifacts live anywhere in home
             "/Library/Caches", "/Library/Logs",
             "/private/var/tmp", "/private/var/folders",
@@ -76,9 +76,59 @@ enum PathGuard {
         ]
     }
 
+    // MARK: - Hard credential/key block (unconditional, checked before anything else)
+    //
+    // This is defense in depth against a scanner ever misclassifying a
+    // credential as junk: no risk level, no allow-list membership, and no
+    // future scanner bug can bypass this. It matches by path COMPONENT and
+    // file name, so it also catches files nested arbitrarily deep inside an
+    // otherwise-allowed root (e.g. the contents of ~/Library/Keychains, which
+    // the exact-path deny-list above does not reach).
+
+    /// Directory names that are never touched, anywhere they occur.
+    nonisolated static let sensitiveDirNames: Set<String> = [
+        ".ssh", ".gnupg", ".gnupg2", ".aws", ".kube", ".azure", ".docker",
+        ".terraform.d", ".vault", ".minikube", "Keychains", ".ssh-agent",
+        ".gcloud", ".config",
+    ]
+
+    /// Exact file names that are never touched, anywhere they occur.
+    nonisolated static let sensitiveFileNames: Set<String> = [
+        ".netrc", ".npmrc", ".yarnrc", ".pgpass", ".git-credentials",
+        "id_rsa", "id_ed25519", "id_ecdsa", "id_dsa", "authorized_keys",
+        "known_hosts", "credentials", "credentials.json",
+    ]
+
+    /// File-name suffixes that are never touched, anywhere they occur.
+    nonisolated static let sensitiveFileSuffixes: [String] = [
+        ".pem", ".key", ".p12", ".pfx", ".jks", ".keystore", ".ovpn",
+        ".kdbx", ".keychain", ".keychain-db", ".gpg", ".asc",
+    ]
+
+    /// nil when `url` is not credential-shaped; otherwise the reason it's blocked.
+    nonisolated static func sensitiveReason(for url: URL) -> String? {
+        for component in url.pathComponents where sensitiveDirNames.contains(component) {
+            return "refusing to touch a credentials/keys directory (\(component))"
+        }
+        let name = url.lastPathComponent
+        if sensitiveFileNames.contains(name) {
+            return "refusing to touch a credentials file (\(name))"
+        }
+        let lower = name.lowercased()
+        if sensitiveFileSuffixes.contains(where: { lower.hasSuffix($0) }) {
+            return "refusing to touch a key/credential file (\(name))"
+        }
+        return nil
+    }
+
     /// The verdict for deleting `url`. `.allowed` only when the canonical path
     /// is safe on every count.
     nonisolated static func verdict(for url: URL) -> Verdict {
+        // Unconditional first: nothing below can ever override this.
+        if let reason = sensitiveReason(for: url) {
+            return .blocked(reason)
+        }
+
         let path = canonicalPath(url)
 
         if path == "/" { return .blocked("cannot remove the filesystem root") }
@@ -109,5 +159,12 @@ enum PathGuard {
     /// Convenience: throws-free bool.
     nonisolated static func isDeletable(_ url: URL) -> Bool {
         verdict(for: url).isAllowed
+    }
+
+    /// True when `child` is strictly inside `parent` after canonicalization.
+    nonisolated static func isStrictChild(_ child: URL, of parent: URL) -> Bool {
+        let c = canonicalPath(child)
+        let p = canonicalPath(parent)
+        return c != p && c.hasPrefix(p + "/")
     }
 }

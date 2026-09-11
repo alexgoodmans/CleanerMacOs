@@ -58,12 +58,28 @@ final class SmartScanModel: ObservableObject {
 
         let found = await coordinator.scanAll(
             isCancelled: { token.isCancelled },
-            onProgress: { [weak self] fraction in self?.progress = fraction }
+            onProgress: { [weak self] fraction in self?.progress = fraction },
+            onPartial: { [weak self] chunk in
+                guard let self else { return }
+                let ignored = IgnoreStore.paths()
+                let fresh = chunk.filter { c in
+                    guard let url = c.path else { return true }
+                    return !ignored.contains(PathGuard.canonicalPath(url))
+                }
+                self.candidates.append(contentsOf: fresh)
+            }
         )
 
-        candidates = found
-        // Pre-tick everything Smart Clean is allowed to remove automatically.
-        selected = Set(found.filter { CleanupSafetyPolicy.isSmartCleanEligible($0) }.map(\.id))
+        let ignored = IgnoreStore.paths()
+        candidates = found.filter { c in
+            guard let url = c.path else { return true }
+            return !ignored.contains(PathGuard.canonicalPath(url))
+        }
+        // Pre-tick ONLY the narrowest, least ambiguous tier (logs/trash). Never
+        // pre-select "usually safe" caches — a scanner heuristic guessing wrong
+        // here is exactly what has caused real data loss. Everything beyond
+        // `.safe` requires the user to look and opt in themselves.
+        selected = Set(candidates.filter { CleanupSafetyPolicy.isPreselected($0) }.map(\.id))
         isScanning = false
         hasScanned = true
     }
@@ -75,27 +91,94 @@ final class SmartScanModel: ObservableObject {
 
     // MARK: - Grouping
 
-    /// Candidates grouped by risk, in risk order, each group size-sorted.
-    var groups: [(risk: CleanupRisk, items: [CleanupCandidate])] {
-        CleanupRisk.allCases.compactMap { risk in
-            let items = candidates.filter { $0.risk == risk }.sorted { $0.size > $1.size }
-            return items.isEmpty ? nil : (risk, items)
-        }
+    /// Candidates grouped by category, largest category first.
+    var categoryGroups: [(category: ScanCategory, items: [CleanupCandidate])] {
+        let grouped = Dictionary(grouping: candidates, by: \.category)
+        return grouped.keys
+            .map { cat in (cat, grouped[cat]!.sorted { $0.size > $1.size }) }
+            .sorted { lhs, rhs in
+                lhs.items.reduce(Int64(0)) { $0 + $1.size } > rhs.items.reduce(0) { $0 + $1.size }
+            }
+    }
+
+    var safeBytes: Int64 {
+        candidates.filter { $0.contributesToTotals && $0.risk.isAutoSelectable }
+            .reduce(0) { $0 + $1.reclaimableBytes }
+    }
+
+    var reviewBytes: Int64 {
+        candidates.filter { $0.contributesToTotals && $0.risk == .reviewRequired }
+            .reduce(0) { $0 + $1.reclaimableBytes }
+    }
+
+    var selectedReviewBytes: Int64 { selectedBytes(for: .reviewRequired) }
+    var selectedSafeBytes: Int64 {
+        selectedBytes(for: .safe) + selectedBytes(for: .usuallySafe)
+    }
+
+    var estimatedFreeAfter: Int64 {
+        DiskSpace.snapshot().available + selectedItems().reduce(0) { $0 + $1.reclaimableBytes }
+    }
+
+    func ignore(_ c: CleanupCandidate) {
+        guard let url = c.path else { return }
+        IgnoreStore.ignore(url)
+        selected.remove(c.id)
+        candidates.removeAll { $0.id == c.id }
     }
 
     func size(of risk: CleanupRisk) -> Int64 {
         candidates.filter { $0.risk == risk }.reduce(0) { $0 + $1.size }
     }
 
-    var totalFound: Int64 { candidates.reduce(0) { $0 + $1.size } }
+    var totalFound: Int64 {
+        candidates.filter(\.contributesToTotals).reduce(0) { $0 + $1.size }
+    }
 
     // MARK: - Selection
 
     func isSelected(_ c: CleanupCandidate) -> Bool { selected.contains(c.id) }
 
     func toggle(_ c: CleanupCandidate) {
-        guard c.risk.isDeletable else { return }
+        guard c.canUserDelete else { return }
         if selected.contains(c.id) { selected.remove(c.id) } else { selected.insert(c.id) }
+    }
+
+    /// Items in a category group that the user is allowed to tick.
+    func selectableItems(in items: [CleanupCandidate]) -> [CleanupCandidate] {
+        items.filter(\.canUserDelete)
+    }
+
+    enum GroupTick: Equatable {
+        case none, partial, all
+
+        var symbol: String {
+            switch self {
+            case .none:    return "square"
+            case .partial: return "minus.square.fill"
+            case .all:     return "checkmark.square.fill"
+            }
+        }
+    }
+
+    func groupTick(for items: [CleanupCandidate]) -> GroupTick {
+        let ids = selectableItems(in: items).map(\.id)
+        guard !ids.isEmpty else { return .none }
+        let hit = ids.filter { selected.contains($0) }.count
+        if hit == 0 { return .none }
+        if hit == ids.count { return .all }
+        return .partial
+    }
+
+    /// Select every deletable item in the group, or clear the group if it is already fully selected.
+    func toggleGroup(_ items: [CleanupCandidate]) {
+        let ids = selectableItems(in: items).map(\.id)
+        guard !ids.isEmpty else { return }
+        if groupTick(for: items) == .all {
+            selected.subtract(ids)
+        } else {
+            selected.formUnion(ids)
+        }
     }
 
     /// Select only what Smart Clean may auto-remove (safe + regeneratable).
@@ -180,15 +263,13 @@ final class SmartScanModel: ObservableObject {
 
     var presetBytes: Int64 { presetMatches.reduce(0) { $0 + $1.size } }
 
-    /// Select exactly what the preset covers (from the current scan).
+    /// Select exactly what the preset covers (from the current scan). Cleaning
+    /// still requires the confirmation sheet — Quick Clean used to skip it and
+    /// clean immediately on a single click, which is exactly the kind of
+    /// no-review path that has caused real data loss. It no longer does that;
+    /// the UI must show the preview sheet after calling this.
     func applyPreset() {
         selected = Set(presetMatches.map(\.id))
-    }
-
-    /// One-click: select the preset and clean it.
-    func quickClean() async {
-        applyPreset()
-        await cleanSelected()
     }
 
     // MARK: - Large Applications: uninstall + leftovers

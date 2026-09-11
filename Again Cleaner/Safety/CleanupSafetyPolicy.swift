@@ -15,11 +15,11 @@ enum CleanupSafetyPolicy {
     /// Whether a candidate may be deleted right now, by the app.
     nonisolated static func verdict(for candidate: CleanupCandidate) -> PathGuard.Verdict {
         switch candidate.risk {
-        case .systemProtected:
-            return .blocked("system protected — shown for size only")
+        case .neverDeleteAutomatically:
+            return .blocked("never auto-delete — shown for size only")
         case .dangerous:
             return .blocked("dangerous — manual removal only")
-        case .safe, .regeneratable, .reviewRequired:
+        case .safe, .usuallySafe, .reviewRequired:
             break
         }
 
@@ -33,9 +33,17 @@ enum CleanupSafetyPolicy {
         return PathGuard.verdict(for: url)
     }
 
-    /// Smart Clean auto-selects only safe + regeneratable candidates whose path
-    /// also passes the guard.
+    /// Eligible for the explicit "Select Safe" action / Quick Clean preset —
+    /// both require the user to review the preview sheet before anything is
+    /// actually removed.
     nonisolated static func isSmartCleanEligible(_ candidate: CleanupCandidate) -> Bool {
         candidate.risk.isAutoSelectable && verdict(for: candidate).isAllowed
+    }
+
+    /// What gets ticked automatically the instant a scan finishes, with no
+    /// user action at all. Deliberately much narrower than `isSmartCleanEligible`
+    /// — only the least ambiguous risk tier, and still gated by PathGuard.
+    nonisolated static func isPreselected(_ candidate: CleanupCandidate) -> Bool {
+        candidate.risk.isPreselectedByDefault && verdict(for: candidate).isAllowed
     }
 }
