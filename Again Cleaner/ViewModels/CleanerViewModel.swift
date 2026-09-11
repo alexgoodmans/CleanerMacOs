@@ -93,7 +93,13 @@ final class CleanerViewModel: ObservableObject {
         if let items = itemsByCategory[category.id], let sel = itemSelected[category.id] {
             return items.filter { sel.contains($0.path) }.reduce(0) { $0 + $1.size }
         }
-        return results[category.id]?.size ?? 0
+        return scannedSize(for: category)
+    }
+
+    /// Size from the last scan — does not change when a row is expanded or when
+    /// individual files are ticked. Used for sort order so the table stays still.
+    func scannedSize(for category: JunkCategory) -> Int64 {
+        results[category.id]?.size ?? 0
     }
 
     /// Categories that exist on disk (size > 0 or still scanning), safest first.
@@ -126,6 +132,8 @@ final class CleanerViewModel: ObservableObject {
     @Published var junkSort: JunkSort = .default
 
     /// `visibleCategories` ordered by the current sort choice.
+    /// Size/favorite sorts use the *scanned* size, not the live ticked subset,
+    /// so expanding a row or unticking files does not reshuffle the table.
     var sortedVisibleCategories: [JunkCategory] {
         let cats = visibleCategories
         switch junkSort {
@@ -134,22 +142,33 @@ final class CleanerViewModel: ObservableObject {
         case .name:
             return cats.sorted { $0.title.localizedCaseInsensitiveCompare($1.title) == .orderedAscending }
         case .size:
-            return cats.sorted { reclaimable(for: $0) > reclaimable(for: $1) }
+            return cats.sorted { a, b in
+                let sa = scannedSize(for: a), sb = scannedSize(for: b)
+                if sa != sb { return sa > sb }
+                return a.title.localizedCaseInsensitiveCompare(b.title) == .orderedAscending
+            }
         case .favorite:
-            // Favorited first, then by size within each group.
+            // Favorited first, then by scanned size within each group.
             return cats.sorted { a, b in
                 let fa = isFavorited(a), fb = isFavorited(b)
                 if fa != fb { return fa }
-                return reclaimable(for: a) > reclaimable(for: b)
+                let sa = scannedSize(for: a), sb = scannedSize(for: b)
+                if sa != sb { return sa > sb }
+                return a.title.localizedCaseInsensitiveCompare(b.title) == .orderedAscending
             }
         case .date:
             // Newest first; categories without a date sink to the bottom.
             return cats.sorted { a, b in
                 switch (results[a.id]?.modified, results[b.id]?.modified) {
-                case let (x?, y?): return x > y
+                case let (x?, y?):
+                    if x != y { return x > y }
+                    return a.title.localizedCaseInsensitiveCompare(b.title) == .orderedAscending
                 case (_?, nil):    return true
                 case (nil, _?):    return false
-                case (nil, nil):   return reclaimable(for: a) > reclaimable(for: b)
+                case (nil, nil):
+                    let sa = scannedSize(for: a), sb = scannedSize(for: b)
+                    if sa != sb { return sa > sb }
+                    return a.title.localizedCaseInsensitiveCompare(b.title) == .orderedAscending
                 }
             }
         }
@@ -202,9 +221,13 @@ final class CleanerViewModel: ObservableObject {
             }
             for await result in group {
                 results[result.id] = result
-                // Auto-select safe & caution categories that have content.
+                // Auto-select ONLY confirmed-safe categories (logs, trash).
+                // "Caution" categories are a heuristic guess about where a
+                // folder lives, not a guarantee about what's inside it — an
+                // incident where that guess was wrong showed pre-ticking them
+                // silently is not acceptable. The user must opt in themselves.
                 if let cat = cats.first(where: { $0.id == result.id }),
-                   cat.safety <= .caution, result.size > 0 {
+                   cat.safety == .safe, result.size > 0 {
                     selected.insert(result.id)
                 }
                 done += 1

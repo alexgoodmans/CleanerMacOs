@@ -73,21 +73,12 @@ struct OverviewView: View {
             .padding(24)
         }
         .navigationTitle("Overview")
-        .confirmationDialog(
-            "Clean \(Format.size(vm.selectedReclaimable))?",
-            isPresented: $confirmClean,
-            titleVisibility: .visible
-        ) {
-            Button(vm.moveToTrash ? "Move to Trash" : "Delete Permanently",
-                   role: .destructive) {
+        .sheet(isPresented: $confirmClean) {
+            JunkCleanupPreviewSheet(vm: vm) {
+                confirmClean = false
                 Task { await vm.cleanSelected() }
-            }
-            Button("Cancel", role: .cancel) {}
-        } message: {
-            if vm.moveToTrash {
-                Text("Selected items will be moved to the Trash where you can recover them.")
-            } else {
-                Text("Selected items will be permanently deleted and cannot be recovered.")
+            } cancel: {
+                confirmClean = false
             }
         }
     }

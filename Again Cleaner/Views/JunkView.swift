@@ -18,44 +18,39 @@ struct JunkView: View {
             } else {
                 List {
                     ForEach(vm.sortedVisibleCategories) { cat in
-                        JunkRow(
-                            category: cat,
-                            size: vm.reclaimable(for: cat),
-                            isScanning: vm.results[cat.id]?.isScanning ?? false,
-                            itemCount: vm.results[cat.id]?.itemCount ?? 0,
-                            isSelected: vm.selected.contains(cat.id),
-                            isExpanded: vm.expanded.contains(cat.id),
-                            isFavorited: vm.isFavorited(cat),
-                            toggle: { vm.toggleCategory(cat) },
-                            toggleExpand: { Task { await vm.toggleExpand(cat) } },
-                            toggleFavorite: { vm.toggleFavorite(cat) }
-                        )
-                        if vm.expanded.contains(cat.id) {
-                            CategoryItemsList(vm: vm, categoryID: cat.id)
+                        VStack(alignment: .leading, spacing: 0) {
+                            JunkRow(
+                                category: cat,
+                                size: vm.reclaimable(for: cat),
+                                isScanning: vm.results[cat.id]?.isScanning ?? false,
+                                itemCount: vm.results[cat.id]?.itemCount ?? 0,
+                                isSelected: vm.selected.contains(cat.id),
+                                isExpanded: vm.expanded.contains(cat.id),
+                                isFavorited: vm.isFavorited(cat),
+                                toggle: { vm.toggleCategory(cat) },
+                                toggleExpand: { Task { await vm.toggleExpand(cat) } },
+                                toggleFavorite: { vm.toggleFavorite(cat) }
+                            )
+                            if vm.expanded.contains(cat.id) {
+                                CategoryItemsList(vm: vm, categoryID: cat.id)
+                            }
                         }
                     }
                 }
                 .listStyle(.inset)
+                .animation(nil, value: vm.expanded)
+                .animation(nil, value: vm.junkSort)
             }
 
             footer
         }
         .navigationTitle("Junk Cleanup")
-        .confirmationDialog(
-            "Clean \(Format.size(vm.selectedReclaimable))?",
-            isPresented: $confirmClean,
-            titleVisibility: .visible
-        ) {
-            Button(vm.moveToTrash ? "Move to Trash" : "Delete Permanently",
-                   role: .destructive) {
+        .sheet(isPresented: $confirmClean) {
+            JunkCleanupPreviewSheet(vm: vm) {
+                confirmClean = false
                 Task { await vm.cleanSelected() }
-            }
-            Button("Cancel", role: .cancel) {}
-        } message: {
-            if vm.moveToTrash {
-                Text("Selected items will be moved to the Trash where you can recover them.")
-            } else {
-                Text("Selected items will be permanently deleted and cannot be recovered.")
+            } cancel: {
+                confirmClean = false
             }
         }
         .overlay(alignment: .bottom) {
