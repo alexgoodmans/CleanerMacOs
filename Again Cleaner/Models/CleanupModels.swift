@@ -92,10 +92,10 @@ struct CategoryScanResult: Identifiable {
 /// One concrete item that a category would remove — shown when a row is
 /// expanded so the user can see exactly what will go.
 struct TargetItem: Identifiable, Hashable {
-    let id = UUID()
     let url: URL
     let size: Int64
     let isDirectory: Bool
+    var id: String { path }
     var name: String { url.lastPathComponent }
     var path: String { url.path }
     var parentPath: String { url.deletingLastPathComponent().path }

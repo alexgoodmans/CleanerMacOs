@@ -66,7 +66,7 @@ nonisolated struct BrowserScanner: CleanupScanner {
             // Whole HTTP cache dir (~/Library/Caches/<vendor>).
             let cacheDir = Self.caches().appendingPathComponent(browser.cachesRel)
             if let c = await candidate(cacheDir, scannerID: "browser:\(browser.name):httpcache",
-                name: "\(browser.name) HTTP cache", risk: .regeneratable,
+                name: "\(browser.name) HTTP cache", risk: .usuallySafe,
                 explanation: String(localized: "\(browser.name)'s on-disk web cache."),
                 consequence: String(localized: "Cleared; pages re-download as you browse."),
                 ctx: ctx) { out.append(c) }
@@ -95,7 +95,7 @@ nonisolated struct BrowserScanner: CleanupScanner {
         for sub in ChromiumStorage.cacheSubdirs {
             if let c = await candidate(profile.appendingPathComponent(sub),
                 scannerID: "browser:\(tag):cache:\(sub)",
-                name: "\(tag) · \(sub)", risk: .regeneratable,
+                name: "\(tag) · \(sub)", risk: .usuallySafe,
                 explanation: String(localized: "\(browser.name) cache data."),
                 consequence: String(localized: "Cleared; regenerated automatically."),
                 ctx: ctx) { out.append(c) }

@@ -10,7 +10,10 @@ set -euo pipefail
 cd "$(dirname "$0")"
 
 SRC="../Again Cleaner"
-TMP="$(mktemp -d)"
+TMP="$(pwd)/.test-build"
+rm -rf "$TMP"
+mkdir -p "$TMP"
+export TMPDIR="$TMP"
 fails=0
 
 echo "▶︎ PathGuard safety tests"
@@ -29,6 +32,37 @@ xcrun swiftc -swift-version 6 \
     "$SRC/Services/VersionOrdering.swift" \
     AnalyzerParsingTests.swift -o "$TMP/analyzer"
 "$TMP/analyzer" || fails=$((fails+1))
+
+echo ""
+echo "▶︎ Detector logic tests (extensions, artifacts, Android, AI, risk)"
+xcrun swiftc -swift-version 6 \
+    "$SRC/Services/VersionOrdering.swift" \
+    "$SRC/Services/EditorExtensionParsing.swift" \
+    "$SRC/Services/ProjectRootDetector.swift" \
+    "$SRC/Services/AndroidSDKParsing.swift" \
+    "$SRC/Services/AIModelDetection.swift" \
+    "$SRC/Models/ScanCategory.swift" \
+    "$SRC/Models/CleanupModels.swift" \
+    "$SRC/Models/CleanupCandidate.swift" \
+    "$SRC/Services/FileKind.swift" \
+    "$SRC/Services/FileAttribution.swift" \
+    -framework SwiftUI \
+    DetectorLogicTests.swift -o "$TMP/detector"
+"$TMP/detector" || fails=$((fails+1))
+
+echo ""
+echo "▶︎ Filesystem safety tests (artifacts, symlinks, parent paths)"
+xcrun swiftc -swift-version 6 \
+    "$SRC/Safety/PathGuard.swift" \
+    "$SRC/Services/ProjectRootDetector.swift" \
+    "$SRC/Services/EditorExtensionParsing.swift" \
+    "$SRC/Services/VersionOrdering.swift" \
+    "$SRC/Services/FileSystemEngine.swift" \
+    "$SRC/Models/CleanupModels.swift" \
+    "$SRC/Services/FileKind.swift" \
+    "$SRC/Services/FileAttribution.swift" \
+    FilesystemSafetyTests.swift -o "$TMP/fs"
+"$TMP/fs" || fails=$((fails+1))
 
 echo ""
 echo "▶︎ Leftover matching tests"

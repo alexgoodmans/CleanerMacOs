@@ -64,7 +64,7 @@ struct CategoryItemsList: View {
                     .padding(.leading, 46).padding(.vertical, 2)
             } else {
                 selectAllBar(count: items.count)
-                ForEach(items.prefix(100)) { item in
+                ForEach(items.prefix(100), id: \.path) { item in
                     row(item)
                 }
                 if items.count > 100 {

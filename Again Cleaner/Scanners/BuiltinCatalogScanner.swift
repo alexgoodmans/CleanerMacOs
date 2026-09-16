@@ -15,11 +15,21 @@ nonisolated struct BuiltinCatalogScanner: CleanupScanner {
     let id = "builtin-catalog"
     let displayName = "General Cleanup"
 
+    /// Categories now owned by dedicated scanners (richer breakdown).
+    private static let coveredByDedicatedScanner: Set<String> = [
+        "user-logs", "gradle", "xcode-derived", "xcode-archives",
+        "xcode-devicesupport", "ios-simulators", "xcode-devicelogs",
+        "cursor", "vscode", "node-modules", "build-dirs",
+        "downloads-old", "android-cache", "appsupport-large",
+    ]
+
     func scan(_ ctx: ScanContext) async -> [CleanupCandidate] {
         var out: [CleanupCandidate] = []
 
         for category in CleanupCatalog.all {
             if ctx.isCancelled() { break }
+            if Self.coveredByDedicatedScanner.contains(category.id) { continue }
+            if category.id.hasPrefix("cache:") { continue }
             let risk = category.safety.risk
             let targets = FileSystemEngine.existingTargets(for: category.rule)
 
@@ -48,14 +58,14 @@ nonisolated struct BuiltinCatalogScanner: CleanupScanner {
         switch risk {
         case .safe:
             return String(localized: "Removed permanently — no effect on your work.")
-        case .regeneratable:
+        case .usuallySafe:
             return String(localized: "The app or tool will recreate or re-download it as needed.")
         case .reviewRequired:
             return String(localized: "May contain data you want to keep — review before removing.")
         case .dangerous:
             return String(localized: "Could remove important data — manual action only.")
-        case .systemProtected:
-            return String(localized: "Protected by the system — shown for size only.")
+        case .neverDeleteAutomatically:
+            return String(localized: "Shown for size only — Again Cleaner will not delete this automatically.")
         }
     }
 

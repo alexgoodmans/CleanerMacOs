@@ -63,10 +63,10 @@ nonisolated struct ArduinoScanner: CleanupScanner {
                         scannerID: "arduino:core:\(label)",
                         name: label,
                         path: vdir, size: size,
-                        risk: isOld ? .reviewRequired : .systemProtected,
+                        risk: isOld ? .reviewRequired : .neverDeleteAutomatically,
                         explanation: isOld
-                            ? String(localized: "Old SDK core version — a newer one is installed.")
-                            : String(localized: "Current SDK core version — in use by your boards."),
+                            ? String(localized: "Old SDK core version — a newer one is installed. Removing it uninstalls this board platform version only.")
+                            : String(localized: "Current SDK core version — in use by your boards. ESP32 and similar cores include compilers, GDB and chip libraries; they are not cache."),
                         consequence: isOld
                             ? String(localized: "Review: keep if any project still targets this version.")
                             : String(localized: "Protected — removing would break builds for this board."),
@@ -83,7 +83,7 @@ nonisolated struct ArduinoScanner: CleanupScanner {
                     out.append(CleanupCandidate(
                         scannerID: "arduino:tools:\(vendor.lastPathComponent)",
                         name: "\(vendor.lastPathComponent) toolchains",
-                        path: tools, size: size, risk: .systemProtected,
+                        path: tools, size: size, risk: .neverDeleteAutomatically,
                         explanation: String(localized: "Compilers, gdb, OpenOCD and libraries used by the installed cores."),
                         consequence: String(localized: "Protected — the current core may depend on these."),
                         method: .manualOnly

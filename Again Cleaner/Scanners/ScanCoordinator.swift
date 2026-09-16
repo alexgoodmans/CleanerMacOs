@@ -16,10 +16,23 @@ nonisolated struct ScanCoordinator: Sendable {
     static var standard: ScanCoordinator {
         ScanCoordinator(scanners: [
             BuiltinCatalogScanner(),
+            CacheScanner(),
+            LogScanner(),
+            DeveloperJunkScanner(),
+            XcodeScanner(),
             DeviceSupportScanner(),
+            GradleScanner(),
+            AndroidScanner(),
             CursorScanner(),
+            EditorExtensionScanner(),
             ArduinoScanner(),
             ApplicationScanner(),
+            ContainerScanner(),
+            AIModelScanner(),
+            SystemCacheScanner(),
+            PythonScanner(),
+            DownloadsScanner(),
+            LargeDirectoryScanner(),
             APFSSnapshotScanner(),
             BrowserScanner(),
             LeftoverScanner(),
@@ -29,10 +42,13 @@ nonisolated struct ScanCoordinator: Sendable {
     }
 
     /// Scan every available scanner concurrently. `onProgress` is called on the
-    /// main actor after each scanner completes (fraction 0…1).
+    /// main actor after each scanner completes (fraction 0…1). `onPartial`
+    /// streams candidates so the UI can fill in without waiting for the last
+    /// scanner.
     func scanAll(
         isCancelled: @Sendable @escaping () -> Bool = { false },
-        onProgress: @MainActor @Sendable @escaping (Double) -> Void = { _ in }
+        onProgress: @MainActor @Sendable @escaping (Double) -> Void = { _ in },
+        onPartial: @MainActor @Sendable @escaping ([CleanupCandidate]) -> Void = { _ in }
     ) async -> [CleanupCandidate] {
         let active = scanners.filter { $0.isAvailable() }
         guard !active.isEmpty else { return [] }
@@ -55,6 +71,7 @@ nonisolated struct ScanCoordinator: Sendable {
                 done += 1
                 let fraction = Double(done) / Double(total)
                 await onProgress(fraction)
+                await onPartial(candidates)
             }
             return Self.dedupe(all, owners: ownedPrefixes()).sorted { $0.size > $1.size }
         }

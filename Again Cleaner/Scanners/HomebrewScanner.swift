@@ -26,7 +26,7 @@ nonisolated struct HomebrewScanner: CleanupScanner {
         return [CleanupCandidate(
             scannerID: "homebrew:cleanup",
             name: String(localized: "Homebrew Cleanup"),
-            path: nil, size: freeable, risk: .regeneratable,
+            path: nil, size: freeable, risk: .usuallySafe,
             explanation: String(localized: "Old formula versions and cached downloads Homebrew no longer needs."),
             consequence: String(localized: "Runs `brew cleanup`. Installed packages keep working."),
             method: .homebrewCleanup

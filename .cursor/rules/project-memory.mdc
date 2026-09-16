@@ -1,0 +1,23 @@
+---
+description: Again Cleaner project memory — architecture, safety, scanners
+alwaysApply: true
+---
+
+# Project memory
+
+Before changing this repo, load context from `docs/memory/`:
+
+- Architecture & dual pipelines → `docs/memory/architecture.md`
+- Scanner protocol / contracts → `docs/memory/protocols.md`
+- Deletion safety → `docs/memory/safety.md`
+- Conventions → `docs/memory/conventions.md`
+
+Short brief: `AGENTS.md`.
+
+## Non-negotiables
+
+- Every filesystem delete goes through `PathGuard` / `CleanupSafetyPolicy`.
+- Smart Scan scanners implement `CleanupScanner` and register in `ScanCoordinator.standard`.
+- Do not auto-select risky / dangerous / never-auto candidates.
+- Prefer Trash (`moveToTrash`); refuse project-root deletes.
+- After safety/detector edits run `./tests/run.sh`.

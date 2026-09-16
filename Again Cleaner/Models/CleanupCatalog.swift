@@ -374,7 +374,7 @@ nonisolated enum CleanupCatalog {
                     ".mypy_cache", ".ruff_cache",
                     ".next", ".nuxt", ".turbo", ".parcel-cache", ".angular",
                     "_build", ".dart_tool", ".build", "Pods", "DerivedData",
-                    "bin", "obj", "cmake-build-*",
+                    "bin", "obj", "cmake-build-*", ".cxx", ".gradle",
                 ])
             ),
         ]

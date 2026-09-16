@@ -11,7 +11,8 @@ xcuserdata/
 node_modules/
 dist/
 
-# Secrets — never commit keys or env files
+# Test build artifacts
+tests/.test-build/
 *.p8
 .env
 .env.*

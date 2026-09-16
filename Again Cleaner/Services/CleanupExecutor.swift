@@ -34,6 +34,11 @@ nonisolated struct CleanupExecutor: Sendable {
         let before = DiskSpace.snapshot()
         var report = CleanupReport(before: before, after: before)
 
+        let filesystemURLs = candidates.compactMap { c -> URL? in
+            guard c.method == .filesystem else { return nil }
+            return c.path
+        }
+
         for candidate in candidates {
             // Gate: risk + PathGuard. Never trust the caller.
             let verdict = CleanupSafetyPolicy.verdict(for: candidate)
@@ -48,6 +53,24 @@ nonisolated struct CleanupExecutor: Sendable {
             case .filesystem:
                 guard let url = candidate.path else {
                     report.skipped.append((candidate.name, "no path"))
+                    continue
+                }
+                // Re-validate immediately before unlink (symlink retarget, race).
+                let now = PathGuard.verdict(for: url)
+                guard now.isAllowed else {
+                    if case let .blocked(reason) = now {
+                        report.skipped.append((candidate.name, reason))
+                    }
+                    continue
+                }
+                // Never delete a recognised project root (source lives here).
+                let listing = (try? FileManager.default.contentsOfDirectory(atPath: url.path)) ?? []
+                if ProjectRootDetector.isProjectRoot(contents: listing) {
+                    report.skipped.append((candidate.name, "refusing to delete a project root"))
+                    continue
+                }
+                // If a selected ancestor covers this path, skip the child.
+                if Self.hasSelectedAncestor(url, in: filesystemURLs) {
                     continue
                 }
                 let freed = FileSystemEngine.remove([url], toTrash: toTrash)
@@ -65,6 +88,27 @@ nonisolated struct CleanupExecutor: Sendable {
                     report.removedCount += 1
                 } else {
                     report.skipped.append((candidate.name, "docker builder prune failed"))
+                }
+
+            case .dockerImagePrune:
+                if await runTool(ProcessRunner.locate("docker"),
+                                 ["image", "prune", "-f"], timeout: .seconds(120)) {
+                    report.expectedBytes += candidate.size
+                    report.removedCount += 1
+                } else {
+                    report.skipped.append((candidate.name, "docker image prune failed"))
+                }
+
+            case .dockerVolumeRemove:
+                // Individual volumes stay opt-in via the Docker CLI so we never
+                // `rm -rf` a named volume's mount. The volume name is `name`.
+                let vol = candidate.subcategory ?? candidate.name
+                if await runTool(ProcessRunner.locate("docker"),
+                                 ["volume", "rm", vol], timeout: .seconds(60)) {
+                    report.expectedBytes += candidate.size
+                    report.removedCount += 1
+                } else {
+                    report.skipped.append((candidate.name, "docker volume rm failed"))
                 }
 
             case .homebrewCleanup:
@@ -88,8 +132,7 @@ nonisolated struct CleanupExecutor: Sendable {
                     report.skipped.append((candidate.name, "tmutil thinning failed (may require privileges)"))
                 }
 
-            case .dockerVolumeRemove, .manualOnly:
-                // Volumes and other destructive tool ops are user-driven only.
+            case .manualOnly:
                 report.skipped.append((candidate.name, "manual only"))
             }
         }
@@ -99,6 +142,11 @@ nonisolated struct CleanupExecutor: Sendable {
         try? await Task.sleep(for: .seconds(1))
         report.after = DiskSpace.snapshot()
         return report
+    }
+
+    /// True when another selected URL is a strict ancestor of `url`.
+    nonisolated static func hasSelectedAncestor(_ url: URL, in selected: [URL]) -> Bool {
+        selected.contains { PathGuard.isStrictChild(url, of: $0) }
     }
 
     /// Run a CLI cleanup tool; returns whether it exited successfully.

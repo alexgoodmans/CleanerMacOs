@@ -42,7 +42,7 @@ nonisolated struct ApplicationScanner: CleanupScanner {
                 out.append(CleanupCandidate(
                     scannerID: "app:\(bundleID)",
                     name: app.deletingPathExtension().lastPathComponent,
-                    path: app, size: size, risk: .systemProtected,
+                    path: app, size: size, risk: .neverDeleteAutomatically,
                     explanation: String(localized: "An installed application — not junk. Shown so you can see what uses space."),
                     consequence: String(localized: "Uninstall it (moves to Trash), then find its leftover files."),
                     method: .manualOnly

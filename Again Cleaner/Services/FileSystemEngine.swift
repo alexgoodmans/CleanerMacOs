@@ -42,7 +42,7 @@ struct FileSystemEngine {
         }
 
         var total: Int64 = 0
-        let keys: [URLResourceKey] = [.totalFileAllocatedSizeKey, .fileAllocatedSizeKey, .isRegularFileKey]
+        let keys: [URLResourceKey] = [.totalFileAllocatedSizeKey, .fileAllocatedSizeKey, .isRegularFileKey, .isSymbolicLinkKey, .isDirectoryKey]
         guard let enumerator = fm.enumerator(
             at: url,
             includingPropertiesForKeys: keys,
@@ -51,6 +51,11 @@ struct FileSystemEngine {
         ) else { return 0 }
 
         for case let fileURL as URL in enumerator {
+            let v = try? fileURL.resourceValues(forKeys: [.isSymbolicLinkKey, .isDirectoryKey])
+            if v?.isSymbolicLink == true {
+                if v?.isDirectory == true { enumerator.skipDescendants() }
+                continue
+            }
             total += allocatedSize(of: fileURL)
         }
         return total
@@ -194,32 +199,11 @@ struct FileSystemEngine {
 
     /// Folder names that are build artifacts wherever they appear — the name
     /// alone is proof enough.
-    nonisolated static let unambiguousArtifacts: Set<String> = [
-        "node_modules",      // JS/TS
-        "__pycache__",       // Python bytecode
-        ".venv", ".tox", ".pytest_cache", ".mypy_cache", ".ruff_cache", // Python
-        ".next", ".nuxt", ".turbo", ".parcel-cache", ".angular", // JS frameworks
-        "_build",            // Elixir / OCaml
-        ".dart_tool",        // Dart/Flutter
-        "Pods",              // CocoaPods (in-project)
-        "DerivedData",       // in-project Xcode data
-    ]
+    nonisolated static var unambiguousArtifacts: Set<String> { ProjectRootDetector.unambiguousArtifacts }
 
     /// Ambiguous folder names → marker files that must exist in the *parent*
     /// directory for the folder to count as a build artifact.
-    nonisolated static let artifactMarkers: [String: [String]] = [
-        "target": ["Cargo.toml"],                                   // Rust
-        "build": ["build.gradle", "build.gradle.kts", "settings.gradle",
-                  "settings.gradle.kts", "CMakeLists.txt", "package.json",
-                  "pubspec.yaml", "Makefile"],                      // Gradle/CMake/JS/Flutter/C
-        "dist": ["package.json", "pyproject.toml", "setup.py"],     // JS / Python
-        "out": ["package.json", "CMakeLists.txt"],                  // Next.js / CMake
-        "vendor": ["composer.json", "go.mod"],                      // PHP / Go
-        ".build": ["Package.swift"],                                // SwiftPM
-        "venv": [],                                                  // validated by pyvenv.cfg inside
-        "bin": [],                                                   // validated by *.csproj sibling
-        "obj": [],                                                   // validated by *.csproj sibling
-    ]
+    nonisolated static var artifactMarkers: [String: [String]] { ProjectRootDetector.artifactMarkers }
 
     /// Top-level home folders that never contain user projects — skipping them
     /// keeps the whole-home walk fast and avoids double-counting caches that
@@ -241,13 +225,18 @@ struct FileSystemEngine {
 
         guard let enumerator = fm.enumerator(
             at: root,
-            includingPropertiesForKeys: [.isDirectoryKey],
+            includingPropertiesForKeys: [.isDirectoryKey, .isSymbolicLinkKey],
             options: [],
             errorHandler: { _, _ in true }
         ) else { return [] }
 
         for case let url as URL in enumerator {
-            let isDir = (try? url.resourceValues(forKeys: [.isDirectoryKey]).isDirectory) ?? false
+            let rv = try? url.resourceValues(forKeys: [.isDirectoryKey, .isSymbolicLinkKey])
+            if rv?.isSymbolicLink == true {
+                enumerator.skipDescendants()
+                continue
+            }
+            let isDir = rv?.isDirectory ?? false
             guard isDir else { continue }
             let name = url.lastPathComponent
             let depth = url.pathComponents.count - rootDepth
@@ -270,35 +259,27 @@ struct FileSystemEngine {
         return matches
     }
 
+    private nonisolated static func listing(_ dir: URL, cache: inout [String: [String]]) -> [String] {
+        if let hit = cache[dir.path] { return hit }
+        let l = (try? fm.contentsOfDirectory(atPath: dir.path)) ?? []
+        cache[dir.path] = l
+        return l
+    }
+
     private nonisolated static func isValidArtifact(
         _ url: URL, name: String, parentListings: inout [String: [String]]
     ) -> Bool {
-        if unambiguousArtifacts.contains(name) || name.hasPrefix("cmake-build-") { return true }
-
-        // venv-style: pyvenv.cfg lives inside the folder itself.
-        if name == "venv" || name == ".venv" {
-            return fm.fileExists(atPath: url.appendingPathComponent("pyvenv.cfg").path)
-        }
-
         let parent = url.deletingLastPathComponent()
-
-        // .NET bin/obj: a *.csproj/fsproj/vbproj sibling must exist.
-        if name == "bin" || name == "obj" {
-            let listing = parentListings[parent.path] ?? {
-                let l = (try? fm.contentsOfDirectory(atPath: parent.path)) ?? []
-                parentListings[parent.path] = l
-                return l
-            }()
-            return listing.contains {
-                $0.hasSuffix(".csproj") || $0.hasSuffix(".fsproj") || $0.hasSuffix(".vbproj")
-            }
-        }
-
-        // Marker file in the parent proves the ecosystem.
-        guard let markers = artifactMarkers[name] else { return false }
-        return markers.contains {
-            fm.fileExists(atPath: parent.appendingPathComponent($0).path)
-        }
+        let grandparent = parent.deletingLastPathComponent()
+        let parentContents = listing(parent, cache: &parentListings)
+        let childContents = listing(url, cache: &parentListings)
+        let grandContents = listing(grandparent, cache: &parentListings)
+        return ProjectRootDetector.isValidArtifact(
+            name: name,
+            parentContents: parentContents,
+            childContents: childContents,
+            grandparentContents: grandContents
+        )
     }
 
     // MARK: - Deletion

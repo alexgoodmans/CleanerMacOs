@@ -54,11 +54,18 @@ actor DiskUsageService {
             counter += 1
             if counter & 0x3FF == 0, isCancelled() { break }   // check every 1024 items
 
+            let meta = try? file.resourceValues(forKeys: [
+                .volumeIdentifierKey, .isDirectoryKey, .isSymbolicLinkKey,
+            ])
+            if meta?.isSymbolicLink == true {
+                if meta?.isDirectory == true { e.skipDescendants() }
+                continue
+            }
+
             if let rootVolume,
-               let v = try? file.resourceValues(forKeys: [.volumeIdentifierKey, .isDirectoryKey]),
-               let vol = v.volumeIdentifier, !rootVolume.isEqual(vol) {
+               let vol = meta?.volumeIdentifier, !rootVolume.isEqual(vol) {
                 // Different volume: don't count it, and don't descend into it.
-                if v.isDirectory == true { e.skipDescendants() }
+                if meta?.isDirectory == true { e.skipDescendants() }
                 continue
             }
             total += Self.allocatedSize(of: file)
