@@ -18,6 +18,7 @@ struct DeepDiskView: View {
             quickRoots
             Divider()
             breadcrumbBar
+            if vm.children.count > 1 { Divider(); filterBar }
             Divider()
             content
         }
@@ -90,6 +91,25 @@ struct DeepDiskView: View {
         .padding(.horizontal).padding(.vertical, 6)
     }
 
+    private var filterBar: some View {
+        HStack(spacing: 16) {
+            Picker("Sort", selection: $vm.sortKey) {
+                ForEach(ScanSortKey.allCases) { key in
+                    Label(key.rawValue, systemImage: key.systemImage).tag(key)
+                }
+            }
+            .labelsHidden().pickerStyle(.menu).fixedSize()
+
+            SizeRangeSlider(bounds: vm.sizeBounds, selection: $vm.sizeFilter)
+                .frame(maxWidth: 260)
+
+            Spacer()
+            Text("\(vm.displayedChildren.count) of \(vm.children.count)")
+                .font(.caption).foregroundStyle(.secondary)
+        }
+        .padding(.horizontal).padding(.vertical, 8)
+    }
+
     // MARK: - Content
 
     @ViewBuilder private var content: some View {
@@ -97,7 +117,7 @@ struct DeepDiskView: View {
             ContentUnavailableView("Nothing to show", systemImage: "folder",
                                    description: Text("This folder is empty or unreadable."))
         } else {
-            List(vm.children) { child in
+            List(vm.displayedChildren) { child in
                 DiskChildRow(child: child, fraction: fraction(child), vm: vm)
             }
             .listStyle(.inset)

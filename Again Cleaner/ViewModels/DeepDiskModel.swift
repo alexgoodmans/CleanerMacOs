@@ -19,6 +19,9 @@ final class DeepDiskModel: ObservableObject {
     @Published private(set) var isLoading = false
     @Published private(set) var volume = DiskSpace.Snapshot(total: 0, available: 0)
 
+    @Published var sortKey: ScanSortKey = .size
+    @Published var sizeFilter: ClosedRange<Int64> = 0...0
+
     private let usage = DiskUsageService()
     private var token = CancelToken()
 
@@ -58,6 +61,26 @@ final class DeepDiskModel: ObservableObject {
 
     var largestChild: Int64 { children.first?.size ?? 0 }
 
+    /// The full size span of the current level — the range slider's travel limits.
+    var sizeBounds: ClosedRange<Int64> { SizeRangeSlider.bounds(for: children.map(\.size)) }
+
+    /// `children` narrowed by `sizeFilter` and ordered by `sortKey`.
+    var displayedChildren: [DiskChild] {
+        let filtered = sizeBounds.upperBound > sizeBounds.lowerBound
+            ? children.filter { sizeFilter.contains($0.size) }
+            : children
+        switch sortKey {
+        case .size:
+            return filtered.sorted { $0.size > $1.size }
+        case .name:
+            return filtered.sorted {
+                $0.url.lastPathComponent.localizedStandardCompare($1.url.lastPathComponent) == .orderedAscending
+            }
+        case .date:
+            return filtered.sorted { ($0.modified ?? .distantPast) > ($1.modified ?? .distantPast) }
+        }
+    }
+
     func load(_ url: URL) async {
         token.cancel()
         let token = CancelToken()
@@ -75,6 +98,9 @@ final class DeepDiskModel: ObservableObject {
         )
         guard !token.isCancelled else { isLoading = false; return }
         children = kids
+        // A new level was just loaded — start the range filter fully open so
+        // nothing is hidden until the user deliberately narrows it.
+        sizeFilter = SizeRangeSlider.bounds(for: kids.map(\.size))
         isLoading = false
     }
 

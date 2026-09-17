@@ -127,6 +127,16 @@ struct OverviewView: View {
             }
             .padding(.bottom, 8)
 
+            if vm.junkSizeBounds.upperBound > vm.junkSizeBounds.lowerBound {
+                HStack(spacing: 12) {
+                    Text("Filter by size").font(.caption).foregroundStyle(.secondary)
+                    SizeRangeSlider(bounds: vm.junkSizeBounds, selection: $vm.junkSizeFilter)
+                        .frame(maxWidth: 220)
+                    Spacer()
+                }
+                .padding(.bottom, 10)
+            }
+
             VStack(spacing: 0) {
                 ForEach(found) { cat in
                     FoundRow(

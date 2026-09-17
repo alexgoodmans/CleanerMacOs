@@ -15,6 +15,7 @@ nonisolated struct DiskChild: Identifiable, Sendable {
     let url: URL
     let size: Int64
     let isDirectory: Bool
+    let modified: Date?
 }
 
 actor DiskUsageService {
@@ -80,7 +81,7 @@ actor DiskUsageService {
         stayOnVolume: Bool = false,
         isCancelled: @Sendable () -> Bool = { false }
     ) async -> [DiskChild] {
-        let keys: [URLResourceKey] = [.isDirectoryKey, .isSymbolicLinkKey]
+        let keys: [URLResourceKey] = [.isDirectoryKey, .isSymbolicLinkKey, .contentModificationDateKey]
         guard let entries = try? fm.contentsOfDirectory(
             at: dir, includingPropertiesForKeys: keys, options: [.skipsHiddenFiles]
         ) else { return [] }
@@ -92,7 +93,10 @@ actor DiskUsageService {
             if rv?.isSymbolicLink == true { continue }
             let isDir = rv?.isDirectory ?? false
             let size = size(of: child, stayOnVolume: stayOnVolume, isCancelled: isCancelled)
-            if size > 0 { out.append(DiskChild(url: child, size: size, isDirectory: isDir)) }
+            if size > 0 {
+                out.append(DiskChild(url: child, size: size, isDirectory: isDir,
+                                     modified: rv?.contentModificationDate))
+            }
         }
         return out.sorted { $0.size > $1.size }
     }

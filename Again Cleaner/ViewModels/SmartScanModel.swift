@@ -25,6 +25,9 @@ final class SmartScanModel: ObservableObject {
     @Published var selected: Set<UUID> = []
     @Published var moveToTrash = true
 
+    @Published var sortKey: ScanSortKey = .size
+    @Published var sizeFilter: ClosedRange<Int64> = 0...0
+
     /// Apps that are running and would be affected by the current selection.
     /// Non-empty means the clean is paused until the user quits them.
     @Published private(set) var runningBlockers: [String] = []
@@ -80,6 +83,9 @@ final class SmartScanModel: ObservableObject {
         // here is exactly what has caused real data loss. Everything beyond
         // `.safe` requires the user to look and opt in themselves.
         selected = Set(candidates.filter { CleanupSafetyPolicy.isPreselected($0) }.map(\.id))
+        // Start the size filter fully open so a fresh scan never hides anything
+        // until the user deliberately narrows it.
+        sizeFilter = SizeRangeSlider.bounds(for: candidates.map(\.size))
         isScanning = false
         hasScanned = true
     }
@@ -91,14 +97,32 @@ final class SmartScanModel: ObservableObject {
 
     // MARK: - Grouping
 
-    /// Candidates grouped by category, largest category first.
+    /// The full size span of everything found — the range slider's travel limits.
+    var sizeBounds: ClosedRange<Int64> { SizeRangeSlider.bounds(for: candidates.map(\.size)) }
+
+    /// Candidates in `sizeFilter`, grouped by category (largest category
+    /// first) and ordered within each group by `sortKey`.
     var categoryGroups: [(category: ScanCategory, items: [CleanupCandidate])] {
-        let grouped = Dictionary(grouping: candidates, by: \.category)
+        let inRange = sizeBounds.upperBound > sizeBounds.lowerBound
+            ? candidates.filter { sizeFilter.contains($0.size) }
+            : candidates
+        let grouped = Dictionary(grouping: inRange, by: \.category)
         return grouped.keys
-            .map { cat in (cat, grouped[cat]!.sorted { $0.size > $1.size }) }
+            .map { cat in (cat, sorted(grouped[cat]!)) }
             .sorted { lhs, rhs in
                 lhs.items.reduce(Int64(0)) { $0 + $1.size } > rhs.items.reduce(0) { $0 + $1.size }
             }
+    }
+
+    private func sorted(_ items: [CleanupCandidate]) -> [CleanupCandidate] {
+        switch sortKey {
+        case .size:
+            return items.sorted { $0.size > $1.size }
+        case .name:
+            return items.sorted { $0.name.localizedStandardCompare($1.name) == .orderedAscending }
+        case .date:
+            return items.sorted { ($0.lastModified ?? .distantPast) > ($1.lastModified ?? .distantPast) }
+        }
     }
 
     var safeBytes: Int64 {

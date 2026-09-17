@@ -12,6 +12,7 @@ struct JunkView: View {
     var body: some View {
         VStack(spacing: 0) {
             header
+            if vm.junkSizeBounds.upperBound > vm.junkSizeBounds.lowerBound { Divider(); filterBar }
 
             if vm.results.isEmpty && !vm.isScanningJunk {
                 emptyState
@@ -108,6 +109,18 @@ struct JunkView: View {
         .overlay(alignment: .bottom) {
             if vm.isScanningJunk { ProgressView(value: vm.junkProgress) }
         }
+    }
+
+    private var filterBar: some View {
+        HStack(spacing: 12) {
+            Text("Filter by size").font(.caption).foregroundStyle(.secondary)
+            SizeRangeSlider(bounds: vm.junkSizeBounds, selection: $vm.junkSizeFilter)
+                .frame(maxWidth: 260)
+            Spacer()
+            Text("\(vm.sortedVisibleCategories.count) categories shown")
+                .font(.caption).foregroundStyle(.secondary)
+        }
+        .padding(.horizontal).padding(.vertical, 8)
     }
 
     private var emptyState: some View {

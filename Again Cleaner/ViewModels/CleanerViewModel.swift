@@ -36,12 +36,28 @@ final class CleanerViewModel: ObservableObject {
     @Published var isScanningFiles = false
     @Published var largeFileThresholdMB: Double = 500
     @Published var largeFileKind: FileKind? = nil     // nil = all types
+    @Published var largeFileSort: ScanSortKey = .size
+    @Published var largeFileSizeFilter: ClosedRange<Int64> = 0...0
     private var largeScanToken = CancelToken()
 
-    /// Large files after applying the type filter, largest first.
+    /// The full size span of what was found — the range slider's travel limits.
+    var largeFileSizeBounds: ClosedRange<Int64> { SizeRangeSlider.bounds(for: largeFiles.map(\.size)) }
+
+    /// Large files after the type + size-range filters, ordered by `largeFileSort`.
     var filteredLargeFiles: [LargeFile] {
-        guard let kind = largeFileKind else { return largeFiles }
-        return largeFiles.filter { $0.kind == kind }
+        var files = largeFiles
+        if let kind = largeFileKind { files = files.filter { $0.kind == kind } }
+        if largeFileSizeBounds.upperBound > largeFileSizeBounds.lowerBound {
+            files = files.filter { largeFileSizeFilter.contains($0.size) }
+        }
+        switch largeFileSort {
+        case .size:
+            return files.sorted { $0.size > $1.size }
+        case .name:
+            return files.sorted { $0.name.localizedStandardCompare($1.name) == .orderedAscending }
+        case .date:
+            return files.sorted { $0.modified > $1.modified }
+        }
     }
 
     /// Type filters that actually appear in the current results (with counts).
@@ -102,11 +118,22 @@ final class CleanerViewModel: ObservableObject {
         results[category.id]?.size ?? 0
     }
 
-    /// Categories that exist on disk (size > 0 or still scanning), safest first.
+    @Published var junkSizeFilter: ClosedRange<Int64> = 0...0
+
+    /// The full size span of every found category — the range slider's travel limits.
+    var junkSizeBounds: ClosedRange<Int64> {
+        SizeRangeSlider.bounds(for: categories.compactMap { results[$0.id]?.size }.filter { $0 > 0 })
+    }
+
+    /// Categories that exist on disk (size > 0 or still scanning) and fall
+    /// within the size-range filter, safest first.
     var visibleCategories: [JunkCategory] {
-        categories.filter { cat in
+        let inRange = junkSizeBounds.upperBound > junkSizeBounds.lowerBound
+        return categories.filter { cat in
             guard let r = results[cat.id] else { return isScanningJunk }
-            return r.isScanning || r.size > 0
+            if r.isScanning { return true }
+            guard r.size > 0 else { return false }
+            return !inRange || junkSizeFilter.contains(r.size)
         }
     }
 
@@ -235,6 +262,9 @@ final class CleanerViewModel: ObservableObject {
             }
         }
 
+        // A fresh scan starts the range filter fully open so nothing found is
+        // hidden until the user deliberately narrows it.
+        junkSizeFilter = SizeRangeSlider.bounds(for: categories.compactMap { results[$0.id]?.size }.filter { $0 > 0 })
         isScanningJunk = false
         refreshDisk()
     }
@@ -491,6 +521,9 @@ final class CleanerViewModel: ObservableObject {
         }.value
 
         largeFiles = files
+        // A fresh scan starts the range filter fully open so nothing found is
+        // hidden until the user deliberately narrows it.
+        largeFileSizeFilter = SizeRangeSlider.bounds(for: files.map(\.size))
         isScanningFiles = false
     }
 

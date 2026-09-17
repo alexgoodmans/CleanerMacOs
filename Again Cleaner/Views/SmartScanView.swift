@@ -18,6 +18,7 @@ struct SmartScanView: View {
             header
             if vm.hasScanned || vm.isScanning { summaryBar }
             if !vm.runningBlockers.isEmpty { runningAppsBanner }
+            if !vm.candidates.isEmpty { Divider(); filterBar }
             Divider()
             content
             Divider()
@@ -97,6 +98,26 @@ struct SmartScanView: View {
         }
         .padding(.horizontal).padding(.vertical, 8)
         .background(.orange.opacity(0.12))
+    }
+
+    private var filterBar: some View {
+        HStack(spacing: 16) {
+            Picker("Sort", selection: $vm.sortKey) {
+                ForEach(ScanSortKey.allCases) { key in
+                    Label(key.rawValue, systemImage: key.systemImage).tag(key)
+                }
+            }
+            .labelsHidden().pickerStyle(.menu).fixedSize()
+
+            SizeRangeSlider(bounds: vm.sizeBounds, selection: $vm.sizeFilter)
+                .frame(maxWidth: 260)
+
+            Spacer()
+            let shown = vm.categoryGroups.reduce(0) { $0 + $1.items.count }
+            Text("\(shown) of \(vm.candidates.count) items")
+                .font(.caption).foregroundStyle(.secondary)
+        }
+        .padding(.horizontal).padding(.vertical, 8)
     }
 
     // MARK: - Content

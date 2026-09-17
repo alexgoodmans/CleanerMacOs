@@ -109,17 +109,29 @@ struct LargeFilesView: View {
                 }
             }
             if !vm.largeFiles.isEmpty {
-                HStack(spacing: 8) {
-                    Text("Type").font(.caption).foregroundStyle(.secondary)
-                    Picker("Type", selection: $vm.largeFileKind) {
-                        Text("All").tag(FileKind?.none)
-                        ForEach(vm.largeFileKinds, id: \.kind) { entry in
-                            Text("\(entry.kind.displayName) (\(entry.count))").tag(FileKind?.some(entry.kind))
+                HStack(spacing: 16) {
+                    HStack(spacing: 8) {
+                        Text("Type").font(.caption).foregroundStyle(.secondary)
+                        Picker("Type", selection: $vm.largeFileKind) {
+                            Text("All").tag(FileKind?.none)
+                            ForEach(vm.largeFileKinds, id: \.kind) { entry in
+                                Text("\(entry.kind.displayName) (\(entry.count))").tag(FileKind?.some(entry.kind))
+                            }
+                        }
+                        .labelsHidden()
+                        .pickerStyle(.menu)
+                        .frame(maxWidth: 200)
+                    }
+
+                    Picker("Sort", selection: $vm.largeFileSort) {
+                        ForEach(ScanSortKey.allCases) { key in
+                            Label(key.rawValue, systemImage: key.systemImage).tag(key)
                         }
                     }
-                    .labelsHidden()
-                    .pickerStyle(.menu)
-                    .frame(maxWidth: 200)
+                    .labelsHidden().pickerStyle(.menu).fixedSize()
+
+                    SizeRangeSlider(bounds: vm.largeFileSizeBounds, selection: $vm.largeFileSizeFilter)
+                        .frame(maxWidth: 220)
 
                     Spacer()
 
