@@ -11,7 +11,7 @@ import SwiftUI
 // browser: no payment SDK, no App Store review issues, works internationally.
 enum Donation {
     /// Master switch for the Donate section in the sidebar.
-    static let isEnabled = true
+    static let isEnabled = false
 
     /// DonationAlerts page.
     static let donationAlertsURL = URL(string: "https://www.donationalerts.com/r/digkill")!

@@ -1,3 +1,5 @@
+import { useState } from "react"
+
 import {
   BarChart3,
   Download,
@@ -22,6 +24,7 @@ export default function App() {
       <main>
         <Hero />
         <Stats />
+        <Screenshots />
         <Steps />
         <Features />
         <SafetyLevels />
@@ -42,7 +45,7 @@ function Header() {
   const { lang, setLang, t } = useI18n()
   return (
     <header className="sticky top-0 z-50 border-b border-border/60 bg-background/70 backdrop-blur-xl">
-      <Container className="flex h-16 items-center justify-between">
+      <Container className="flex min-h-16 flex-wrap items-center justify-between gap-3 py-3">
         <a href="#" className="flex items-center gap-3 font-bold">
           <img src="/icon.png" alt="" width={36} height={36} className="rounded-lg" />
           <span>Again Cleaner</span>
@@ -75,7 +78,7 @@ function Hero() {
   const { t } = useI18n()
   return (
     <section className="py-16 md:py-24">
-      <Container className="grid items-center gap-12 lg:grid-cols-2">
+      <Container className="grid items-center gap-12 lg:grid-cols-[0.85fr_1.15fr]">
         <div>
           <Badge className="mb-6">{t("hero.badge")}</Badge>
           <h1 className="text-4xl font-extrabold leading-tight tracking-tight md:text-6xl">
@@ -96,98 +99,59 @@ function Hero() {
             <span className="text-sm text-muted-foreground">{t("hero.meta")}</span>
           </div>
         </div>
-        <AppMockup />
+        <AppScreenshot screen="overview" priority />
       </Container>
     </section>
   )
 }
 
-function AppMockup() {
+const screens = ["overview", "junk", "smart"] as const
+type Screen = (typeof screens)[number]
+
+function AppScreenshot({ screen, priority = false }: { screen: Screen; priority?: boolean }) {
   const { t } = useI18n()
   return (
-    <div className="relative">
-      <div className="overflow-hidden rounded-2xl border bg-card shadow-2xl shadow-black/40">
-        {/* Title bar */}
-        <div className="flex items-center gap-3 border-b border-border/60 px-4 py-3">
-          <div className="flex gap-1.5">
-            <span className="size-3 rounded-full bg-red-400/80" />
-            <span className="size-3 rounded-full bg-amber-400/80" />
-            <span className="size-3 rounded-full bg-emerald-400/80" />
-          </div>
-          <span className="text-xs text-muted-foreground">Again Cleaner</span>
+    <a
+      href={`/screenshots/${screen}.png`}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={`${t(`screens.${screen}.title`)} — ${t("screens.enlarge")}`}
+      className="block overflow-hidden rounded-xl border border-white/10 bg-card shadow-2xl shadow-black/30 transition-colors hover:border-primary/50 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
+    >
+      <img
+        src={`/screenshots/${screen}.png`}
+        alt={t(`screens.${screen}.alt`)}
+        width={2360}
+        height={1560}
+        loading={priority ? "eager" : "lazy"}
+        fetchPriority={priority ? "high" : "auto"}
+        className="h-auto w-full"
+      />
+    </a>
+  )
+}
+
+function Screenshots() {
+  const { t } = useI18n()
+  const [screen, setScreen] = useState<Screen>("junk")
+  return (
+    <section id="screenshots" className="py-20">
+      <Container>
+        <SectionHeader title={t("screens.title")} subtitle={t("screens.subtitle")} />
+        <div className="mb-6 flex flex-wrap justify-center gap-2" role="group" aria-label={t("screens.title")}>
+          {screens.map((item) => (
+            <Button key={item} variant={screen === item ? "default" : "outline"} aria-pressed={screen === item} onClick={() => setScreen(item)}>
+              {t(`screens.${item}.title`)}
+            </Button>
+          ))}
         </div>
-        <div className="flex">
-          {/* Sidebar */}
-          <aside className="hidden w-44 shrink-0 flex-col gap-1 border-r border-border/60 p-3 sm:flex">
-            {[
-              { icon: "◉", key: "mock.overview", active: true },
-              { icon: "✦", key: "mock.junk" },
-              { icon: "▣", key: "mock.large" },
-              { icon: "★", key: "mock.favorites" },
-            ].map(({ icon, key, active }) => (
-              <div
-                key={key}
-                className={`flex items-center gap-2 rounded-md px-2.5 py-1.5 text-xs ${
-                  active ? "bg-primary/15 text-primary" : "text-muted-foreground"
-                }`}
-              >
-                <span>{icon}</span> {t(key)}
-              </div>
-            ))}
-            <div className="mt-auto rounded-lg bg-secondary/60 p-2.5 text-[10px]">
-              <div className="mb-1.5 font-semibold">Macintosh HD</div>
-              <div className="h-1.5 overflow-hidden rounded-full bg-border">
-                <div className="h-full w-[73%] rounded-full bg-gradient-to-r from-emerald-300 to-teal-400" />
-              </div>
-              <div className="mt-1.5 text-muted-foreground">{t("mock.free")}</div>
-            </div>
-          </aside>
-          {/* Main pane */}
-          <div className="flex flex-1 flex-col items-center gap-5 p-6">
-            <div className="relative">
-              <svg viewBox="0 0 120 120" className="size-36">
-                <circle cx="60" cy="60" r="52" fill="none" stroke="currentColor" strokeWidth="10" className="text-border" />
-                <circle
-                  cx="60" cy="60" r="52" fill="none" stroke="url(#ringGrad)" strokeWidth="10"
-                  strokeLinecap="round" strokeDasharray="245 327" transform="rotate(-90 60 60)"
-                />
-                <defs>
-                  <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stopColor="#7ee8a0" />
-                    <stop offset="100%" stopColor="#53bbb9" />
-                  </linearGradient>
-                </defs>
-              </svg>
-              <div className="absolute inset-0 flex flex-col items-center justify-center">
-                <span className="text-2xl font-bold">73%</span>
-                <span className="text-[10px] text-muted-foreground">{t("mock.used")}</span>
-              </div>
-            </div>
-            <div className="grid w-full grid-cols-2 gap-3">
-              {[
-                { key: "mock.reclaimable", value: "12.4 GB" },
-                { key: "mock.freespace", value: "142 GB" },
-              ].map(({ key, value }) => (
-                <div key={key} className="rounded-lg bg-secondary/60 p-3">
-                  <div className="text-[10px] text-muted-foreground">{t(key)}</div>
-                  <div className="text-sm font-bold">{value}</div>
-                </div>
-              ))}
-            </div>
-            <div className="w-full rounded-lg bg-primary py-2 text-center text-xs font-semibold text-primary-foreground">
-              {t("mock.scan")}
-            </div>
-          </div>
+        <div className="mx-auto max-w-5xl" aria-live="polite">
+          <AppScreenshot screen={screen} />
+          <p className="mt-5 text-center text-sm text-muted-foreground">{t(`screens.${screen}.desc`)}</p>
         </div>
-      </div>
-      {/* Floating badges */}
-      <Badge variant="success" className="absolute -left-3 top-8 shadow-lg">
-        {t("float.safe")}
-      </Badge>
-      <Badge variant="success" className="absolute -right-3 bottom-10 shadow-lg">
-        {t("float.reclaimed")}
-      </Badge>
-    </div>
+        <p className="mt-2 text-center text-xs text-muted-foreground">{t("screens.enlarge")}</p>
+      </Container>
+    </section>
   )
 }
 
@@ -324,11 +288,11 @@ function DownloadSection() {
     <section id="download" className="pb-24">
       <Container>
         <Card className="mx-auto max-w-2xl border-primary/20 bg-gradient-to-b from-card to-secondary/40 text-center">
-          <CardContent className="flex flex-col items-center p-10">
+          <CardContent className="flex flex-col items-center px-5 py-10 sm:px-10">
             <img src="/icon.png" alt="Again Cleaner" width={80} height={80} className="mb-6 rounded-2xl shadow-xl" />
             <h2 className="text-3xl font-bold">{t("download.title")}</h2>
             <p className="mt-3 text-muted-foreground">{t("download.subtitle")}</p>
-            <Button size="lg" className="mt-8" asChild>
+            <Button size="lg" className="mt-8 h-auto min-h-11 max-w-full whitespace-normal text-center" asChild>
               <a href="/Again-Cleaner.dmg" download>
                 <Download />
                 {t("download.btn")}
@@ -351,14 +315,6 @@ function DownloadSection() {
                 </li>
               ))}
             </ol>
-            <a
-              href="https://www.donationalerts.com/r/digkill"
-              target="_blank"
-              rel="noopener"
-              className="mt-6 text-sm font-medium text-amber-300/90 hover:text-amber-200"
-            >
-              {t("footer.coffee")}
-            </a>
           </CardContent>
         </Card>
       </Container>
@@ -389,14 +345,6 @@ function Footer() {
           </a>
           <a href="mailto:alexcatleva@gmail.com" className="hover:text-foreground">
             Contact
-          </a>
-          <a
-            href="https://www.donationalerts.com/r/digkill"
-            target="_blank"
-            rel="noopener"
-            className="font-medium text-amber-300/90 hover:text-amber-200"
-          >
-            {t("footer.coffee")}
           </a>
         </nav>
         <p className="text-xs text-muted-foreground">© 2026 Digkill · MediaRise</p>

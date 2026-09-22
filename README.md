@@ -59,4 +59,4 @@ The app never decides for you: it finds, measures and *suggests*. Dangerous loca
 
 ---
 
-© 2026 Digkill · MediaRise · [Buy the dev a coffee ☕](https://www.donationalerts.com/r/digkill)
+© 2026 Digkill · MediaRise

@@ -40,7 +40,7 @@ docs/memory/            This agent memory
 | Junk Cleanup | `CleanerViewModel` | Catalog categories + `FileSystemEngine` |
 | Large Files | `CleanerViewModel` | Threshold hunter |
 | Favorites | `CleanerViewModel` | Pinned folders |
-| Donate / About | — | Optional donate (`Donation.isEnabled`) |
+| About | — | Developer contacts; donation UI disabled |
 
 ## Safety product principles
 
