@@ -18,7 +18,7 @@ struct DeepDiskView: View {
             quickRoots
             Divider()
             breadcrumbBar
-            if vm.children.count > 1 { Divider(); filterBar }
+            if vm.children.count > 1 && !vm.isLoading { Divider(); filterBar }
             Divider()
             content
         }

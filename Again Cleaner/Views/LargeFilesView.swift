@@ -108,7 +108,7 @@ struct LargeFilesView: View {
                     .buttonStyle(.borderedProminent)
                 }
             }
-            if !vm.largeFiles.isEmpty {
+            if !vm.largeFiles.isEmpty && !vm.isScanningFiles {
                 HStack(spacing: 16) {
                     HStack(spacing: 8) {
                         Text("Type").font(.caption).foregroundStyle(.secondary)

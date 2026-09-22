@@ -18,7 +18,10 @@ struct SmartScanView: View {
             header
             if vm.hasScanned || vm.isScanning { summaryBar }
             if !vm.runningBlockers.isEmpty { runningAppsBanner }
-            if !vm.candidates.isEmpty { Divider(); filterBar }
+            // Only once the scan has actually stopped — while it's running the
+            // size bounds are still growing, so a slider shown mid-scan would
+            // keep jumping under the user's fingers.
+            if !vm.candidates.isEmpty && !vm.isScanning && vm.hasScanned { Divider(); filterBar }
             Divider()
             content
             Divider()
@@ -405,6 +408,10 @@ private struct CandidateRow: View {
                         .foregroundStyle(vm.isSelected(item) ? Color.accentColor : .secondary)
                 }
                 .buttonStyle(.plain)
+            } else if vm.isApp(item) {
+                // The real app icon reads far better than a generic lock here —
+                // this is exactly where you're scanning a list of applications.
+                AppIconView(url: item.path)
             } else {
                 Image(systemName: "lock.fill").foregroundStyle(.secondary).font(.caption)
             }

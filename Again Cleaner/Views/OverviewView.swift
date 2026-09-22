@@ -127,7 +127,7 @@ struct OverviewView: View {
             }
             .padding(.bottom, 8)
 
-            if vm.junkSizeBounds.upperBound > vm.junkSizeBounds.lowerBound {
+            if vm.junkSizeBounds.upperBound > vm.junkSizeBounds.lowerBound && !vm.isScanningJunk {
                 HStack(spacing: 12) {
                     Text("Filter by size").font(.caption).foregroundStyle(.secondary)
                     SizeRangeSlider(bounds: vm.junkSizeBounds, selection: $vm.junkSizeFilter)

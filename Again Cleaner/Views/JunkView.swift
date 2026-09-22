@@ -12,7 +12,9 @@ struct JunkView: View {
     var body: some View {
         VStack(spacing: 0) {
             header
-            if vm.junkSizeBounds.upperBound > vm.junkSizeBounds.lowerBound { Divider(); filterBar }
+            if vm.junkSizeBounds.upperBound > vm.junkSizeBounds.lowerBound && !vm.isScanningJunk {
+                Divider(); filterBar
+            }
 
             if vm.results.isEmpty && !vm.isScanningJunk {
                 emptyState
