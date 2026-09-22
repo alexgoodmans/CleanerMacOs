@@ -91,12 +91,15 @@ struct SmartScanView: View {
             VStack(alignment: .leading, spacing: 1) {
                 Text("\(vm.runningBlockers.joined(separator: ", ")) is running")
                     .font(.subheadline).bold()
-                Text("Close it before cleaning its data to avoid corruption.")
+                Text("Cleaning its data while it's open can corrupt state — quitting first is safest.")
                     .font(.caption).foregroundStyle(.secondary)
             }
             Spacer()
             Button("Quit & Clean") { Task { await vm.quitAndClean() } }
                 .buttonStyle(.borderedProminent)
+            Button("Clean Anyway") { Task { await vm.cleanSelected(force: true) } }
+                .buttonStyle(.bordered).tint(.orange)
+                .help("Clean without closing the app first — riskier, may corrupt its open state.")
             Button("Dismiss") { vm.dismissBlockers() }.buttonStyle(.link)
         }
         .padding(.horizontal).padding(.vertical, 8)
