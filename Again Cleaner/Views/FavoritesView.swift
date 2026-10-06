@@ -14,20 +14,30 @@ struct FavoritesView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            header
+            header.disabled(vm.isCleaning)
 
-            if vm.favorites.isEmpty {
-                emptyState
-            } else {
-                List {
-                    ForEach(vm.favorites) { fav in
-                        FavoriteRow(favorite: fav,
-                                    reveal: { vm.reveal(fav.url) },
-                                    remove: { vm.removeFavorite(fav) })
+            Group {
+                if vm.favorites.isEmpty {
+                    emptyState
+                } else {
+                    List {
+                        ForEach(vm.favorites) { fav in
+                            FavoriteRow(favorite: fav,
+                                        reveal: { vm.reveal(fav.url) },
+                                        remove: { vm.removeFavorite(fav) })
+                        }
                     }
+                    .listStyle(.inset)
                 }
-                .listStyle(.inset)
             }
+            .disabled(vm.isCleaning)
+            .overlay {
+                if vm.isCleaning {
+                    CleaningOverlay(detail: vm.cleaningSummary)
+                        .transition(.opacity)
+                }
+            }
+            .animation(.easeInOut(duration: 0.25), value: vm.isCleaning)
 
             footer
         }

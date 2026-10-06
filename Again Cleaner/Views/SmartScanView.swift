@@ -21,9 +21,20 @@ struct SmartScanView: View {
             // Only once the scan has actually stopped — while it's running the
             // size bounds are still growing, so a slider shown mid-scan would
             // keep jumping under the user's fingers.
-            if !vm.candidates.isEmpty && !vm.isScanning && vm.hasScanned { Divider(); filterBar }
+            if !vm.candidates.isEmpty && !vm.isScanning && vm.hasScanned {
+                Divider()
+                filterBar.disabled(vm.isCleaning)
+            }
             Divider()
             content
+                .disabled(vm.isCleaning)
+                .overlay {
+                    if vm.isCleaning {
+                        CleaningOverlay(detail: cleaningDetail)
+                            .transition(.opacity)
+                    }
+                }
+                .animation(.easeInOut(duration: 0.25), value: vm.isCleaning)
             Divider()
             actionBar
         }
@@ -36,6 +47,12 @@ struct SmartScanView: View {
                 confirmClean = false
             }
         }
+    }
+
+    /// The selection is frozen while cleaning (the list is blocked), so this
+    /// stays an accurate "what's being removed right now".
+    private var cleaningDetail: String {
+        String(localized: "\(vm.selected.count) items · \(Format.size(vm.selectedBytes))")
     }
 
     // MARK: - Header
@@ -63,6 +80,7 @@ struct SmartScanView: View {
                     Label(vm.hasScanned ? "Rescan" : "Scan", systemImage: "arrow.clockwise")
                 }
                 .keyboardShortcut("r")
+                .disabled(vm.isCleaning)
             }
         }
         .padding()
@@ -225,6 +243,7 @@ struct SmartScanView: View {
         HStack(spacing: 12) {
             Toggle("Move to Trash", isOn: $vm.moveToTrash)
                 .toggleStyle(.checkbox).font(.callout)
+                .disabled(vm.isCleaning)
 
             Spacer()
 
@@ -247,7 +266,7 @@ struct SmartScanView: View {
             }
 
             Button("Select Safe") { vm.selectSmart() }
-                .disabled(vm.candidates.isEmpty)
+                .disabled(vm.candidates.isEmpty || vm.isCleaning)
                 .help("Select only Safe and Usually Safe items")
 
             Button {

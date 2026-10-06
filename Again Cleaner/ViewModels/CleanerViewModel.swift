@@ -72,6 +72,10 @@ final class CleanerViewModel: ObservableObject {
     // Cleaning
     @Published var moveToTrash = true
     @Published var isCleaning = false
+    /// What the running clean is removing ("12 categories · 3.4 GB"), captured
+    /// when it starts. Junk, Overview and Favorites share `isCleaning`, so each
+    /// screen's overlay shows this instead of recomputing from its own state.
+    @Published private(set) var cleaningSummary = ""
     @Published var lastReclaimed: Int64 = 0
     @Published var showReclaimedBanner = false
 
@@ -273,6 +277,7 @@ final class CleanerViewModel: ObservableObject {
 
     func cleanSelected() async {
         guard !isCleaning, !selected.isEmpty else { return }
+        cleaningSummary = String(localized: "\(selected.count) categories · \(Format.size(selectedReclaimable))")
         isCleaning = true
         let toClean = categories.filter { selected.contains($0.id) }
         let trash = moveToTrash
@@ -481,6 +486,7 @@ final class CleanerViewModel: ObservableObject {
     /// Empty the contents of every favourite folder (the folders themselves stay).
     func cleanFavorites() async {
         guard !isCleaning, !favorites.isEmpty else { return }
+        cleaningSummary = String(localized: "\(favorites.count) folders · \(Format.size(favoritesTotal))")
         isCleaning = true
         let urls = favorites.map(\.url)
         let trash = moveToTrash

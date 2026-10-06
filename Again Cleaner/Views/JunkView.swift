@@ -11,39 +11,26 @@ struct JunkView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            header
+            header.disabled(vm.isCleaning)
             if vm.junkSizeBounds.upperBound > vm.junkSizeBounds.lowerBound && !vm.isScanningJunk {
-                Divider(); filterBar
+                Divider(); filterBar.disabled(vm.isCleaning)
             }
 
-            if vm.results.isEmpty && !vm.isScanningJunk {
-                emptyState
-            } else {
-                List {
-                    ForEach(vm.sortedVisibleCategories) { cat in
-                        VStack(alignment: .leading, spacing: 0) {
-                            JunkRow(
-                                category: cat,
-                                size: vm.reclaimable(for: cat),
-                                isScanning: vm.results[cat.id]?.isScanning ?? false,
-                                itemCount: vm.results[cat.id]?.itemCount ?? 0,
-                                isSelected: vm.selected.contains(cat.id),
-                                isExpanded: vm.expanded.contains(cat.id),
-                                isFavorited: vm.isFavorited(cat),
-                                toggle: { vm.toggleCategory(cat) },
-                                toggleExpand: { Task { await vm.toggleExpand(cat) } },
-                                toggleFavorite: { vm.toggleFavorite(cat) }
-                            )
-                            if vm.expanded.contains(cat.id) {
-                                CategoryItemsList(vm: vm, categoryID: cat.id)
-                            }
-                        }
-                    }
+            Group {
+                if vm.results.isEmpty && !vm.isScanningJunk {
+                    emptyState
+                } else {
+                    resultsList
                 }
-                .listStyle(.inset)
-                .animation(nil, value: vm.expanded)
-                .animation(nil, value: vm.junkSort)
             }
+            .disabled(vm.isCleaning)
+            .overlay {
+                if vm.isCleaning {
+                    CleaningOverlay(detail: vm.cleaningSummary)
+                        .transition(.opacity)
+                }
+            }
+            .animation(.easeInOut(duration: 0.25), value: vm.isCleaning)
 
             footer
         }
@@ -62,6 +49,33 @@ struct JunkView: View {
     }
 
     // MARK: Sections
+
+    private var resultsList: some View {
+        List {
+            ForEach(vm.sortedVisibleCategories) { cat in
+                VStack(alignment: .leading, spacing: 0) {
+                    JunkRow(
+                        category: cat,
+                        size: vm.reclaimable(for: cat),
+                        isScanning: vm.results[cat.id]?.isScanning ?? false,
+                        itemCount: vm.results[cat.id]?.itemCount ?? 0,
+                        isSelected: vm.selected.contains(cat.id),
+                        isExpanded: vm.expanded.contains(cat.id),
+                        isFavorited: vm.isFavorited(cat),
+                        toggle: { vm.toggleCategory(cat) },
+                        toggleExpand: { Task { await vm.toggleExpand(cat) } },
+                        toggleFavorite: { vm.toggleFavorite(cat) }
+                    )
+                    if vm.expanded.contains(cat.id) {
+                        CategoryItemsList(vm: vm, categoryID: cat.id)
+                    }
+                }
+            }
+        }
+        .listStyle(.inset)
+        .animation(nil, value: vm.expanded)
+        .animation(nil, value: vm.junkSort)
+    }
 
     private var header: some View {
         HStack {
@@ -144,6 +158,7 @@ struct JunkView: View {
             }
             .toggleStyle(.switch)
             .controlSize(.mini)
+            .disabled(vm.isCleaning)
 
             Spacer()
 

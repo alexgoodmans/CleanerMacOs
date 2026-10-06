@@ -72,6 +72,17 @@ struct OverviewView: View {
             }
             .padding(24)
         }
+        // Cover the whole visible screen (not just the found list, which can be
+        // taller than the viewport inside this ScrollView) so the progress is
+        // always on-screen and nothing underneath can be clicked mid-clean.
+        .disabled(vm.isCleaning)
+        .overlay {
+            if vm.isCleaning {
+                CleaningOverlay(detail: vm.cleaningSummary)
+                    .transition(.opacity)
+            }
+        }
+        .animation(.easeInOut(duration: 0.25), value: vm.isCleaning)
         .navigationTitle("Overview")
         .sheet(isPresented: $confirmClean) {
             JunkCleanupPreviewSheet(vm: vm) {
