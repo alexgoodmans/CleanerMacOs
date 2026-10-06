@@ -44,6 +44,10 @@ struct DeepDiskView: View {
             if vm.isLoading {
                 HStack(spacing: 8) {
                     ProgressView().controlSize(.small)
+                    if !vm.children.isEmpty {
+                        Text("Measured \(vm.measuredCount) of \(vm.children.count) · \(Format.size(vm.measuredTotal))")
+                            .font(.caption.monospacedDigit()).foregroundStyle(.secondary)
+                    }
                     Button("Cancel") { vm.cancel() }.buttonStyle(.link)
                 }
             } else {
@@ -83,9 +87,9 @@ struct DeepDiskView: View {
             }
             Spacer()
             if vm.isAtVolumeRoot {
-                Label("du -x: volumes counted separately", systemImage: "info.circle")
+                Label("APFS: Data volume counted once", systemImage: "info.circle")
                     .font(.caption2).foregroundStyle(.secondary)
-                    .help("Under / the System and Data volumes are separate. Sizes stay on one volume so the APFS Data volume isn't double-counted as System.")
+                    .help("/Users, /Applications, /Library and /private are firmlinks into the Data volume, which is also mounted at /System/Volumes/Data. They're measured through the firmlinks and /System/Volumes is skipped, so nothing is double-counted. Other mounted disks (/Volumes) are excluded.")
             }
         }
         .padding(.horizontal).padding(.vertical, 6)
@@ -116,6 +120,9 @@ struct DeepDiskView: View {
         if vm.children.isEmpty && !vm.isLoading {
             ContentUnavailableView("Nothing to show", systemImage: "folder",
                                    description: Text("This folder is empty or unreadable."))
+        } else if vm.children.isEmpty {
+            ProgressView("Reading folder…")
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
         } else {
             List(vm.displayedChildren) { child in
                 DiskChildRow(child: child, fraction: fraction(child), vm: vm)
@@ -136,21 +143,34 @@ private struct DiskChildRow: View {
 
     var body: some View {
         HStack(spacing: 10) {
-            Image(systemName: child.isDirectory ? "folder.fill" : "doc")
+            Image(systemName: icon)
                 .foregroundStyle(child.isDirectory ? Color.accentColor : .secondary)
                 .frame(width: 18)
 
             VStack(alignment: .leading, spacing: 3) {
                 HStack {
                     Text(child.url.lastPathComponent).lineLimit(1)
+                    if child.isVolume {
+                        Text(volumeNote)
+                            .font(.caption).foregroundStyle(.secondary).lineLimit(1)
+                            .help(volumeHelp)
+                    }
                     Spacer()
-                    Text(Format.size(child.size))
-                        .font(.callout.monospacedDigit()).foregroundStyle(.secondary)
+                    if child.isCloud {
+                        Text("Cloud — not measured")
+                            .font(.caption).foregroundStyle(.secondary)
+                            .help("Cloud-sync folders (OneDrive, Google Drive, Dropbox, iCloud Drive) are not walked: reading them can hang waiting on the sync app or start downloading files. Most of their content lives in the cloud. Use Reveal in Finder to inspect.")
+                    } else if vm.isPending(child) {
+                        ProgressView().controlSize(.mini)
+                    } else {
+                        Text(Format.size(child.size))
+                            .font(.callout.monospacedDigit()).foregroundStyle(.secondary)
+                    }
                 }
                 GeometryReader { geo in
                     RoundedRectangle(cornerRadius: 2)
                         .fill(.tint.opacity(0.28))
-                        .frame(width: max(2, geo.size.width * fraction), height: 4)
+                        .frame(width: vm.isPending(child) || child.isCloud ? 0 : max(2, geo.size.width * fraction), height: 4)
                 }
                 .frame(height: 4)
             }
@@ -161,5 +181,29 @@ private struct DiskChildRow: View {
         .padding(.vertical, 3)
         .contentShape(Rectangle())
         .onTapGesture { if child.isDirectory { Task { await vm.drill(into: child) } } }
+    }
+
+    private var icon: String {
+        if child.isCloud { return "icloud" }
+        if child.isVolume { return "internaldrive" }
+        return child.isDirectory ? "folder.fill" : "doc"
+    }
+
+    private var volumeNote: String {
+        switch child.url.lastPathComponent {
+        case "VM":      return String(localized: "APFS volume · swap & sleep image")
+        case "Preboot": return String(localized: "APFS volume · boot support")
+        case "Update":  return String(localized: "APFS volume · macOS update staging")
+        default:        return String(localized: "APFS volume")
+        }
+    }
+
+    private var volumeHelp: String {
+        switch child.url.lastPathComponent {
+        case "VM":
+            return String(localized: "Swap files and the sleep image, managed by macOS. It grows under memory pressure and shrinks after a restart — nothing here should be deleted by hand.")
+        default:
+            return String(localized: "A separate APFS volume in the same container as your data. Managed by macOS; shown so the totals add up to the space actually used.")
+        }
     }
 }

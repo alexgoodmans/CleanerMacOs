@@ -82,5 +82,12 @@ xcrun swiftc -swift-version 6 \
 "$TMP/largefile" || fails=$((fails+1))
 
 echo ""
+echo "▶︎ Disk usage tests (allocated size, hard links, exclusions, cloud)"
+xcrun swiftc -swift-version 6 \
+    "$SRC/Services/DiskUsageService.swift" "$SRC/Safety/PathGuard.swift" \
+    DiskUsageTests.swift -o "$TMP/diskusage"
+"$TMP/diskusage" || fails=$((fails+1))
+
+echo ""
 if [ "$fails" -eq 0 ]; then echo "✅ All test suites passed"; else echo "❌ $fails suite(s) failed"; fi
 exit "$fails"
