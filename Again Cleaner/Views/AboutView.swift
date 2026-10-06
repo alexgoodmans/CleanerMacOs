@@ -57,12 +57,6 @@ struct AboutView: View {
                         Spacer()
                     }
 
-                    LinkRow(icon: "envelope.fill", title: "Email",
-                            detail: "alexcatleva@gmail.com",
-                            url: URL(string: "mailto:alexcatleva@gmail.com")!)
-                    LinkRow(icon: "chevron.left.forwardslash.chevron.right", title: "GitHub",
-                            detail: "github.com/digkill",
-                            url: URL(string: "https://github.com/digkill")!)
                     LinkRow(icon: "globe", title: "Website",
                             detail: "mediarise.org",
                             url: URL(string: "https://mediarise.org")!)
