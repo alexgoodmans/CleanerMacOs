@@ -21,6 +21,7 @@ nonisolated struct BuiltinCatalogScanner: CleanupScanner {
         "xcode-devicesupport", "ios-simulators", "xcode-devicelogs",
         "cursor", "vscode", "node-modules", "build-dirs",
         "downloads-old", "android-cache", "appsupport-large",
+        "tmp",
     ]
 
     func scan(_ ctx: ScanContext) async -> [CleanupCandidate] {

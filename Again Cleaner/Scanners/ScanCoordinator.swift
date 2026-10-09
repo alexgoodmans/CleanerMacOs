@@ -36,6 +36,7 @@ nonisolated struct ScanCoordinator: Sendable {
             APFSSnapshotScanner(),
             BrowserScanner(),
             LeftoverScanner(),
+            TempScanner(),
             DockerScanner(),
             HomebrewScanner(),
         ])

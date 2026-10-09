@@ -27,10 +27,18 @@ enum PathGuard {
 
     /// Resolve symlinks AND collapse `..` / `.` so the check can't be fooled.
     nonisolated static func canonicalPath(_ url: URL) -> String {
-        url.standardizedFileURL
+        let path = url.standardizedFileURL
             .resolvingSymlinksInPath()
             .standardizedFileURL
             .path
+        // resolvingSymlinksInPath() deliberately STRIPS a leading /private
+        // (/private/tmp/x → /tmp/x). Re-add it so every path into /tmp, /var
+        // and /etc has exactly one spelling — otherwise "/private/tmp/…"
+        // rules and roots silently never match.
+        for top in ["/tmp", "/var", "/etc"] where path == top || path.hasPrefix(top + "/") {
+            return "/private" + path
+        }
+        return path
     }
 
     /// Paths that must NEVER be deleted — as the target itself OR as a parent of
@@ -71,7 +79,11 @@ enum PathGuard {
             h + "/.vscode", h + "/go", h + "/Downloads", h + "/Desktop",
             h,                                    // build artifacts live anywhere in home
             "/Library/Caches", "/Library/Logs",
-            "/private/var/tmp", "/private/var/folders",
+            // /tmp itself stays protected (a root is never removed); which of
+            // its entries are offered is decided by TempFileRules. (No other
+            // /private/var roots: nothing cleans there, and before paths were
+            // normalised below such entries never matched anyway.)
+            "/private/tmp",
             "/Applications",
         ]
     }
@@ -153,7 +165,37 @@ enum PathGuard {
             return .blocked("outside allowed cleanup roots: \(path)")
         }
 
+        // A socket or named pipe is a live endpoint of a running process —
+        // never junk, wherever it is.
+        var st = stat()
+        if lstat(path, &st) == 0 {
+            let type = st.st_mode & S_IFMT
+            if type == S_IFSOCK || type == S_IFIFO {
+                return .blocked("refusing to remove a live socket / pipe: \(path)")
+            }
+        }
+
+        if let reason = tempEntryReason(path) { return .blocked(reason) }
+
         return .allowed
+    }
+
+    /// Inside the shared /tmp, anything may only be removed if its top-level
+    /// entry is one TempFileRules would offer: the user's own regular file or
+    /// folder, no system/IPC name, no socket inside. This holds even for paths
+    /// that reach here without a scanner — e.g. /tmp pinned as a Favorite and
+    /// emptied wholesale. Age is not checked here: a recent item the user
+    /// explicitly confirmed may go.
+    nonisolated static func tempEntryReason(_ canonical: String) -> String? {
+        let tmp = "/private/tmp/"
+        guard canonical.hasPrefix(tmp),
+              let top = canonical.dropFirst(tmp.count).split(separator: "/").first else { return nil }
+        let item = TempFileRules.inspect(URL(fileURLWithPath: tmp + top))
+        if case .skip(let why) = TempFileRules.classify(item, currentUID: getuid(),
+                                                         now: Date(), minAgeDays: 0) {
+            return "refusing to touch /tmp entry \(top): \(why)"
+        }
+        return nil
     }
 
     /// Convenience: throws-free bool.

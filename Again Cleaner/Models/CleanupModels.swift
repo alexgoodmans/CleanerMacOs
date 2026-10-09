@@ -56,6 +56,11 @@ nonisolated enum CleanRule: Sendable {
     /// Sizes are measured during the scan, not when the catalog is built.
     case largeChildren(dir: URL, minSize: Int64, exclude: [String])
 
+    /// Old temp entries in a shared temp dir (/tmp): only the current user's
+    /// regular files / folders, never sockets or IPC names, untouched for
+    /// `minAgeDays`. See `TempFileRules`.
+    case tempItems(dir: URL, minAgeDays: Int)
+
     /// The folder(s) that represent this rule when the user pins it to
     /// Favorites for one-click cleanup later.
     var favoritableURLs: [URL] {
@@ -66,6 +71,9 @@ nonisolated enum CleanRule: Sendable {
         case .scanArtifacts(let roots, _): return roots
         case .oldItems(let dir, _):     return [dir]
         case .largeChildren(let dir, _, _): return [dir]
+        // Not favoritable: a favourite is emptied wholesale, which in /tmp
+        // would delete live sockets and in-use files.
+        case .tempItems:                return []
         }
     }
 }

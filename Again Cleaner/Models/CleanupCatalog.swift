@@ -48,6 +48,15 @@ nonisolated enum CleanupCatalog {
                 safety: .safe,
                 rule: .clearContents([h(".Trash")])
             ),
+            JunkCategory(
+                id: "tmp",
+                title: String(localized: "Temporary Files (/tmp)"),
+                subtitle: String(localized: "Your files in /tmp untouched for 3+ days — sockets & in-use items are skipped"),
+                systemImage: "hourglass",
+                safety: .caution,
+                rule: .tempItems(dir: URL(fileURLWithPath: "/private/tmp"),
+                                 minAgeDays: TempFileRules.defaultMinAgeDays)
+            ),
 
             // ── Package-manager caches (regenerated on next install) ───────
             JunkCategory(

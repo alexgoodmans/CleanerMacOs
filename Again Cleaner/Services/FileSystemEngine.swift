@@ -108,6 +108,11 @@ struct FileSystemEngine {
 
         case .largeChildren(let dir, let minSize, let exclude):
             return largeChildren(in: dir, minSize: minSize, exclude: Set(exclude))
+
+        case .tempItems(let dir, let days):
+            return TempFileRules.candidates(in: dir, minAgeDays: days)
+                .filter { $0.verdict == .old }
+                .map(\.item.url)
         }
     }
 

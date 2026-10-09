@@ -59,6 +59,7 @@ nonisolated enum ScanCategory: String, CaseIterable, Sendable, Identifiable {
     case snapshots
     case browsers
     case python
+    case tempFiles
     case reviewRequired
 
     var id: String { rawValue }
@@ -86,6 +87,7 @@ nonisolated enum ScanCategory: String, CaseIterable, Sendable, Identifiable {
         case .snapshots:       return String(localized: "APFS Snapshots")
         case .browsers:        return String(localized: "Browsers")
         case .python:          return String(localized: "Python")
+        case .tempFiles:       return String(localized: "Temporary Files")
         case .reviewRequired:  return String(localized: "Review Required")
         }
     }
@@ -113,6 +115,7 @@ nonisolated enum ScanCategory: String, CaseIterable, Sendable, Identifiable {
         case .snapshots:       return "clock.arrow.circlepath"
         case .browsers:        return "globe"
         case .python:          return "terminal"
+        case .tempFiles:       return "hourglass"
         case .reviewRequired:  return "exclamationmark.triangle"
         }
     }
@@ -129,6 +132,7 @@ nonisolated enum ScanCategory: String, CaseIterable, Sendable, Identifiable {
         if id.hasPrefix("xcode") || id.hasPrefix("device-support") || id.contains("deriveddata")
             || id.contains("coresimulator") { return .xcode }
         if id.hasPrefix("python") { return .python }
+        if id.hasPrefix("tmp:") { return .tempFiles }
         if id.hasPrefix("aimodel") || id.contains("ondevicemodel") { return .localAIModels }
         if id.hasPrefix("log") || id.contains("user-logs") || id.contains("devicelogs") { return .logs }
         if id.hasPrefix("cache") || id.hasPrefix("syscache") { return .appCaches }

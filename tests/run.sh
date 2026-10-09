@@ -17,7 +17,7 @@ export TMPDIR="$TMP"
 fails=0
 
 echo "▶︎ PathGuard safety tests"
-xcrun swiftc -swift-version 6 "$SRC/Safety/PathGuard.swift" PathGuardTests.swift -o "$TMP/pathguard"
+xcrun swiftc -swift-version 6 "$SRC/Safety/PathGuard.swift" "$SRC/Services/TempFileRules.swift" PathGuardTests.swift -o "$TMP/pathguard"
 "$TMP/pathguard" || fails=$((fails+1))
 
 echo ""
@@ -53,7 +53,7 @@ xcrun swiftc -swift-version 6 \
 echo ""
 echo "▶︎ Filesystem safety tests (artifacts, symlinks, parent paths)"
 xcrun swiftc -swift-version 6 \
-    "$SRC/Safety/PathGuard.swift" \
+    "$SRC/Safety/PathGuard.swift" "$SRC/Services/TempFileRules.swift" \
     "$SRC/Services/ProjectRootDetector.swift" \
     "$SRC/Services/EditorExtensionParsing.swift" \
     "$SRC/Services/VersionOrdering.swift" \
@@ -84,9 +84,14 @@ xcrun swiftc -swift-version 6 \
 echo ""
 echo "▶︎ Disk usage tests (allocated size, hard links, exclusions, cloud)"
 xcrun swiftc -swift-version 6 \
-    "$SRC/Services/DiskUsageService.swift" "$SRC/Safety/PathGuard.swift" \
+    "$SRC/Services/DiskUsageService.swift" "$SRC/Safety/PathGuard.swift" "$SRC/Services/TempFileRules.swift" \
     DiskUsageTests.swift -o "$TMP/diskusage"
 "$TMP/diskusage" || fails=$((fails+1))
+
+echo ""
+echo "▶︎ /tmp rules (sockets, owners, IPC names, age)"
+xcrun swiftc -swift-version 6 "$SRC/Services/TempFileRules.swift" TempFileRulesTests.swift -o "$TMP/tmprules"
+"$TMP/tmprules" || fails=$((fails+1))
 
 echo ""
 if [ "$fails" -eq 0 ]; then echo "✅ All test suites passed"; else echo "❌ $fails suite(s) failed"; fi
