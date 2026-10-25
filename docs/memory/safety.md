@@ -56,6 +56,17 @@ Ambiguous names (`build`, `target`, `dist`, `vendor`, …) only match when marke
 
 - Size walks / listings skip following directory symlinks where helpers do so (`DirListing`, engine enumerator).
 - PathGuard canonicalization defeats symlink escape to protected trees.
+- **Any recursive operation that MODIFIES files (chmod, chflags, write, move) must never follow symlinks**: fts `FTS_PHYSICAL` + `*at(…, AT_SYMLINK_NOFOLLOW)`. `FileManager.setAttributes` FOLLOWS symlinks — never use it in a walk.
+- App containers (`~/Library/Containers/*`, `Group Containers/*`) are full of symlinks back into `~/Library` (Keychains, Preferences, Fonts, Calendars).
+
+### Incident 2026-10-26 — login keychain destroyed
+
+Whole-container trash failed with EPERM → the "make writable and retry" fallback `setAttributes(0644)` on every entry → followed `Data/Library/Keychains` → real `~/Library/Keychains` lost its x bit → macOS reset the login keychain (all local passwords and the dev-signing private key lost). Fixed in `4b82429`.
+
+Rules that came out of it:
+- **Review the failure/fallback path of every delete, not just the happy path.** PathGuard vets the target; it does NOT see what a fallback touches inside it.
+- **EPERM = macOS said no.** Never "work around" a refusal (chmod, chflags, sudo, retry tricks). Only EACCES on own files may get u+w added (bits are only ever added).
+- Whole containers are never offered or removed; macOS's own containers only via `Data/Library/Caches` and Mail Downloads.
 
 ## Tests to run after safety changes
 
