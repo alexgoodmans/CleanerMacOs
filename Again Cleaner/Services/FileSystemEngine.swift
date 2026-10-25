@@ -8,6 +8,8 @@
 //
 
 import Foundation
+import Darwin
+import os
 
 struct FileSystemEngine {
 
@@ -289,6 +291,11 @@ struct FileSystemEngine {
 
     // MARK: - Deletion
 
+    /// Audit trail of every removal attempt, readable with
+    /// `log show --predicate 'subsystem == "mediarise.org.Again-Cleaner"'`.
+    /// Paths only — never file contents.
+    private nonisolated static let log = Logger(subsystem: "mediarise.org.Again-Cleaner", category: "cleanup")
+
     /// Remove every target. When `toTrash` is true items are moved to the bin
     /// (recoverable) instead of being unlinked. Returns bytes actually removed.
     @discardableResult
@@ -296,24 +303,65 @@ struct FileSystemEngine {
         var reclaimed: Int64 = 0
         for url in targets {
             // Backstop: never unlink a protected path, even if a rule points at
-            // one or a symlink tries to escape. Skip silently and keep going.
-            guard PathGuard.isDeletable(url) else { continue }
+            // one or a symlink tries to escape. Skip and keep going.
+            let verdict = PathGuard.verdict(for: url)
+            guard verdict.isAllowed else {
+                if case .blocked(let why) = verdict {
+                    log.notice("blocked \(url.path, privacy: .public): \(why, privacy: .public)")
+                }
+                continue
+            }
 
             let itemSize = size(of: url)
             do {
                 try removeOne(url, toTrash: toTrash)
                 reclaimed += itemSize
+                log.notice("removed \(url.path, privacy: .public) trash=\(toTrash) bytes=\(itemSize)")
             } catch {
-                // Some caches (Go module cache) ship read-only trees that make
-                // removal fail — make the tree writable and retry once.
-                makeWritable(url)
-                if (try? removeOne(url, toTrash: toTrash)) != nil {
-                    reclaimed += itemSize
+                // Retry ONLY for a genuinely read-only tree (EACCES from the
+                // permission bits — e.g. Go's module cache), and only outside
+                // app containers and /Applications. EPERM means macOS itself
+                // refused (app-container protection, SIP, immutable flags) and
+                // must never be forced. A previous blanket chmod here followed
+                // the symlinks app containers keep into ~/Library and stripped
+                // the execute bit from ~/Library/Keychains, Calendars, Fonts…
+                guard isPermissionBitsDenial(error), mayForceWritable(url) else {
+                    log.error("failed \(url.path, privacy: .public): \(error.localizedDescription, privacy: .public)")
+                    continue
                 }
-                // Otherwise best-effort: skip and keep going.
+                addOwnerWrite(under: url)
+                do {
+                    try removeOne(url, toTrash: toTrash)
+                    reclaimed += itemSize
+                    log.notice("removed after u+w \(url.path, privacy: .public) trash=\(toTrash) bytes=\(itemSize)")
+                } catch {
+                    log.error("failed after u+w \(url.path, privacy: .public): \(error.localizedDescription, privacy: .public)")
+                }
             }
         }
         return reclaimed
+    }
+
+    /// True only when the failure is EACCES somewhere in the error chain —
+    /// i.e. the POSIX permission bits, which the owner may legitimately fix.
+    private nonisolated static func isPermissionBitsDenial(_ error: Error) -> Bool {
+        var current: NSError? = error as NSError
+        while let e = current {
+            if e.domain == NSPOSIXErrorDomain { return e.code == Int(EACCES) }
+            current = e.userInfo[NSUnderlyingErrorKey] as? NSError
+        }
+        return false
+    }
+
+    /// Never force permissions inside app containers (TCC-protected, full of
+    /// symlinks back into ~/Library) or on application bundles.
+    private nonisolated static func mayForceWritable(_ url: URL) -> Bool {
+        let path = PathGuard.canonicalPath(url)
+        let home = FileManager.default.homeDirectoryForCurrentUser.path
+        let forbidden = ["/Applications", home + "/Applications",
+                         home + "/Library/Containers", home + "/Library/Group Containers"]
+        return !forbidden.contains { path == $0 || path.hasPrefix($0 + "/") }
+            && url.pathExtension != "app"
     }
 
     private nonisolated static func removeOne(_ url: URL, toTrash: Bool) throws {
@@ -324,22 +372,33 @@ struct FileSystemEngine {
         }
     }
 
-    /// Recursively add the owner-write bit so read-only trees can be deleted.
-    private nonisolated static func makeWritable(_ url: URL) {
-        let writableDir: Int16 = 0o755
-        try? fm.setAttributes([.posixPermissions: writableDir], ofItemAtPath: url.path)
-        guard let enumerator = fm.enumerator(
-            at: url,
-            includingPropertiesForKeys: [.isDirectoryKey],
-            options: [],
-            errorHandler: { _, _ in true }
-        ) else { return }
-        for case let item as URL in enumerator {
-            let isDir = (try? item.resourceValues(forKeys: [.isDirectoryKey]).isDirectory) ?? false
-            try? fm.setAttributes(
-                [.posixPermissions: isDir ? writableDir : Int16(0o644)],
-                ofItemAtPath: item.path
-            )
+    /// Add the owner-write bit (and owner r+x on directories) under `url` so a
+    /// read-only tree can be deleted.
+    ///
+    /// - Symlinks are NEVER touched or followed: the walk is FTS_PHYSICAL and
+    ///   every chmod uses AT_SYMLINK_NOFOLLOW, so a link pointing outside the
+    ///   tree (app containers link to ~/Library/Keychains, Fonts…) can't
+    ///   change its target.
+    /// - Bits are only ADDED, never cleared — an executable stays executable.
+    /// - Only items owned by the current user are changed.
+    nonisolated static func addOwnerWrite(under url: URL) {
+        guard let root = strdup(url.path) else { return }
+        defer { free(root) }
+        var argv: [UnsafeMutablePointer<CChar>?] = [root, nil]
+        guard let fts = fts_open(&argv, FTS_PHYSICAL | FTS_NOCHDIR, nil) else { return }
+        defer { fts_close(fts) }
+        let uid = getuid()
+
+        while let entry = fts_read(fts) {
+            let info = Int32(entry.pointee.fts_info)
+            // Pre-order dirs (so their children become readable) and files only.
+            guard info == FTS_D || info == FTS_F,
+                  let st = entry.pointee.fts_statp?.pointee, st.st_uid == uid else { continue }
+            var mode = st.st_mode & 0o7777 | S_IWUSR
+            if info == FTS_D { mode |= S_IRUSR | S_IXUSR }
+            if mode != st.st_mode & 0o7777 {
+                _ = fchmodat(AT_FDCWD, entry.pointee.fts_path, mode, AT_SYMLINK_NOFOLLOW)
+            }
         }
     }
 

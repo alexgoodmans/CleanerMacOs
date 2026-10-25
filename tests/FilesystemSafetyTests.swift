@@ -87,6 +87,34 @@ enum FilesystemSafetyTests {
         try? fm.setAttributes([.posixPermissions: 0o755], ofItemAtPath: hidden.path)
         ok(sized >= 0, "size of tree with unreadable child is still a number (\(sized))")
 
+        // Regression for the keychain incident: app containers symlink
+        // Data/Library/Keychains → ~/Library/Keychains. The old "make writable
+        // and retry" chmod'ed THROUGH such links and set the real Keychains
+        // folder to 0644 (no x bit → unreadable keychain → macOS reset it).
+        print("Make-writable never follows symlinks:")
+        let outside = fm.temporaryDirectory.appendingPathComponent("fs-outside-\(getpid())")
+        try? fm.removeItem(at: outside)
+        try? fm.createDirectory(at: outside, withIntermediateDirectories: true)
+        let secretFile = outside.appendingPathComponent("login.db")
+        try? payload.write(to: secretFile)
+        try? fm.setAttributes([.posixPermissions: 0o700], ofItemAtPath: outside.path)
+        try? fm.setAttributes([.posixPermissions: 0o600], ofItemAtPath: secretFile.path)
+        let tree = root.appendingPathComponent("container/Data/Library")
+        try? fm.createDirectory(at: tree, withIntermediateDirectories: true)
+        try? fm.createSymbolicLink(at: tree.appendingPathComponent("Linked"), withDestinationURL: outside)
+        try? fm.createSymbolicLink(at: tree.appendingPathComponent("linked.db"), withDestinationURL: secretFile)
+        let ro = tree.appendingPathComponent("readonly.bin")
+        try? payload.write(to: ro)
+        try? fm.setAttributes([.posixPermissions: 0o555], ofItemAtPath: ro.path)
+
+        FileSystemEngine.addOwnerWrite(under: root.appendingPathComponent("container"))
+
+        func mode(_ u: URL) -> Int { (try? fm.attributesOfItem(atPath: u.path)[.posixPermissions] as? Int) ?? -1 }
+        ok(mode(outside) == 0o700, "symlinked dir target keeps 0700 (got \(String(mode(outside), radix: 8)))")
+        ok(mode(secretFile) == 0o600, "symlinked file target keeps 0600 (got \(String(mode(secretFile), radix: 8)))")
+        ok(mode(ro) == 0o755, "real read-only file gains ONLY u+w, keeps x (got \(String(mode(ro), radix: 8)))")
+        try? fm.removeItem(at: outside)
+
         try? fm.removeItem(at: root)
         print("\n\(pass) passed, \(fail) failed")
         return fail == 0 ? 0 : 1

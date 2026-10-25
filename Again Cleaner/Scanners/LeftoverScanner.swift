@@ -18,8 +18,9 @@ nonisolated struct LeftoverScanner: CleanupScanner {
     /// Locations keyed strictly by bundle id, and how confident a match is.
     /// Shared with focused leftover lookups (e.g. after an uninstall).
     nonisolated static let strictDirs: [(rel: String, confidence: String)] = [
-        // Strictly bundle-id-keyed by macOS → high confidence.
-        ("Library/Containers", "Certain"),
+        // Strictly bundle-id-keyed by macOS → high confidence. (Not
+        // Library/Containers: macOS protects them and PathGuard refuses whole
+        // containers — they hold symlinks back into ~/Library/Keychains.)
         ("Library/HTTPStorages", "Certain"),
         ("Library/Saved Application State", "Certain"),
         ("Library/WebKit", "Certain"),

@@ -2,8 +2,9 @@
 //  ContainerScanner.swift
 //  Again Cleaner
 //
-//  Large application containers and Application Support folders. Never treats
-//  a whole container as junk — inspects for models / caches first.
+//  Large application containers and Application Support folders. Only the
+//  Caches/Logs/tmp inside a container are offered — never the container itself
+//  (macOS protects it, and it links back into ~/Library/Keychains).
 //
 
 import Foundation
@@ -39,6 +40,11 @@ nonisolated struct ContainerScanner: CleanupScanner {
         var out: [CleanupCandidate] = []
         for child in DirListing.children(of: root, dirsOnly: true) {
             if ctx.isCancelled() { break }
+            // macOS's own containers (Mail, Safari, Messages…) are never offered;
+            // PathGuard refuses them anyway.
+            let name = child.lastPathComponent
+            if name.hasPrefix("com.apple.") || name.hasPrefix("group.com.apple.")
+                || name.contains(".com.apple.") { continue }
             guard let size = await ctx.measured(child), size >= Self.minSize else { continue }
             let children = DirListing.children(of: child, skipHidden: false)
             let names = children.map(\.lastPathComponent)
@@ -60,21 +66,6 @@ nonisolated struct ContainerScanner: CleanupScanner {
                     category: .applicationData, developer: child.lastPathComponent
                 ) { out.append(c) }
             }
-            out.append(CleanupCandidate(
-                scannerID: "container:\(kind):\(child.lastPathComponent)",
-                name: child.lastPathComponent,
-                path: child,
-                size: size,
-                risk: .reviewRequired,
-                category: .applicationData,
-                developer: child.lastPathComponent,
-                confidence: .medium,
-                isRegenerable: false,
-                explanation: String(localized: "Large application container (\(DirListing.bytes(size))). This is application data, not cache. Inspect before removing."),
-                consequence: String(localized: "Removing the whole container deletes the app's local data, possibly including documents or models."),
-                lastModified: DirListing.modified(child),
-                method: .filesystem
-            ))
         }
         return out
     }

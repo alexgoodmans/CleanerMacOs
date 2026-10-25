@@ -146,6 +146,13 @@ enum PathGuard {
         if path == "/" { return .blocked("cannot remove the filesystem root") }
         if path.isEmpty { return .blocked("empty path") }
 
+        // Same check on the RESOLVED path: a symlink of any name that leads
+        // into Keychains/.ssh/… is still a credential store.
+        if let reason = sensitiveReason(for: URL(fileURLWithPath: path)) {
+            return .blocked(reason)
+        }
+        if let reason = appleContainerReason(path) { return .blocked(reason) }
+
         let protected = protectedPaths
         if protected.contains(path) {
             return .blocked("protected system path: \(path)")
@@ -178,6 +185,37 @@ enum PathGuard {
         if let reason = tempEntryReason(path) { return .blocked(reason) }
 
         return .allowed
+    }
+
+    /// macOS's own app containers (Mail, Safari, Messages, Notes, Photos…) hold
+    /// irreplaceable data and symlinks back into ~/Library — Keychains,
+    /// Preferences, Fonts. Nothing inside them is touched except the few
+    /// regenerable spots listed below. For ANY container, the container
+    /// itself and its Data / Data/Library skeleton are never removed.
+    nonisolated static func appleContainerReason(_ canonical: String) -> String? {
+        let h = home.path
+        for base in [h + "/Library/Containers/", h + "/Library/Group Containers/"]
+        where canonical.hasPrefix(base) {
+            let rest = canonical.dropFirst(base.count).split(separator: "/").map(String.init)
+            guard let name = rest.first else { return nil }
+
+            if rest.count == 1 || rest[1...] == ["Data"] || rest[1...] == ["Data", "Library"] {
+                return "refusing to remove an app container skeleton: \(canonical)"
+            }
+            let isApple = name.hasPrefix("com.apple.") || name.hasPrefix("group.com.apple.")
+                || name.contains(".com.apple.") || name == "com.apple"
+            guard isApple else { return nil }
+
+            // Strictly inside Data/Library/Caches, or Mail's attachment cache.
+            let inner = Array(rest.dropFirst())
+            let regenerable: [[String]] = [["Data", "Library", "Caches"],
+                                           ["Data", "Library", "Mail Downloads"]]
+            if regenerable.contains(where: { inner.count > $0.count && Array(inner.prefix($0.count)) == $0 }) {
+                return nil
+            }
+            return "refusing to touch macOS's own app container: \(name)"
+        }
+        return nil
     }
 
     /// Inside the shared /tmp, anything may only be removed if its top-level

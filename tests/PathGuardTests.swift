@@ -142,6 +142,37 @@ static func run() -> Int32 {
         check(PathGuard.verdict(for: u(p)), blocked: true, p)
     }
 
+    print("APP CONTAINERS — regression for the keychain incident:")
+    for p in [
+        "~/Library/Containers/com.foo.App",                     // whole container
+        "~/Library/Containers/com.foo.App/Data",
+        "~/Library/Containers/com.foo.App/Data/Library",
+        "~/Library/Group Containers/ABCDE.com.foo.shared",
+        "~/Library/Containers/com.apple.Safari/Data/Library/Safari/History.db",
+        "~/Library/Containers/com.apple.mail/Data/Library/Mail",
+        "~/Library/Containers/com.apple.Notes/Data/Library",
+        "~/Library/Containers/com.apple.Notes/Data/Library/Keychains",
+        "~/Library/Group Containers/group.com.apple.notes/NoteStore.sqlite",
+        "~/Library/Group Containers/UBF8T346G9.com.apple.something/data",
+    ] {
+        check(PathGuard.verdict(for: u(p)), blocked: true, p)
+    }
+    for p in [
+        "~/Library/Containers/com.foo.App/Data/Library/Caches/blob",   // 3rd-party cache
+        "~/Library/Containers/com.apple.Safari/Data/Library/Caches/x", // Apple cache
+    ] {
+        check(PathGuard.verdict(for: u(p)), blocked: false, p)
+    }
+    // A symlink with an innocent name that resolves into a credential store.
+    let fakeKC = "/private/tmp/pg_kc_\(getpid())/Keychains"
+    let innocent = "/private/tmp/pg_innocent_\(getpid())"
+    try? fm.createDirectory(atPath: fakeKC, withIntermediateDirectories: true)
+    try? fm.createSymbolicLink(atPath: innocent, withDestinationPath: fakeKC)
+    checkReason(PathGuard.verdict(for: URL(fileURLWithPath: innocent)), "credentials",
+                "innocently-named symlink → Keychains is refused")
+    try? fm.removeItem(atPath: innocent)
+    try? fm.removeItem(atPath: "/private/tmp/pg_kc_\(getpid())")
+
     print("\n\(pass) passed, \(fail) failed")
     return fail == 0 ? 0 : 1
 }

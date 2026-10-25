@@ -45,7 +45,9 @@ nonisolated enum CleanupCatalog {
                 title: String(localized: "Trash"),
                 subtitle: String(localized: "~/.Trash — permanently empty the bin"),
                 systemImage: "trash",
-                safety: .safe,
+                // Never pre-selected: emptying the bin in the same run would
+                // make everything else this run moved there unrecoverable.
+                safety: .caution,
                 rule: .clearContents([h(".Trash")])
             ),
             JunkCategory(
