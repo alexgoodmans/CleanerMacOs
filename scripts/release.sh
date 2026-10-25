@@ -6,10 +6,15 @@
 # Prerequisites (one-time):
 #   1. A "Developer ID Application" certificate installed in the login keychain.
 #        Xcode ▸ Settings ▸ Accounts ▸ Manage Certificates… ▸ + ▸ Developer ID Application
-#   2. Stored notarization credentials under the profile name below:
-#        xcrun notarytool store-credentials "AgainCleaner-notary" \
-#          --apple-id "you@appleid.com" --team-id 39CP3623CD \
-#          --password "xxxx-xxxx-xxxx-xxxx"   # app-specific password
+#   2. Notarization credentials, either:
+#      a) an App Store Connect API key (preferred — nothing lives in the
+#         keychain, so a keychain reset can't take it away):
+#           export NOTARY_KEY_ID=UW455J9MMK          # AuthKey_<id>.p8 in the repo root (gitignored)
+#           export NOTARY_ISSUER=<issuer uuid>       # App Store Connect ▸ Users and Access ▸ Integrations
+#      b) or a stored keychain profile:
+#           xcrun notarytool store-credentials "AgainCleaner-notary" \
+#             --apple-id "you@appleid.com" --team-id 39CP3623CD \
+#             --password "xxxx-xxxx-xxxx-xxxx"   # app-specific password
 #
 # Usage:
 #   ./scripts/release.sh
@@ -22,11 +27,26 @@ SCHEME="Again Cleaner"
 CONFIG="Release"
 APP_NAME="Again Cleaner"
 NOTARY_PROFILE="AgainCleaner-notary"
+DMG_IDENTITY="Developer ID Application: MEDIARAIS, OOO (39CP3623CD)"
 
 # Resolve to the project root (parent of this script's directory).
 cd "$(dirname "$0")/.."
 
 BUILD_DIR="$(pwd)/build/release"
+
+# Notary credentials: API key when NOTARY_KEY_ID + NOTARY_ISSUER are set,
+# otherwise the keychain profile.
+if [ -n "${NOTARY_KEY_ID:-}" ] && [ -n "${NOTARY_ISSUER:-}" ]; then
+    NOTARY_KEY="$(pwd)/AuthKey_${NOTARY_KEY_ID}.p8"
+    [ -f "$NOTARY_KEY" ] || { echo "✗ Missing $NOTARY_KEY"; exit 1; }
+    NOTARY_AUTH=(--key "$NOTARY_KEY" --key-id "$NOTARY_KEY_ID" --issuer "$NOTARY_ISSUER")
+    # Same key lets xcodebuild use cloud-managed Developer ID signing.
+    XCODE_AUTH=(-allowProvisioningUpdates -authenticationKeyPath "$NOTARY_KEY"
+                -authenticationKeyID "$NOTARY_KEY_ID" -authenticationKeyIssuerID "$NOTARY_ISSUER")
+else
+    NOTARY_AUTH=(--keychain-profile "$NOTARY_PROFILE")
+    XCODE_AUTH=(-allowProvisioningUpdates)
+fi
 ARCHIVE_PATH="$BUILD_DIR/$APP_NAME.xcarchive"
 EXPORT_DIR="$BUILD_DIR/export"
 APP_PATH="$EXPORT_DIR/$APP_NAME.app"
@@ -52,6 +72,7 @@ xcodebuild archive \
     -archivePath "$ARCHIVE_PATH" \
     -destination "generic/platform=macOS" \
     CODE_SIGN_STYLE=Automatic \
+    "${XCODE_AUTH[@]}" \
     | "${PRETTY[@]}"
 
 # ── 2. Export with Developer ID ─────────────────────────────────────────────
@@ -59,7 +80,8 @@ echo "▶︎ Exporting (Developer ID)…"
 xcodebuild -exportArchive \
     -archivePath "$ARCHIVE_PATH" \
     -exportPath "$EXPORT_DIR" \
-    -exportOptionsPlist "ExportOptions.plist"
+    -exportOptionsPlist "ExportOptions.plist" \
+    "${XCODE_AUTH[@]}"
 
 # ── 3. Notarize ─────────────────────────────────────────────────────────────
 # Zip the .app for submission (notarytool wants a zip/dmg/pkg).
@@ -69,7 +91,7 @@ ditto -c -k --keepParent "$APP_PATH" "$ZIP_PATH"
 
 echo "▶︎ Submitting to Apple notary service (this can take a few minutes)…"
 xcrun notarytool submit "$ZIP_PATH" \
-    --keychain-profile "$NOTARY_PROFILE" \
+    "${NOTARY_AUTH[@]}" \
     --wait
 
 # ── 4. Staple ───────────────────────────────────────────────────────────────
@@ -93,14 +115,19 @@ hdiutil create \
 
 # Sign the .dmg itself — an unsigned image fails `spctl -t open` even when
 # notarized, so Gatekeeper would still warn on the download.
-echo "▶︎ Signing the .dmg…"
-codesign --sign "Developer ID Application: MEDIARAIS, OOO (39CP3623CD)" \
-    --timestamp "$DMG_PATH"
+# Cloud-managed signing (export above) leaves no local identity; the image is
+# then shipped unsigned but notarized + stapled, and the app inside is signed.
+if security find-identity -v -p codesigning | grep -qF "$DMG_IDENTITY"; then
+    echo "▶︎ Signing the .dmg…"
+    codesign --sign "$DMG_IDENTITY" --timestamp "$DMG_PATH"
+else
+    echo "⚠︎ No local \"$DMG_IDENTITY\" — leaving the .dmg unsigned (app inside is signed)."
+fi
 
 # Notarize & staple the .dmg too, so the download itself passes Gatekeeper.
 echo "▶︎ Notarizing the .dmg…"
 xcrun notarytool submit "$DMG_PATH" \
-    --keychain-profile "$NOTARY_PROFILE" \
+    "${NOTARY_AUTH[@]}" \
     --wait
 xcrun stapler staple "$DMG_PATH"
 
