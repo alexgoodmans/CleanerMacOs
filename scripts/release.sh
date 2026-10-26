@@ -34,8 +34,11 @@ cd "$(dirname "$0")/.."
 
 BUILD_DIR="$(pwd)/build/release"
 
-# Notary credentials: API key when NOTARY_KEY_ID + NOTARY_ISSUER are set,
-# otherwise the keychain profile.
+# Notary credentials: the team's App Store Connect API key "Notary"
+# (Developer role). IDs aren't secret — only AuthKey_<id>.p8 is, and it's
+# gitignored. Override via env; set NOTARY_KEY_ID= to use the keychain profile.
+NOTARY_KEY_ID="${NOTARY_KEY_ID-C65777AY8Z}"
+NOTARY_ISSUER="${NOTARY_ISSUER-47165295-f7cd-421d-8ff4-a5cd08675bc5}"
 if [ -n "${NOTARY_KEY_ID:-}" ] && [ -n "${NOTARY_ISSUER:-}" ]; then
     NOTARY_KEY="$(pwd)/AuthKey_${NOTARY_KEY_ID}.p8"
     [ -f "$NOTARY_KEY" ] || { echo "✗ Missing $NOTARY_KEY"; exit 1; }
