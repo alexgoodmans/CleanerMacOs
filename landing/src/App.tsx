@@ -46,10 +46,13 @@ function Header() {
   return (
     <header className="sticky top-0 z-50 border-b border-border/60 bg-background/70 backdrop-blur-xl">
       <Container className="flex min-h-16 flex-wrap items-center justify-between gap-3 py-3">
-        <a href="#" className="flex items-center gap-3 font-bold">
-          <img src="/icon.png" alt="" width={36} height={36} className="rounded-lg" />
-          <span>Again Cleaner</span>
-        </a>
+        <div className="flex items-center gap-3">
+          <a href="#" className="flex items-center gap-3 font-bold">
+            <img src="/icon.png" alt="" width={36} height={36} className="rounded-lg" />
+            <span>Again Cleaner</span>
+          </a>
+          <DeveloperCredit className="border-l border-border/60 pl-3 text-xs" />
+        </div>
         <div className="flex items-center gap-3">
           <select
             value={lang}
@@ -322,6 +325,25 @@ function DownloadSection() {
   )
 }
 
+// ── Developer credit (header + footer) ──────────────────────────────────
+
+function DeveloperCredit({ className = "" }: { className?: string }) {
+  const { t } = useI18n()
+  return (
+    <span className={`text-muted-foreground ${className}`}>
+      {t("dev.by")}{" "}
+      <a
+        href="https://mediarise.org"
+        target="_blank"
+        rel="noopener"
+        className="font-medium text-foreground underline-offset-4 hover:underline"
+      >
+        MediaRise
+      </a>
+    </span>
+  )
+}
+
 // ── Footer ────────────────────────────────────────────────────────────────
 
 function Footer() {
@@ -334,6 +356,7 @@ function Footer() {
           <div className="text-sm">
             <strong>Again Cleaner</strong>
             <div className="text-muted-foreground">{t("footer.tagline")}</div>
+            <DeveloperCredit />
           </div>
         </div>
         <nav className="flex flex-wrap items-center gap-6 text-sm text-muted-foreground">
