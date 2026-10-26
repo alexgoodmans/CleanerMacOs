@@ -24,7 +24,7 @@ DMG_PATH="${1:-build/release/Again Cleaner.dmg}"
 
 [ -f "$DMG_PATH" ] || { echo "✗ No dmg at: $DMG_PATH (run scripts/release.sh first)"; exit 1; }
 
-echo "▶︎ Uploading $DMG_PATH → $BUCKET/$OBJECT_KEY…"
+echo "▶︎ Uploading ${DMG_PATH} → ${BUCKET}/${OBJECT_KEY}…"
 curl -sS -X PUT -T "$DMG_PATH" \
     --aws-sigv4 "aws:amz:$REGION:s3" \
     --user "$AWS_ACCESS_KEY_ID:$AWS_SECRET_ACCESS_KEY" \
